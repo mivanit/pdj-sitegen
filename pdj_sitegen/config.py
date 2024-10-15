@@ -1,11 +1,11 @@
 "define the config, and also provide CLI for printing template"
 
+import importlib.resources
 import json
 import sys
 import tomllib
 from pathlib import Path
 from typing import Any, Optional
-import importlib.resources
 
 import yaml
 from muutils.json_serialize import (

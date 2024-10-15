@@ -13,12 +13,12 @@ Pipeline:
 - Copy the resources directory to the output directory
 """
 
-import os
 import argparse
+import os
 import re
 import shutil
 from pathlib import Path
-from typing import Any, Iterable, Literal, Optional, Tuple
+from typing import Any, Iterable, Optional, Tuple
 
 import pypandoc
 import tqdm

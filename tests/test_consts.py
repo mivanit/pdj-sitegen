@@ -1,6 +1,6 @@
 import os
-import pytest
 
+import pytest
 import yaml
 
 from pdj_sitegen.consts import (
@@ -9,7 +9,6 @@ from pdj_sitegen.consts import (
 	FRONTMATTER_DELIMS,
 	FRONTMATTER_REGEX,
 )
-
 
 os.makedirs("tests/_temp", exist_ok=True)
 
