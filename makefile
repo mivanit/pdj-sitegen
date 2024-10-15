@@ -372,10 +372,13 @@ clean:
 	$(PYTHON_BASE) -Bc "import pathlib; [p.unlink() for p in pathlib.Path('$(DOCS_DIR)').rglob('*.py[co]')]"
 	$(PYTHON_BASE) -Bc "import pathlib; [p.rmdir() for p in pathlib.Path('$(DOCS_DIR)').rglob('__pycache__')]"
 
-.PHONY: clean-all
-clean-all: clean docs-clean
-	@echo "clean up all temporary files and generated docs"
 
+# ~~~~~~~~~~
+# added site-clean here
+.PHONY: clean-all
+clean-all: clean docs-clean site-clean
+	@echo "clean up all temporary files and generated docs and generated site"
+# ~~~~~~~~~~
 
 # ==================================================
 # smart help command
@@ -412,3 +415,8 @@ help: help-targets gen-version-info
 site:
 	@echo "generate site"
 	$(PYTHON) -m pdj_sitegen config.yaml
+
+.PHONY: site-clean
+site-clean:
+	@echo "remove generated site"
+	rm -rf docs/demo_site

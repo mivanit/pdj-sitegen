@@ -1,3 +1,5 @@
+"type definitions, format maps and parsers, and frontmatter regex"
+
 import json
 import re
 import tomllib

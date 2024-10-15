@@ -481,6 +481,7 @@ dependencies = [
 dev = [
     { name = "coverage-badge" },
     { name = "mypy" },
+    { name = "pdoc" },
     { name = "pycln" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -502,10 +503,25 @@ requires-dist = [
 dev = [
     { name = "coverage-badge", specifier = ">=1.1.0" },
     { name = "mypy", specifier = ">=1.0.1" },
+    { name = "pdoc", specifier = ">=14.6.0" },
     { name = "pycln", specifier = ">=2.1.3" },
     { name = "pytest", specifier = ">=8.2.2" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
     { name = "ruff", specifier = ">=0.4.8" },
+]
+
+[[package]]
+name = "pdoc"
+version = "15.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "jinja2" },
+    { name = "markupsafe" },
+    { name = "pygments" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d1/4a/b645514246e487a02f211023d2fc1f019a25cdd2bf2f4266ff5e92c54f41/pdoc-15.0.0.tar.gz", hash = "sha256:b761220d3ba129cd87e6da1bb7b62c8e799973ab9c595de7ba1a514850d86da5", size = 154109 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3d/4a/e4a5490bb6d39214cd7778dfd8cf6b353b94f17aafa703bd1d11673ea025/pdoc-15.0.0-py3-none-any.whl", hash = "sha256:151b0187a25eaf827099e981d6dbe3a4f68aeb18d0d637c24edcab788d5540f1", size = 144184 },
 ]
 
 [[package]]

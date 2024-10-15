@@ -7,12 +7,14 @@ Pipeline:
     - Regex frontmatter and content from the markdown file
     - Execute a template on the frontmatter, with globals_ and file metadata as context
     - Load the frontmatter into a dict
-    - Execute a template on the content with frontmatter, globals_ and file metadata as context
+    - Execute a template on the content with frontmatter, globals_, file metadata, and all other docs as context
     - Convert the content to HTML using Pandoc
     - Execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
+- Copy the resources directory to the output directory
 """
 
 import os
+import argparse
 import re
 import shutil
 from pathlib import Path
@@ -30,58 +32,7 @@ from pdj_sitegen.consts import (
 	FRONTMATTER_REGEX,
 	Format,
 )
-
-VERBOSE: bool = True
-
-
-class SplitMarkdownError(Exception):
-	"error while splitting markdown"
-
-	pass
-
-
-class RenderError(Exception):
-	"error while rendering template"
-
-	def __init__(
-		self,
-		message: str,
-		kind: Literal["create_template", "render_template"],
-		content: str | None,
-		context: dict[str, Any] | None,
-		jinja_env: Environment | None,
-		template: Template | None,
-	) -> None:
-		super().__init__(message)
-		self.message: str = message
-		self.kind: Literal["create_template", "render_template"] = kind
-		self.content: str | None = content
-		self.context: dict[str, Any] | None = context
-		self.jinja_env: Environment | None = jinja_env
-		self.template: Template | None = template
-
-	def __str__(self) -> str:
-		if self.kind == "create_template":
-			return (
-				f"Error creating template: {self.message}\n"
-				f"{self.content = }\n"
-				f"{self.jinja_env = }"
-			)
-		elif self.kind == "render_template":
-			return (
-				f"Error rendering template: {self.message}\n"
-				f"{self.template = }\n"
-				f"{self.context = }"
-			)
-		else:
-			return (
-				f"Error: {self.message}\n"
-				f"{self.kind = } (unknown)\n"
-				f"{self.content = }\n"
-				f"{self.context = }\n"
-				f"{self.jinja_env = }\n"
-				f"{self.template = }"
-			)
+from pdj_sitegen.exceptions import RenderError, SplitMarkdownError
 
 
 def split_md(
@@ -172,6 +123,7 @@ def build_document_tree(
 	content_dir: Path,
 	frontmatter_context: dict[str, Any],
 	jinja_env: Environment,
+	verbose: bool = True,
 ) -> dict[str, dict[str, Any]]:
 	"""given a dir of markdown files, return a dict of documents with rendered frontmatter
 
@@ -196,7 +148,7 @@ def build_document_tree(
 	"""
 	md_files: list[Path] = list(content_dir.rglob("*.md"))
 
-	if VERBOSE:
+	if verbose:
 		print(f"Found {len(md_files)} markdown files in '{content_dir}'")
 
 	docs: dict[str, dict[str, Any]] = {}
@@ -205,7 +157,7 @@ def build_document_tree(
 		md_files,
 		desc="building document tree",
 		unit="file",
-		disable=not VERBOSE,
+		disable=not verbose,
 	):
 		file_path_str: str = (
 			file_path.relative_to(content_dir).as_posix().removesuffix(".md")
@@ -340,19 +292,20 @@ def convert_markdown_files(
 	config: Config,
 	smart_rebuild: bool,
 	rebuild_time: float,
+	verbose: bool = True,
 ) -> None:
 	n_files: int = len(docs)
 	path: str
 	doc: dict[str, Any]
-	if VERBOSE:
+	if verbose:
 		print(f"Converting {n_files} markdown files to HTML...")
 	for idx, (path, doc) in enumerate(docs.items()):
 		path_raw: str = doc["file_meta"]["path_raw"]
 		if smart_rebuild and os.path.getmtime(path_raw) <= rebuild_time:
-			if VERBOSE:
+			if verbose:
 				print(f"\t({idx+1:3} / {n_files})  [unmodified]  '{path_raw}'")
 		else:
-			if VERBOSE:
+			if verbose:
 				print(f"\t({idx+1:3} / {n_files})  [building..]  '{path_raw}'")
 
 			convert_single_markdown_file(
@@ -374,11 +327,8 @@ def main() -> None:
 	- build a document tree from the markdown files in the content directory
 	- process the markdown files into HTML files and write them to the output directory
 	"""
-	global VERBOSE
-	import argparse
-
+	# parse args
 	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser()
-	# args: required positional config path, boolean flags `quiet` and `smart_rebuild`
 	arg_parser.add_argument("config_path", type=str, help="path to the config file")
 	arg_parser.add_argument(
 		"-q",
@@ -393,11 +343,15 @@ def main() -> None:
 		help="enable smart rebuild",
 	)
 	args: argparse.Namespace = arg_parser.parse_args()
-	config_path: Path = Path(args.config_path)
-	VERBOSE = not args.quiet
-	smart_rebuild: bool = args.smart_rebuild
 
-	sp_class: type[Spinner] = SpinnerContext if VERBOSE else NoOpContextManager
+	# get config path, change to the directory containing the config file
+	config_path: Path = Path(args.config_path)
+	os.chdir(config_path.parent)
+
+	# set up spinner context manager, depending on verbosity
+	sp_class: type[Spinner] = SpinnerContext if not args.quiet else NoOpContextManager
+
+	# read config and set up Jinja environment
 	with sp_class(message="reading config and setting up jinja environment..."):
 		# Read the config file
 		config: Config = Config.read(config_path)
@@ -419,23 +373,25 @@ def main() -> None:
 		with open(config.build_time_fname, "w", encoding="utf-8") as f:
 			f.write(str(rebuild_time))
 
-	# build doc tree
+	# build doc tree (get .md files from `config.content_dir`, split content and frontmatter, execute templates on frontmatter)
 	docs: dict[str, dict[str, Any]] = build_document_tree(
 		content_dir=config.content_dir,
 		frontmatter_context={"config": config.serialize()},
 		jinja_env=jinja_env,
+		verbose=not args.quiet,
 	)
 
-	# process markdown files
+	# convert markdown files to HTML (execute templates with frontmatter on content, convert to HTML with Pandoc, execute template on HTML)
 	convert_markdown_files(
 		docs=docs,
 		jinja_env=jinja_env,
 		config=config,
-		smart_rebuild=smart_rebuild,
+		smart_rebuild=args.smart_rebuild,
 		rebuild_time=rebuild_time,
+		verbose=not args.quiet,
 	)
 
-	# copy resources dir
+	# copy resources dir to output dir
 	with sp_class(message="Copying resources directory..."):
 		shutil.copytree(
 			config.content_dir / config.resources_dir,

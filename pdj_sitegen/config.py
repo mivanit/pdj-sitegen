@@ -1,8 +1,11 @@
+"define the config, and also provide CLI for printing template"
+
 import json
 import sys
 import tomllib
 from pathlib import Path
 from typing import Any, Optional
+import importlib.resources
 
 import yaml
 from muutils.json_serialize import (
@@ -11,10 +14,17 @@ from muutils.json_serialize import (
 	serializable_field,
 )
 
+import pdj_sitegen
 from pdj_sitegen.consts import (  # StructureFormat,
 	_PATH_FIELD_SERIALIZATION_KWARGS,
 	FORMAT_MAP,
 	Format,
+)
+
+DEFAULT_CONFIG_YAML: str = importlib.resources.read_text(
+	package=pdj_sitegen,
+	resource="data/config.yml",
+	encoding="utf-8",
 )
 
 
@@ -60,31 +70,6 @@ def save_data_file(
 	emitted_data: str = emit_data_file(data, fmt)
 	with open(file_path, "w") as f:
 		f.write(emitted_data)
-
-
-DEFAULT_CONFIG_YAML: str = """
-# directory with markdown content files and resources, relative to cwd
-content_dir: content
-# directory with resources, relative to `content_dir`
-resources_dir: resources
-# templates directory, relative to cwd
-templates_dir: templates
-# default template file, relative to `templates_dir`
-default_template: default.html.jinja2
-# output directory, relative to cwd
-output_dir: docs
-# extra globals to pass -- this can be anything
-globals_:
-  globals_key: some value
-# kwargs to pass to the Jinja2 environment
-jinja_env_kwargs: {}
-# pandoc formats
-pandoc_fmt_from: markdown+smart
-pandoc_fmt_to: html
-# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)
-pandoc_kwargs:
-  mathjax: true
-"""
 
 
 @serializable_dataclass
