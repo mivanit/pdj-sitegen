@@ -1,21 +1,21 @@
 import json
-import yaml
-import tomllib
 import sys
+import tomllib
 from pathlib import Path
+from typing import Any, Dict, Optional
 
+import yaml
 from muutils.json_serialize import (
 	SerializableDataclass,
 	serializable_dataclass,
 	serializable_field,
 )
-from typing import Any, Optional, Dict
 
 from pdj_sitegen.consts import (
 	_PATH_FIELD_SERIALIZATION_KWARGS,
-	StructureFormat,
-	Format,
 	FORMAT_MAP,
+	Format,
+	StructureFormat,
 )
 
 

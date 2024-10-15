@@ -14,24 +14,17 @@ Pipeline:
 
 import os
 import re
-import yaml
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any, Callable, Dict, Optional, Tuple
 
-from muutils.dictmagic import (
-	update_with_nested_dict,
-	kwargs_to_nested_dict,
-)
-from typing import Any, Optional, Callable, Tuple, Dict
+import yaml
 from jinja2 import Environment, FileSystemLoader, Template
+from muutils.dictmagic import kwargs_to_nested_dict, update_with_nested_dict
 
-from pdj_sitegen.consts import (
-	StructureFormat,
-	FRONTMATTER_PARSERS,
-	FRONTMATTER_REGEX,
-)
 from pdj_sitegen.config import Config
+from pdj_sitegen.consts import FRONTMATTER_PARSERS, FRONTMATTER_REGEX, StructureFormat
 
 
 def parse_frontmatter(content: str) -> Tuple[Dict[str, Any], str]:

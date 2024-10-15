@@ -3,14 +3,13 @@
 By [@mivanit](mivanit.github.io)
 """
 
-from typing import Optional
-import os
-import io
-import sys
 import csv
+import io
+import os
+import sys
+from typing import Optional
 
 from pandocfilters import toJSONFilter
-
 
 ALIGN_MAP: dict[str, str] = {
 	"L": "AlignLeft",

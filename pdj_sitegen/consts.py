@@ -1,10 +1,10 @@
-import re
 import json
-import yaml
+import re
 import tomllib
 from pathlib import Path
+from typing import Any, Callable, Dict, Literal
 
-from typing import Any, Literal, Callable, Dict
+import yaml
 
 Format = Literal["yaml", "json", "toml"]
 
