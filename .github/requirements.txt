@@ -4,4 +4,6 @@
 jinja2==3.1.4
 markupsafe==3.0.1
 muutils==0.6.13
+pandocfilters==1.5.1
+pypandoc==1.14
 pyyaml==6.0.2

@@ -1,4 +1,4 @@
-from pandocfilters import Link,toJSONFilter
+from pandocfilters import Link, toJSONFilter
 
 def links_md2html(key, value, format, meta) -> None:
 	"""convert dendron links to markdown links"""

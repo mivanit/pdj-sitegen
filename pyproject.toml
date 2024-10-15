@@ -9,9 +9,15 @@ readme = "README.md"
 requires-python = ">=3.11"
 
 dependencies = [
-	"Jinja2>=3.1.4",
+	# basic utils
 	"muutils>=0.6.13",
+	# templating
+	"Jinja2>=3.1.4",
+	# yaml
 	"PyYAML>=6.0.2",
+	# pandoc
+	"pypandoc>=1.14",
+	"pandocfilters>=1.5.1"
 ]
 [tool.uv]
 dev-dependencies = [

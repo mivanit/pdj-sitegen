@@ -1,44 +1,153 @@
+"""build a site from markdown files using Jinja2 and Pandoc
+
+pipeline:
+
+- get all markdown files
+- for each markdown file:
+    - regex frontmatter and content from the markdown file
+    - execute a template on the frontmatter, with globals_ and file metadata as context
+    - load the frontmatter into a dict
+    - execute a template on the content with frontmatter, globals_ and file metadata as context
+    - convert the content to HTML using Pandoc
+    - execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
+"""
+
+
 import os
 import re
 import json
 import yaml
-import tomllib  # Available in Python 3.11+
-import markdown
-from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Callable
-from jinja2 import Environment, FileSystemLoader
+import tomllib
+from pathlib import Path
+
+from muutils.json_serialize import SerializableDataclass, serializable_dataclass, serializable_field
+from typing import Any, Literal, Optional, Callable
+from jinja2 import Environment, FileSystemLoader, Template
+
+Format = Literal['yaml', 'json', 'toml']
+
+StructureFormat = Literal['dotlist', 'tree']
+
+FORMAT_MAP: dict[str, Format] = {
+    'yaml': 'yaml',
+    'yml': 'yaml',
+    'json': 'json',
+    'toml': 'toml'
+}
 
 
-@dataclass
-class Config:
-    markdown_dir: str = 'content'
-    resources_dir: str = 'resources'
-    structure: str = 'dotlist'  # Options: 'dotlist' or 'tree'
-    __globals__: Dict[str, Any] = field(default_factory=dict)
+FRONTMATTER_PARSERS: dict[str, Callable[[str], dict[str, Any]]] = {
+    '---': lambda x: yaml.safe_load(x),
+    ';;;': lambda x: json.loads(x),
+    '+++': lambda x: tomllib.loads(x),
+}
+
+FRONTMATTER_REGEX: re.Pattern = re.compile(
+	r'^(?P<delimiter>$$DELIMS$$)\n(?P<frontmatter>.*?)\n(?P=delimiter)\n(?P<body>.*)'.replace(
+        '$$DELIMS$$',
+        '|'.join([
+            re.escape(d) for d in
+            FRONTMATTER_PARSERS.keys()
+        ]),
+    ),
+)
 
 
-def read_config(config_path: str) -> Config:
-    with open(config_path, 'r') as f:
-        config_data: Dict[str, Any] = yaml.safe_load(f)
-    return Config(**config_data)
+def read_data_file(file_path: Path, fmt: None|Format = None) -> dict[str, Any]:
+    if fmt is None:
+        fmt = FORMAT_MAP[file_path.suffix.lstrip('.')]
+    
+    match fmt:
+        case 'yaml':
+            with open(file_path, 'r') as f:
+                return yaml.safe_load(f)
+        case 'json':
+            with open(file_path, 'r') as f:
+                return json.load(f)
+        case 'toml':
+            with open(file_path, 'r') as f:
+                return tomllib.load(f)
+            
+def save_data_file(data: dict[str, Any], file_path: Path, fmt: None|Format = None) -> None:
+    if fmt is None:
+        fmt = FORMAT_MAP[file_path.suffix.lstrip('.')]
+    
+    match fmt:
+        case 'yaml':
+            with open(file_path, 'w') as f:
+                yaml.safe_dump(data, f)
+        case 'json':
+            with open(file_path, 'w') as f:
+                json.dump(data, f, indent=4)
+        case 'toml':
+            with open(file_path, 'w') as f:
+                f.write(tomllib.dumps(data))
+
+_PATH_FIELD_SERIALIZATION_KWARGS: dict[str, Callable] = dict(
+    serialization_fn=lambda x: x.as_posix(),
+    deserialize_fn=lambda x: Path(x),
+)
+
+@serializable_dataclass
+class Config(SerializableDataclass):
+    content_dir: Path = serializable_field(
+        default=Path('content'),
+        **_PATH_FIELD_SERIALIZATION_KWARGS,
+    )
+    resources_dir: Path = serializable_field(
+        default=Path('resources'),
+        **_PATH_FIELD_SERIALIZATION_KWARGS,
+    )
+    templates_dir: Path = serializable_field(
+        default=Path('templates'),
+        **_PATH_FIELD_SERIALIZATION_KWARGS,
+    )
+    default_template: Path = serializable_field(
+        default=Path('templates/default.html.jinja'),
+        **_PATH_FIELD_SERIALIZATION_KWARGS,
+    )
+    jinja_env_kwargs: dict[str, Any] = serializable_field(
+        default_factory=dict,
+    )
+    structure: StructureFormat = serializable_field(
+        default='dotlist',
+    )
+    globals_: dict[str, Any] = serializable_field(
+        default_factory=dict,
+    )
+    pandoc_cli_extra_args: list[str] = serializable_field(
+        default_factory=lambda: ["--mathjax"],
+    )
+    pandoc_fmt_from: str = serializable_field(
+        default='markdown+smart',
+    )
+    pandoc_fmt_to: str = serializable_field(
+        default='html',
+    )
+    
+    @classmethod
+    def read(cls, config_path: Path, fmt: None|Format = None) -> 'Config':
+        return cls.load(read_data_file(config_path, fmt))
+    
+    def save(self, config_path: Path, fmt: None|Format = 'json') -> None:
+        save_data_file(self.serialize(), config_path, fmt)
 
 
-def parse_frontmatter(content: str) -> Dict[str, Any]:
-    pattern: str = r'^(?P<delimiter>---|\+\+\+|;;;)\n(?P<frontmatter>.*?)\n(?P=delimiter)\n(?P<body>.*)'
-    match: Optional[re.Match[str]] = re.match(pattern, content, re.DOTALL)
+    def assemble_pandoc_cmd(
+        file_from: Path,
+        file_to: Path,
+
+    )
+
+def parse_frontmatter(content: str) -> dict[str, Any]:
+    match: Optional[re.Match[str]] = re.match(FRONTMATTER_REGEX, content, re.DOTALL)
     if match:
         delimiter: str = match.group('delimiter')
         frontmatter_raw: str = match.group('frontmatter')
         body: str = match.group('body')
 
-        frontmatter_parsers: Dict[str, Callable[[str], Dict[str, Any]]] = {
-            '---': lambda x: yaml.safe_load(x),
-            ';;;': lambda x: json.loads(x),
-            '+++': lambda x: tomllib.loads(x)
-        }
-
-        parser: Optional[Callable[[str], Dict[str, Any]]] = frontmatter_parsers.get(delimiter)
-        frontmatter: Dict[str, Any] = parser(frontmatter_raw) if parser else {}
+        parser: Optional[Callable[[str], dict[str, Any]]] = FRONTMATTER_PARSERS.get(delimiter, None)
+        frontmatter: dict[str, Any] = parser(frontmatter_raw) if parser else {}
     else:
         frontmatter = {}
         body = content
@@ -47,22 +156,27 @@ def parse_frontmatter(content: str) -> Dict[str, Any]:
     return frontmatter
 
 
-def collect_markdown_files(markdown_dir: str, structure: str) -> List[str]:
-    md_files: List[str] = []
-    for root, _, files in os.walk(markdown_dir):
+def collect_markdown_files(content_dir: str, structure: StructureFormat) -> list[str]:
+    md_files: list[str] = []
+    for root, _, files in os.walk(content_dir):
         for file in files:
             if file.endswith('.md'):
                 md_files.append(os.path.join(root, file))
     return md_files
 
 
-def build_document_tree(md_files: List[str], markdown_dir: str, structure: str) -> Dict[str, Dict[str, Any]]:
-    docs: Dict[str, Dict[str, Any]] = {}
+def build_document_tree(
+        md_files: list[str],
+        content_dir: str,
+        structure: StructureFormat,
+    ) -> dict[str, dict[str, Any]]:
+    docs: dict[str, dict[str, Any]] = {}
+
     for file_path in md_files:
         with open(file_path, 'r', encoding='utf-8') as f:
             content: str = f.read()
-        frontmatter: Dict[str, Any] = parse_frontmatter(content)
-        relative_path: str = os.path.relpath(file_path, markdown_dir)
+        frontmatter: dict[str, Any] = parse_frontmatter(content)
+        relative_path: str = os.path.relpath(file_path, content_dir)
 
         if structure == 'dotlist':
             key: str = os.path.splitext(relative_path.replace(os.sep, '.'))[0]
@@ -75,32 +189,36 @@ def build_document_tree(md_files: List[str], markdown_dir: str, structure: str) 
     return docs
 
 
-def get_parent_keys(key: str, structure: str) -> List[str]:
+def get_parent_keys(
+        key: str,
+        structure: StructureFormat,
+    ) -> list[str]:
     if structure == 'dotlist':
-        parts: List[str] = key.split('.')
+        parts: list[str] = key.split('.')
         return ['.'.join(parts[:i]) for i in range(1, len(parts))]
     elif structure == 'tree':
-        parts: List[str] = key.split(os.sep)
+        parts: list[str] = key.split(os.sep)
         return [os.path.join(*parts[:i]) for i in range(1, len(parts))]
-    return []
+    else:
+        return []
 
 
 def merge_frontmatter(
-    docs: Dict[str, Dict[str, Any]],
+    docs: dict[str, dict[str, Any]],
     key: str,
-    globals_dict: Dict[str, Any],
+    globals_dict: dict[str, Any],
     structure: str
-) -> Dict[str, Any]:
-    combined: Dict[str, Any] = {}
-    parent_keys: List[str] = get_parent_keys(key, structure)
+) -> dict[str, Any]:
+    combined: dict[str, Any] = {}
+    parent_keys: list[str] = get_parent_keys(key, structure)
 
     # Merge parent frontmatter from root to immediate parent
     for parent_key in parent_keys:
-        parent_doc: Dict[str, Any] = docs.get(parent_key, {})
+        parent_doc: dict[str, Any] = docs.get(parent_key, {})
         combined.update(parent_doc)
 
     # Merge current document's frontmatter
-    current_doc: Dict[str, Any] = docs.get(key, {})
+    current_doc: dict[str, Any] = docs.get(key, {})
     combined.update(current_doc)
 
     # Merge global variables
@@ -108,18 +226,24 @@ def merge_frontmatter(
     return combined
 
 
-def render_markdown(content: str, context: Dict[str, Any]) -> str:
-    template = Environment().from_string(content)
+def execute_template(
+        content: str,
+        context: dict[str, Any],
+        jinja_env: Environment,
+    ) -> str:
+    template: Template = jinja_env.from_string(content)
     return template.render(context)
 
+def pandoc_render_md(content: str) -> str:
+    pass
 
 def process_markdown_files(
-    docs: Dict[str, Dict[str, Any]],
-    globals_dict: Dict[str, Any],
+    docs: dict[str, dict[str, Any]],
+    globals_dict: dict[str, Any],
     structure: str
 ) -> None:
     for key in docs.keys():
-        context: Dict[str, Any] = merge_frontmatter(docs, key, globals_dict, structure)
+        context: dict[str, Any] = merge_frontmatter(docs, key, globals_dict, structure)
         md_content: str = context.get('__content__', '')
 
         # Render Markdown content with Jinja2
@@ -152,13 +276,13 @@ def process_markdown_files(
 
 def main() -> None:
     config: Config = read_config('config.yaml')
-    markdown_dir: str = config.markdown_dir
+    content_dir: str = config.content_dir
     resources_dir: str = config.resources_dir
     structure: str = config.structure
-    globals_dict: Dict[str, Any] = config.__globals__
+    globals_dict: dict[str, Any] = config.__globals__
 
-    md_files: List[str] = collect_markdown_files(markdown_dir, structure)
-    docs: Dict[str, Dict[str, Any]] = build_document_tree(md_files, markdown_dir, structure)
+    md_files: list[str] = collect_markdown_files(content_dir, structure)
+    docs: dict[str, dict[str, Any]] = build_document_tree(md_files, content_dir, structure)
     process_markdown_files(docs, globals_dict, structure)
 
 
