@@ -17,7 +17,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Optional, Tuple
 
 import yaml
 from jinja2 import Environment, FileSystemLoader, Template
@@ -27,17 +27,17 @@ from pdj_sitegen.config import Config
 from pdj_sitegen.consts import FRONTMATTER_PARSERS, FRONTMATTER_REGEX, StructureFormat
 
 
-def parse_frontmatter(content: str) -> Tuple[Dict[str, Any], str]:
+def parse_frontmatter(content: str) -> Tuple[dict[str, Any], str]:
 	match: Optional[re.Match[str]] = re.match(FRONTMATTER_REGEX, content)
 	if match:
 		delimiter: str = match.group("delimiter")
 		frontmatter_raw: str = match.group("frontmatter")
 		body: str = match.group("body")
 
-		parser: Optional[Callable[[str], Dict[str, Any]]] = FRONTMATTER_PARSERS.get(
+		parser: Optional[Callable[[str], dict[str, Any]]] = FRONTMATTER_PARSERS.get(
 			delimiter, None
 		)
-		frontmatter: Dict[str, Any] = parser(frontmatter_raw) if parser else {}
+		frontmatter: dict[str, Any] = parser(frontmatter_raw) if parser else {}
 	else:
 		frontmatter = {}
 		body = content
@@ -58,8 +58,8 @@ def build_document_tree(
 	md_files: list[str],
 	content_dir: str,
 	structure: StructureFormat,
-) -> Dict[str, Dict[str, Any]]:
-	docs: Dict[str, Dict[str, Any]] = {}
+) -> dict[str, dict[str, Any]]:
+	docs: dict[str, dict[str, Any]] = {}
 
 	for file_path in md_files:
 		with open(file_path, "r", encoding="utf-8") as f:
@@ -74,7 +74,7 @@ def build_document_tree(
 		else:
 			key = os.path.splitext(relative_path)[0]
 
-		file_metadata: Dict[str, Any] = {
+		file_metadata: dict[str, Any] = {
 			"file_path": file_path,
 			"relative_path": relative_path,
 			"modified_time": os.path.getmtime(file_path),
@@ -104,12 +104,12 @@ def get_parent_keys(
 
 
 def merge_frontmatter(
-	docs: Dict[str, Dict[str, Any]],
+	docs: dict[str, dict[str, Any]],
 	key: str,
-	globals_dict: Dict[str, Any],
+	globals_dict: dict[str, Any],
 	structure: StructureFormat,
-) -> Dict[str, Any]:
-	combined: Dict[str, Any] = {}
+) -> dict[str, Any]:
+	combined: dict[str, Any] = {}
 	parent_keys: list[str] = get_parent_keys(key, structure)
 
 	# Merge parent frontmatter from root to immediate parent
@@ -129,8 +129,8 @@ def merge_frontmatter(
 
 
 def render_frontmatter(
-	frontmatter: Dict[str, Any], context: Dict[str, Any], jinja_env: Environment
-) -> Dict[str, Any]:
+	frontmatter: dict[str, Any], context: dict[str, Any], jinja_env: Environment
+) -> dict[str, Any]:
 	def render_value(value: Any) -> Any:
 		if isinstance(value, str):
 			template = jinja_env.from_string(value)
@@ -147,7 +147,7 @@ def render_frontmatter(
 
 def execute_template(
 	content: str,
-	context: Dict[str, Any],
+	context: dict[str, Any],
 	jinja_env: Environment,
 ) -> str:
 	template: Template = jinja_env.from_string(content)
@@ -175,8 +175,8 @@ def pandoc_render_md(
 
 
 def process_markdown_files(
-	docs: Dict[str, Dict[str, Any]],
-	globals_dict: Dict[str, Any],
+	docs: dict[str, dict[str, Any]],
+	globals_dict: dict[str, Any],
 	structure: StructureFormat,
 	jinja_env: Environment,
 	config: Config,
@@ -249,7 +249,7 @@ def main() -> None:
 
 	# Parse key-value pairs from command line arguments
 	# Assuming the format is key=value
-	kwargs_dict: Dict[str, Any] = {}
+	kwargs_dict: dict[str, Any] = {}
 	for arg in kv_args:
 		if "=" in arg:
 			key, value = arg.split("=", 1)
@@ -275,10 +275,10 @@ def main() -> None:
 	content_dir: Path = config.content_dir
 	# resources_dir: Path = config.resources_dir
 	structure: StructureFormat = config.structure
-	globals_dict: Dict[str, Any] = config.globals_
+	globals_dict: dict[str, Any] = config.globals_
 
 	md_files: list[str] = collect_markdown_files(str(content_dir))
-	docs: Dict[str, Dict[str, Any]] = build_document_tree(
+	docs: dict[str, dict[str, Any]] = build_document_tree(
 		md_files, str(content_dir), structure
 	)
 

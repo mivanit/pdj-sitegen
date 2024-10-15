@@ -2,7 +2,7 @@ import json
 import sys
 import tomllib
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 from muutils.json_serialize import (
@@ -19,7 +19,7 @@ from pdj_sitegen.consts import (
 )
 
 
-def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> Dict[str, Any]:
+def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> dict[str, Any]:
 	if fmt is None:
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
 
@@ -37,7 +37,7 @@ def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> Dict[str, A
 			raise ValueError(f"Unsupported format: {fmt}")
 
 
-def emit_data_file(data: Dict[str, Any], fmt: Format) -> str:
+def emit_data_file(data: dict[str, Any], fmt: Format) -> str:
 	match fmt:
 		case "yaml":
 			return yaml.safe_dump(data)
@@ -50,7 +50,7 @@ def emit_data_file(data: Dict[str, Any], fmt: Format) -> str:
 
 
 def save_data_file(
-	data: Dict[str, Any], file_path: Path, fmt: Optional[Format] = None
+	data: dict[str, Any], file_path: Path, fmt: Optional[Format] = None
 ) -> None:
 	if fmt is None:
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
@@ -82,14 +82,14 @@ class Config(SerializableDataclass):
 		default=Path("output"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	jinja_env_kwargs: Dict[str, Any] = serializable_field(
+	jinja_env_kwargs: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
 	structure: StructureFormat = serializable_field(
 		default="dotlist",
 		assert_type=False,
 	)
-	globals_: Dict[str, Any] = serializable_field(
+	globals_: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
 	pandoc_cli_extra_args: list[str] = serializable_field(
