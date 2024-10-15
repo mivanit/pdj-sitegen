@@ -66,6 +66,7 @@ def save_data_file(
 @serializable_dataclass
 class Config(SerializableDataclass):
 	"configuration for the site generator"
+
 	content_dir: Path = serializable_field(
 		default=Path("content"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
@@ -97,7 +98,7 @@ class Config(SerializableDataclass):
 		default_factory=dict,
 	)
 	pandoc_kwargs: dict[str, Any] = serializable_field(
-		default_factory=lambda : {"mathjax": True},
+		default_factory=lambda: {"mathjax": True},
 	)
 	pandoc_fmt_from: str = serializable_field(
 		default="markdown+smart",

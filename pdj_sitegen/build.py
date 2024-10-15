@@ -14,26 +14,29 @@ Pipeline:
 
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Callable, Iterable, Optional, Tuple
+from typing import Any, Iterable, Optional, Tuple
 
-import yaml
 from jinja2 import Environment, FileSystemLoader, Template
-from muutils.dictmagic import kwargs_to_nested_dict, update_with_nested_dict
 import pypandoc
 
 from pdj_sitegen.config import Config
-from pdj_sitegen.consts import FRONTMATTER_DELIMS, FRONTMATTER_REGEX, FORMAT_PARSERS, Format #, StructureFormat
+from pdj_sitegen.consts import (
+	FRONTMATTER_DELIMS,
+	FRONTMATTER_REGEX,
+	FORMAT_PARSERS,
+	Format,
+)  # , StructureFormat
 
 
 class RenderError(Exception):
 	pass
 
+
 def split_md(
-		content: str,
-	) -> Tuple[str, str, Format]:
+	content: str,
+) -> Tuple[str, str, Format]:
 	"parse markdown into a tuple of frontmatter, body, and frontmatter format"
 	match: Optional[re.Match[str]] = re.match(FRONTMATTER_REGEX, content)
 	frontmatter: str
@@ -44,13 +47,12 @@ def split_md(
 		delimiter: str = match.group("delimiter")
 		frontmatter = match.group("frontmatter")
 		body = match.group("body")
-		fmt = FRONTMATTER_DELIMS.get(
-			delimiter, None
-		)
+		fmt = FRONTMATTER_DELIMS.get(delimiter, None)
 	else:
 		raise Exception("No frontmatter found in content.")
 
 	return frontmatter, body, fmt
+
 
 def render(
 	content: str,
@@ -60,14 +62,19 @@ def render(
 	try:
 		template: Template = jinja_env.from_string(content)
 	except Exception as e_template:
-		raise RenderError(f"Error creating template: {e_template}\n{content = }\n{jinja_env = }") from e_template
+		raise RenderError(
+			f"Error creating template: {e_template}\n{content = }\n{jinja_env = }"
+		) from e_template
 
 	try:
 		output: str = template.render(context)
 	except Exception as e_render:
-		raise RenderError(f"Error rendering template: {e_render}\n{template = }\n{context = }") from e_render
+		raise RenderError(
+			f"Error rendering template: {e_render}\n{template = }\n{context = }"
+		) from e_render
 
 	return output
+
 
 def build_document_tree(
 	content_dir: Path,
@@ -80,21 +87,23 @@ def build_document_tree(
 	docs: dict[str, dict[str, Any]] = {}
 
 	for file_path in md_files:
-		file_path_str: str = file_path.relative_to(content_dir).as_posix().removesuffix(".md")
+		file_path_str: str = (
+			file_path.relative_to(content_dir).as_posix().removesuffix(".md")
+		)
 		with open(file_path, "r", encoding="utf-8") as f:
 			content: str = f.read()
 		frontmatter_raw: str
 		body: str
 		fmt: Format
 		frontmatter_raw, body, fmt = split_md(content)
-		
+
 		file_meta: dict[str, Any] = {
 			"path": file_path_str,
 			"path_html": f"{file_path_str}.html",
 			"path_raw": file_path.as_posix(),
 			"modified_time": os.path.getmtime(file_path),
 		}
-		
+
 		frontmatter_rendered: dict[str, Any] = render(
 			content=frontmatter_raw,
 			context={**frontmatter_context, "file_meta": file_meta},
@@ -126,6 +135,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 
 	return args
 
+
 def process_markdown_files(
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
@@ -144,9 +154,7 @@ def process_markdown_files(
 			"config": config.serialize(),
 			"docs": docs,
 			"child_docs": {
-				k: v
-				for k, v in docs.items()
-				if (k.startswith(path) and k != path)
+				k: v for k, v in docs.items() if (k.startswith(path) and k != path)
 			},
 		}
 
@@ -159,10 +167,12 @@ def process_markdown_files(
 		)
 
 		# Convert Markdown to HTML using Pandoc
-		pandoc_args: list[str] = process_pandoc_args({
-			**config.pandoc_kwargs,
-			**context["frontmatter"].get("pandoc_kwargs", {}),
-		})
+		pandoc_args: list[str] = process_pandoc_args(
+			{
+				**config.pandoc_kwargs,
+				**context["frontmatter"].get("pandoc_kwargs", {}),
+			}
+		)
 
 		html_content: str = pypandoc.convert_text(
 			source=rendered_md,
@@ -205,10 +215,9 @@ def main() -> None:
 
 	docs: dict[str, dict[str, Any]] = build_document_tree(
 		content_dir=config.content_dir,
-		frontmatter_context={"config" : config.serialize()},
+		frontmatter_context={"config": config.serialize()},
 		jinja_env=jinja_env,
 	)
-
 
 	process_markdown_files(
 		docs=docs,
