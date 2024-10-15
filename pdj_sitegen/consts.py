@@ -13,8 +13,14 @@ Format = Literal["yaml", "json", "toml"]
 FORMAT_MAP: dict[str, Format] = {
 	"yaml": "yaml",
 	"yml": "yaml",
+	"YAML": "yaml",
+	"YML": "yaml",
 	"json": "json",
+	"JSON": "json",
 	"toml": "toml",
+	"tml": "toml",
+	"TOML": "toml",
+	"TML": "toml",
 }
 
 FORMAT_PARSERS: dict[Format, Callable[[str], dict[str, Any]]] = {
