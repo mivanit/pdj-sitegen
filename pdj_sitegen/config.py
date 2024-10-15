@@ -11,11 +11,10 @@ from muutils.json_serialize import (
 	serializable_field,
 )
 
-from pdj_sitegen.consts import (
+from pdj_sitegen.consts import (  # StructureFormat,
 	_PATH_FIELD_SERIALIZATION_KWARGS,
 	FORMAT_MAP,
 	Format,
-	# StructureFormat,
 )
 
 
@@ -126,7 +125,7 @@ class Config(SerializableDataclass):
 
 	# jinja2 settings and extra globals
 	# ==================================================
-	
+
 	jinja_env_kwargs: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
@@ -159,14 +158,15 @@ class Config(SerializableDataclass):
 
 	def __post_init__(self):
 		self.validate_fields_types()
+
+
 if __name__ == "__main__":
 	import sys
 
 	if len(sys.argv) > 1:
-		fmt: str = sys.argv[1] 
+		fmt: str = sys.argv[1]
 		config: Config = Config()
 		config_str: str = config.as_str(fmt)
 		print(config_str)
 	else:
 		print(DEFAULT_CONFIG_YAML)
-		

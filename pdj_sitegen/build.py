@@ -14,49 +14,51 @@ Pipeline:
 
 import os
 import re
-import sys
+import shutil
 from pathlib import Path
 from typing import Any, Iterable, Literal, Optional, Tuple
-import shutil
 
-from jinja2 import Environment, FileSystemLoader, Template
 import pypandoc
 import tqdm
-from muutils.spinner import SpinnerContext, Spinner, NoOpContextManager
+from jinja2 import Environment, FileSystemLoader, Template
+from muutils.spinner import NoOpContextManager, Spinner, SpinnerContext
 
 from pdj_sitegen.config import Config
 from pdj_sitegen.consts import (
+	FORMAT_PARSERS,
 	FRONTMATTER_DELIMS,
 	FRONTMATTER_REGEX,
-	FORMAT_PARSERS,
 	Format,
 )
 
 VERBOSE: bool = True
 
+
 class SplitMarkdownError(Exception):
 	"error while splitting markdown"
+
 	pass
+
 
 class RenderError(Exception):
 	"error while rendering template"
-	
+
 	def __init__(
-			self,
-			message: str,
-			kind: Literal["create_template", "render_template"],
-			content: str|None,
-			context: dict[str, Any]|None,
-			jinja_env: Environment|None,
-			template: Template|None,
-		) -> None:
+		self,
+		message: str,
+		kind: Literal["create_template", "render_template"],
+		content: str | None,
+		context: dict[str, Any] | None,
+		jinja_env: Environment | None,
+		template: Template | None,
+	) -> None:
 		super().__init__(message)
 		self.message: str = message
 		self.kind: Literal["create_template", "render_template"] = kind
-		self.content: str|None = content
-		self.context: dict[str, Any]|None = context
-		self.jinja_env: Environment|None = jinja_env
-		self.template: Template|None = template
+		self.content: str | None = content
+		self.context: dict[str, Any] | None = context
+		self.jinja_env: Environment | None = jinja_env
+		self.template: Template | None = template
 
 	def __str__(self) -> str:
 		if self.kind == "create_template":
@@ -81,22 +83,23 @@ class RenderError(Exception):
 				f"{self.template = }"
 			)
 
+
 def split_md(
 	content: str,
 ) -> Tuple[str, str, Format]:
 	"""parse markdown into a tuple of frontmatter, body, and frontmatter format
-	
+
 	will use `FRONTMATTER_REGEX` to split the markdown content into frontmatter and body.
 	the possible delimiters are defined in `FRONTMATTER_DELIMS`.
 
 	# Parameters:
-	 - `content : str`   
+	 - `content : str`
 	   markdown content to split
-	
+
 	# Returns:
-	 - `Tuple[str, str, Format]` 
+	 - `Tuple[str, str, Format]`
 	   tuple of frontmatter, body, and frontmatter format (yaml, json, toml)
-	
+
 	# Raises:
 	 - `SplitMarkdownError` : if the regex does not match
 	"""
@@ -122,22 +125,22 @@ def render(
 	jinja_env: Environment,
 ) -> str:
 	"""render content given context and jinja2 environment. raise RenderError if error occurs
-	
+
 	# Parameters:
-	 - `content : str`   
+	 - `content : str`
 	   text content with jinja2 template syntax
-	 - `context : dict[str, Any]`   
+	 - `context : dict[str, Any]`
 	   data to render into the template
-	 - `jinja_env : Environment`   
+	 - `jinja_env : Environment`
 	   jinja2 environment to use for rendering
-	
+
 	# Returns:
-	 - `str` 
+	 - `str`
 	   rendered content
-	
+
 	# Raises:
 	 - `RenderError` : if an error occurs while creating or rendering the template
-	"""	
+	"""
 	try:
 		template: Template = jinja_env.from_string(content)
 	except Exception as e_template:
@@ -171,7 +174,7 @@ def build_document_tree(
 	jinja_env: Environment,
 ) -> dict[str, dict[str, Any]]:
 	"""given a dir of markdown files, return a dict of documents with rendered frontmatter
-	
+
 	documents are keyed by their path relative to `content_dir`, with suffix removed.
 	the dict for each document will contain:
 
@@ -180,17 +183,17 @@ def build_document_tree(
 	- `file_meta: dict[str, Any]` : metadata about the file, including `"path", "path_html", "path_raw", "modified_time"`
 
 	# Parameters:
-	 - `content_dir : Path`   
+	 - `content_dir : Path`
 	   path to glob for markdown files
-	 - `frontmatter_context : dict[str, Any]`   
+	 - `frontmatter_context : dict[str, Any]`
 	   context to use to render the frontmatter *before* parsing it into a dict
-	 - `jinja_env : Environment`   
+	 - `jinja_env : Environment`
 	   jinja2 environment to use for rendering
-	
+
 	# Returns:
-	 - `dict[str, dict[str, Any]]` 
+	 - `dict[str, dict[str, Any]]`
 	   dict of documents with rendered frontmatter.
-	"""	
+	"""
 	md_files: list[Path] = list(content_dir.rglob("*.md"))
 
 	if VERBOSE:
@@ -238,7 +241,7 @@ def build_document_tree(
 
 def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	"""given args to pass to pandoc, turn them into a list of strings we can actually pass
-	
+
 	keys must be strings. values can be strings, bools, or iterables of strings.
 
 	when a value is a:
@@ -246,14 +249,14 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	- `bool` : if True, add the key to the list. if False, skip it.
 	- `str` : add the key and value to the list together.
 	- `iterable` : for each item in the iterable, add the key and item to the list together.
-		(i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
-	
+	        (i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
+
 	# Parameters:
-	 - `pandoc_args : dict[str, Any]`   
-	
+	 - `pandoc_args : dict[str, Any]`
+
 	# Returns:
-	 - `list[str]` 
-	"""	
+	 - `list[str]`
+	"""
 	args: list[str] = list()
 	for k, v in pandoc_args.items():
 		if isinstance(v, bool):
@@ -329,7 +332,8 @@ def convert_single_markdown_file(
 	output_path.parent.mkdir(parents=True, exist_ok=True)
 	with open(output_path, "w", encoding="utf-8") as f:
 		f.write(final_html)
-		
+
+
 def convert_markdown_files(
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
@@ -344,7 +348,6 @@ def convert_markdown_files(
 		print(f"Converting {n_files} markdown files to HTML...")
 	for idx, (path, doc) in enumerate(docs.items()):
 		path_raw: str = doc["file_meta"]["path_raw"]
-		path_plain: str = doc["file_meta"]["path"]
 		if smart_rebuild and os.path.getmtime(path_raw) <= rebuild_time:
 			if VERBOSE:
 				print(f"\t({idx+1:3} / {n_files})  [unmodified]  '{path_raw}'")
@@ -370,19 +373,22 @@ def main() -> None:
 	- set up a Jinja2 environment according to the config
 	- build a document tree from the markdown files in the content directory
 	- process the markdown files into HTML files and write them to the output directory
-	"""	
+	"""
 	global VERBOSE
 	import argparse
+
 	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser()
 	# args: required positional config path, boolean flags `quiet` and `smart_rebuild`
 	arg_parser.add_argument("config_path", type=str, help="path to the config file")
 	arg_parser.add_argument(
-		"-q", "--quiet",
+		"-q",
+		"--quiet",
 		action="store_true",
 		help="disable verbose output",
 	)
 	arg_parser.add_argument(
-		"-s", "--smart-rebuild",
+		"-s",
+		"--smart-rebuild",
 		action="store_true",
 		help="enable smart rebuild",
 	)
