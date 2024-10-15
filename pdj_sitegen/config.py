@@ -15,11 +15,12 @@ from pdj_sitegen.consts import (
 	_PATH_FIELD_SERIALIZATION_KWARGS,
 	FORMAT_MAP,
 	Format,
-	StructureFormat,
+	# StructureFormat,
 )
 
 
 def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> dict[str, Any]:
+	"read a file from any of json, yaml, or toml"
 	if fmt is None:
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
 
@@ -38,6 +39,7 @@ def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> dict[str, A
 
 
 def emit_data_file(data: dict[str, Any], fmt: Format) -> str:
+	"emit a file as json or yaml"
 	match fmt:
 		case "yaml":
 			return yaml.safe_dump(data)
@@ -52,6 +54,7 @@ def emit_data_file(data: dict[str, Any], fmt: Format) -> str:
 def save_data_file(
 	data: dict[str, Any], file_path: Path, fmt: Optional[Format] = None
 ) -> None:
+	"save a file as json or yaml"
 	if fmt is None:
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
 
@@ -62,6 +65,7 @@ def save_data_file(
 
 @serializable_dataclass
 class Config(SerializableDataclass):
+	"configuration for the site generator"
 	content_dir: Path = serializable_field(
 		default=Path("content"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
@@ -85,15 +89,15 @@ class Config(SerializableDataclass):
 	jinja_env_kwargs: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
-	structure: StructureFormat = serializable_field(
-		default="dotlist",
-		assert_type=False,
-	)
+	# structure: StructureFormat = serializable_field(
+	# 	default="dotlist",
+	# 	assert_type=False,
+	# )
 	globals_: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
-	pandoc_cli_extra_args: list[str] = serializable_field(
-		default_factory=lambda: ["--mathjax"],
+	pandoc_kwargs: dict[str, Any] = serializable_field(
+		default_factory=lambda : {"mathjax": True},
 	)
 	pandoc_fmt_from: str = serializable_field(
 		default="markdown+smart",

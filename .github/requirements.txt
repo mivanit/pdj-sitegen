@@ -30,3 +30,4 @@ torch==2.4.1
 triton==3.0.0 ; python_full_version < '3.13' and platform_machine == 'x86_64' and platform_system == 'Linux'
 typeguard==2.13.3
 typing-extensions==4.12.2
+zanj==0.3.1

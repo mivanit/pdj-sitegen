@@ -17,135 +17,39 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Callable, Optional, Tuple
+from typing import Any, Callable, Iterable, Optional, Tuple
 
 import yaml
 from jinja2 import Environment, FileSystemLoader, Template
 from muutils.dictmagic import kwargs_to_nested_dict, update_with_nested_dict
+import pypandoc
 
 from pdj_sitegen.config import Config
-from pdj_sitegen.consts import FRONTMATTER_PARSERS, FRONTMATTER_REGEX, StructureFormat
+from pdj_sitegen.consts import FRONTMATTER_DELIMS, FRONTMATTER_REGEX, FORMAT_PARSERS, Format #, StructureFormat
 
 
-def parse_frontmatter(content: str) -> Tuple[dict[str, Any], str]:
+def split_md(
+		content: str,
+	) -> Tuple[str, str, Format]:
+	"parse markdown into a tuple of frontmatter, body, and frontmatter format"
 	match: Optional[re.Match[str]] = re.match(FRONTMATTER_REGEX, content)
+	frontmatter: str
+	body: str
+	fmt: Format
 	if match:
+		# if the regex matches, extract the frontmatter, body, and format
 		delimiter: str = match.group("delimiter")
-		frontmatter_raw: str = match.group("frontmatter")
-		body: str = match.group("body")
-
-		parser: Optional[Callable[[str], dict[str, Any]]] = FRONTMATTER_PARSERS.get(
+		frontmatter = match.group("frontmatter")
+		body = match.group("body")
+		fmt = FRONTMATTER_DELIMS.get(
 			delimiter, None
 		)
-		frontmatter: dict[str, Any] = parser(frontmatter_raw) if parser else {}
 	else:
-		frontmatter = {}
-		body = content
+		raise Exception("No frontmatter found in content.")
 
-	return frontmatter, body
+	return frontmatter, body, fmt
 
-
-def collect_markdown_files(content_dir: str) -> list[str]:
-	md_files: list[str] = []
-	for root, _, files in os.walk(content_dir):
-		for file in files:
-			if file.endswith(".md"):
-				md_files.append(os.path.join(root, file))
-	return md_files
-
-
-def build_document_tree(
-	md_files: list[str],
-	content_dir: str,
-	structure: StructureFormat,
-) -> dict[str, dict[str, Any]]:
-	docs: dict[str, dict[str, Any]] = {}
-
-	for file_path in md_files:
-		with open(file_path, "r", encoding="utf-8") as f:
-			content: str = f.read()
-		frontmatter, body = parse_frontmatter(content)
-		relative_path: str = os.path.relpath(file_path, content_dir)
-
-		if structure == "dotlist":
-			key: str = os.path.splitext(relative_path.replace(os.sep, "."))[0]
-		elif structure == "tree":
-			key = os.path.splitext(relative_path)[0]
-		else:
-			key = os.path.splitext(relative_path)[0]
-
-		file_metadata: dict[str, Any] = {
-			"file_path": file_path,
-			"relative_path": relative_path,
-			"modified_time": os.path.getmtime(file_path),
-			"key": key,
-		}
-
-		docs[key] = {
-			"frontmatter": frontmatter,
-			"body": body,
-			"file_metadata": file_metadata,
-		}
-	return docs
-
-
-def get_parent_keys(
-	key: str,
-	structure: StructureFormat,
-) -> list[str]:
-	if structure == "dotlist":
-		parts: list[str] = key.split(".")
-		return [".".join(parts[:i]) for i in range(1, len(parts))]
-	elif structure == "tree":
-		parts: list[str] = key.split(os.sep)
-		return [os.path.join(*parts[:i]) for i in range(1, len(parts))]
-	else:
-		return []
-
-
-def merge_frontmatter(
-	docs: dict[str, dict[str, Any]],
-	key: str,
-	globals_dict: dict[str, Any],
-	structure: StructureFormat,
-) -> dict[str, Any]:
-	combined: dict[str, Any] = {}
-	parent_keys: list[str] = get_parent_keys(key, structure)
-
-	# Merge parent frontmatter from root to immediate parent
-	for parent_key in parent_keys:
-		parent_doc = docs.get(parent_key, {})
-		parent_frontmatter = parent_doc.get("frontmatter", {})
-		combined.update(parent_frontmatter)
-
-	# Merge current document's frontmatter
-	current_doc = docs.get(key, {})
-	current_frontmatter = current_doc.get("frontmatter", {})
-	combined.update(current_frontmatter)
-
-	# Merge global variables
-	combined.update(globals_dict)
-	return combined
-
-
-def render_frontmatter(
-	frontmatter: dict[str, Any], context: dict[str, Any], jinja_env: Environment
-) -> dict[str, Any]:
-	def render_value(value: Any) -> Any:
-		if isinstance(value, str):
-			template = jinja_env.from_string(value)
-			return template.render(context)
-		elif isinstance(value, dict):
-			return {k: render_value(v) for k, v in value.items()}
-		elif isinstance(value, list):
-			return [render_value(item) for item in value]
-		else:
-			return value
-
-	return {k: render_value(v) for k, v in frontmatter.items()}
-
-
-def execute_template(
+def render(
 	content: str,
 	context: dict[str, Any],
 	jinja_env: Environment,
@@ -153,84 +57,115 @@ def execute_template(
 	template: Template = jinja_env.from_string(content)
 	return template.render(context)
 
+def build_document_tree(
+	content_dir: Path,
+	frontmatter_context: dict[str, Any],
+	jinja_env: Environment,
+) -> dict[str, dict[str, Any]]:
+	"given a dir of markdown files, return a dict of documents with rendered frontmatter"
+	md_files: list[Path] = list(content_dir.rglob("*.md"))
 
-def pandoc_render_md(
-	content: str,
-	fmt_from: str,
-	fmt_to: str,
-	extra_args: list[str],
-) -> str:
-	cmd = ["pandoc", "-f", fmt_from, "-t", fmt_to] + extra_args
-	process = subprocess.Popen(
-		cmd,
-		stdin=subprocess.PIPE,
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE,
-		text=True,
-	)
-	stdout, stderr = process.communicate(input=content)
-	if process.returncode != 0:
-		raise Exception(f"Pandoc failed: {stderr}")
-	return stdout
+	docs: dict[str, dict[str, Any]] = {}
 
+	for file_path in md_files:
+		file_path_str: str = file_path.relative_to(content_dir).as_posix()
+		with open(file_path, "r", encoding="utf-8") as f:
+			content: str = f.read()
+		frontmatter_raw: str
+		body: str
+		fmt: Format
+		frontmatter_raw, body, fmt = split_md(content)
+		
+		file_meta: dict[str, Any] = {
+			"path": file_path_str,
+			"modified_time": os.path.getmtime(file_path),
+		}
+		
+		frontmatter_rendered: dict[str, Any] = render(
+			content=frontmatter_raw,
+			context={**frontmatter_context, "file_meta": file_meta},
+			jinja_env=jinja_env,
+		)
+		frontmatter: dict[str, Any] = FORMAT_PARSERS[fmt](frontmatter_rendered)
+
+		docs[file_path_str] = {
+			"frontmatter": frontmatter,
+			"body": body,
+			"file_meta": file_meta,
+		}
+	return docs
+
+
+def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
+	args: list[str] = list()
+	for k, v in pandoc_args.items():
+		if isinstance(v, bool):
+			if v:
+				args.append(f"--{k}")
+		elif isinstance(v, str):
+			args.extend([f"--{k}", v])
+		elif isinstance(v, Iterable):
+			for x in v:
+				args.extend([f"--{k}", x])
+		else:
+			args.extend([f"--{k}", v])
+
+	return args
 
 def process_markdown_files(
 	docs: dict[str, dict[str, Any]],
-	globals_dict: dict[str, Any],
-	structure: StructureFormat,
 	jinja_env: Environment,
 	config: Config,
 ) -> None:
-	for key in docs.keys():
-		doc = docs[key]
-		frontmatter = doc.get("frontmatter", {})
-		body = doc.get("body", "")
-		file_metadata = doc.get("file_metadata", {})
-
-		# Build initial context
-		context = merge_frontmatter(docs, key, globals_dict, structure)
-		# Include file metadata in context
-		context.update(file_metadata)
-
-		# Render frontmatter templates
-		frontmatter = render_frontmatter(frontmatter, context, jinja_env)
-		context.update(frontmatter)
+	path: str
+	doc: dict[str, Any]
+	for path, doc in docs.items():
+		frontmatter: dict = doc.get("frontmatter", {})
+		body: dict = doc.get("body", "")
+		file_meta: str = doc.get("file_meta", {})
+		context: dict[str, Any] = {
+			"frontmatter": frontmatter,
+			"file_meta": file_meta,
+			"config": config,
+			"docs": docs,
+		}
 
 		# Now, execute a template on the content with context
 		# Render Markdown content with Jinja2
-		rendered_md: str = execute_template(body, context, jinja_env)
+		rendered_md: str = render(
+			content=body,
+			context=context,
+			jinja_env=jinja_env,
+		)
 
 		# Convert Markdown to HTML using Pandoc
-		html_content: str = pandoc_render_md(
-			rendered_md,
-			config.pandoc_fmt_from,
-			config.pandoc_fmt_to,
-			config.pandoc_cli_extra_args,
+		pandoc_args: list[str] = process_pandoc_args({
+			**config.pandoc_kwargs,
+			**context["frontmatter"].get("pandoc_kwargs", {}),
+		})
+
+		html_content: str = pypandoc.convert_text(
+			source=rendered_md,
+			to=config.pandoc_fmt_to,
+			format=config.pandoc_fmt_from,
+			extra_args=pandoc_args,
 		)
-		context["content"] = html_content
 
 		# Determine which HTML template to use
 		template_name: str = frontmatter.get(
 			"__template__",
 			config.default_template.as_posix(),
 		)
-		if not template_name:
-			raise Exception(f"No HTML template specified for {key}.")
 
 		# Render final HTML
-		template = jinja_env.get_template(template_name)
-		final_html: str = template.render(context)
+		template: Template = jinja_env.get_template(template_name)
+		final_html: str = template.render({"__content__": html_content, **context})
 
 		# Output HTML file
-		output_dir = str(config.output_dir)
-		relative_output_path = file_metadata.get("relative_path", "").replace(
-			".md", ".html"
-		)
-		output_path = os.path.join(output_dir, relative_output_path)
-		os.makedirs(os.path.dirname(output_path), exist_ok=True)
+		output_path: Path = (config.output_dir / path).with_suffix(".html")
+		output_path.parent.mkdir(parents=True, exist_ok=True)
 		with open(output_path, "w", encoding="utf-8") as f:
 			f.write(final_html)
-		print(f"Generated {output_path}")
 
 
 def main() -> None:
@@ -260,27 +195,13 @@ def main() -> None:
 				pass  # Keep value as string if parsing fails
 			kwargs_dict[key] = value
 		else:
-			print(f"Invalid argument format: {arg}")
-			sys.exit(1)
+			kwargs_dict[arg] = True
 
 	# Convert flat kwargs_dict to nested dict
-	nested_kwargs = kwargs_to_nested_dict(kwargs_dict)
+	nested_kwargs: dict = kwargs_to_nested_dict(kwargs_dict)
 
 	# Update the config with nested kwargs
-	config_dict = config.serialize()
-	update_with_nested_dict(config_dict, nested_kwargs)
-	# Deserialize back to config object
-	config = Config.load(config_dict)
-
-	content_dir: Path = config.content_dir
-	# resources_dir: Path = config.resources_dir
-	structure: StructureFormat = config.structure
-	globals_dict: dict[str, Any] = config.globals_
-
-	md_files: list[str] = collect_markdown_files(str(content_dir))
-	docs: dict[str, dict[str, Any]] = build_document_tree(
-		md_files, str(content_dir), structure
-	)
+	config.update_from_nested_dict(nested_kwargs)
 
 	# Set up Jinja2 environment
 	jinja_env = Environment(
@@ -288,7 +209,18 @@ def main() -> None:
 		**config.jinja_env_kwargs,
 	)
 
-	process_markdown_files(docs, globals_dict, structure, jinja_env, config)
+	docs: dict[str, dict[str, Any]] = build_document_tree(
+		content_dir=config.content_dir,
+		frontmatter_context={"config" : config.serialize()},
+		jinja_env=jinja_env,
+	)
+
+
+	process_markdown_files(
+		docs=docs,
+		jinja_env=jinja_env,
+		config=config,
+	)
 
 
 if __name__ == "__main__":

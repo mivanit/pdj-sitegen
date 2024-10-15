@@ -8,7 +8,7 @@ import yaml
 
 Format = Literal["yaml", "json", "toml"]
 
-StructureFormat = Literal["dotlist", "tree"]
+# StructureFormat = Literal["dotlist", "tree"]
 
 FORMAT_MAP: dict[str, Format] = {
 	"yaml": "yaml",
@@ -17,15 +17,21 @@ FORMAT_MAP: dict[str, Format] = {
 	"toml": "toml",
 }
 
-FRONTMATTER_PARSERS: dict[str, Callable[[str], dict[str, Any]]] = {
-	"---": lambda x: yaml.safe_load(x),
-	";;;": lambda x: json.loads(x),
-	"+++": lambda x: tomllib.loads(x),
+FORMAT_PARSERS: dict[Format, Callable[[str], dict[str, Any]]] = {
+	"yaml": yaml.safe_load,
+	"json": json.loads,
+	"toml": tomllib.loads,
+}
+
+FRONTMATTER_DELIMS: dict[str, Format] = {
+	"---": "yaml",
+	";;;": "json",
+	"+++": "toml",
 }
 
 FRONTMATTER_REGEX: re.Pattern = re.compile(
 	r"^(?P<delimiter>{delims})\n(?P<frontmatter>.*?)\n(?P=delimiter)\n(?P<body>.*)".format(
-		delims="|".join([re.escape(d) for d in FRONTMATTER_PARSERS.keys()]),
+		delims="|".join([re.escape(d) for d in FRONTMATTER_DELIMS.keys()]),
 	),
 	re.DOTALL,
 )

@@ -473,6 +473,7 @@ dependencies = [
     { name = "pandocfilters" },
     { name = "pypandoc" },
     { name = "pyyaml" },
+    { name = "zanj" },
 ]
 
 [package.dev-dependencies]
@@ -492,6 +493,7 @@ requires-dist = [
     { name = "pandocfilters", specifier = ">=1.5.1" },
     { name = "pypandoc", specifier = ">=1.14" },
     { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "zanj" },
 ]
 
 [package.metadata.requires-dev]
@@ -774,4 +776,17 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/df/db/f35a00659bc03fec321ba8bce9420de607a1d37f8342eee1863174c69557/typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8", size = 85321 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d", size = 37438 },
+]
+
+[[package]]
+name = "zanj"
+version = "0.3.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "muutils", extra = ["array"] },
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a2/90/e72fd26bb8ef5469feec2e587d555ac2667c6661f29c410e0f2cf6d9eabe/zanj-0.3.1.tar.gz", hash = "sha256:caedd60fc66174efb0dab5f757612114fb6157cd7c44200a4488bb65b0c8d9b1", size = 32664 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2a/b8/35a197ecddc0368228833c69018c148e3954210632d689b9ba6230ab0920/zanj-0.3.1-py3-none-any.whl", hash = "sha256:9a8ea449f95c49ee8823499e79311332c5fcc05e9a2ab46d413db8593a554e3f", size = 33438 },
 ]

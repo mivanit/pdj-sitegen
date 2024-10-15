@@ -2,12 +2,11 @@ content_dir: content
 default_template: default.html.jinja2
 globals_: {}
 jinja_env_kwargs: {}
-output_dir: output
-pandoc_cli_extra_args:
-- '--mathjax'
+output_dir: docs
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html
+pandoc_kwargs:
+  mathjax: true
 resources_dir: resources
-structure: dotlist
 templates_dir: templates
 
