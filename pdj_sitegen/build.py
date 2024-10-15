@@ -28,6 +28,9 @@ from pdj_sitegen.config import Config
 from pdj_sitegen.consts import FRONTMATTER_DELIMS, FRONTMATTER_REGEX, FORMAT_PARSERS, Format #, StructureFormat
 
 
+class RenderError(Exception):
+	pass
+
 def split_md(
 		content: str,
 	) -> Tuple[str, str, Format]:
@@ -54,8 +57,17 @@ def render(
 	context: dict[str, Any],
 	jinja_env: Environment,
 ) -> str:
-	template: Template = jinja_env.from_string(content)
-	return template.render(context)
+	try:
+		template: Template = jinja_env.from_string(content)
+	except Exception as e_template:
+		raise RenderError(f"Error creating template: {e_template}\n{content = }\n{jinja_env = }") from e_template
+
+	try:
+		output: str = template.render(context)
+	except Exception as e_render:
+		raise RenderError(f"Error rendering template: {e_render}\n{template = }\n{context = }") from e_render
+
+	return output
 
 def build_document_tree(
 	content_dir: Path,
@@ -68,7 +80,7 @@ def build_document_tree(
 	docs: dict[str, dict[str, Any]] = {}
 
 	for file_path in md_files:
-		file_path_str: str = file_path.relative_to(content_dir).as_posix()
+		file_path_str: str = file_path.relative_to(content_dir).as_posix().removesuffix(".md")
 		with open(file_path, "r", encoding="utf-8") as f:
 			content: str = f.read()
 		frontmatter_raw: str
@@ -78,6 +90,8 @@ def build_document_tree(
 		
 		file_meta: dict[str, Any] = {
 			"path": file_path_str,
+			"path_html": f"{file_path_str}.html",
+			"path_raw": file_path.as_posix(),
 			"modified_time": os.path.getmtime(file_path),
 		}
 		
@@ -124,10 +138,16 @@ def process_markdown_files(
 		body: dict = doc.get("body", "")
 		file_meta: str = doc.get("file_meta", {})
 		context: dict[str, Any] = {
+			**frontmatter,
 			"frontmatter": frontmatter,
 			"file_meta": file_meta,
-			"config": config,
+			"config": config.serialize(),
 			"docs": docs,
+			"child_docs": {
+				k: v
+				for k, v in docs.items()
+				if (k.startswith(path) and k != path)
+			},
 		}
 
 		# Now, execute a template on the content with context
@@ -162,46 +182,20 @@ def process_markdown_files(
 		final_html: str = template.render({"__content__": html_content, **context})
 
 		# Output HTML file
-		output_path: Path = (config.output_dir / path).with_suffix(".html")
+		output_path: Path = config.output_dir / file_meta["path_html"]
 		output_path.parent.mkdir(parents=True, exist_ok=True)
 		with open(output_path, "w", encoding="utf-8") as f:
 			f.write(final_html)
 
 
 def main() -> None:
-	# First arg is config path; subsequent args are key-value pairs for config
-	args = sys.argv[1:]
-
-	if len(args) >= 1 and not args[0].startswith("--"):
-		config_path = Path(args[0])
-		kv_args = args[1:]
+	if len(sys.argv) == 1:
+		config_path = Path(sys.argv[1])
 	else:
-		config_path = Path("config.yaml")
-		kv_args = args
+		raise Exception("No config file provided.")
 
 	# Read the config file
 	config: Config = Config.read(config_path)
-
-	# Parse key-value pairs from command line arguments
-	# Assuming the format is key=value
-	kwargs_dict: dict[str, Any] = {}
-	for arg in kv_args:
-		if "=" in arg:
-			key, value = arg.split("=", 1)
-			# Try to parse the value using yaml.safe_load
-			try:
-				value = yaml.safe_load(value)
-			except yaml.YAMLError:
-				pass  # Keep value as string if parsing fails
-			kwargs_dict[key] = value
-		else:
-			kwargs_dict[arg] = True
-
-	# Convert flat kwargs_dict to nested dict
-	nested_kwargs: dict = kwargs_to_nested_dict(kwargs_dict)
-
-	# Update the config with nested kwargs
-	config.update_from_nested_dict(nested_kwargs)
 
 	# Set up Jinja2 environment
 	jinja_env = Environment(
