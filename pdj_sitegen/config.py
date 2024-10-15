@@ -157,7 +157,8 @@ class Config(SerializableDataclass):
 	def save(self, config_path: Path, fmt: Optional[Format] = "json") -> None:
 		save_data_file(self.serialize(), config_path, fmt)
 
-
+	def __post_init__(self):
+		self.validate_fields_types()
 if __name__ == "__main__":
 	import sys
 

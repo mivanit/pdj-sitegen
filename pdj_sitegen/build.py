@@ -51,6 +51,7 @@ class RenderError(Exception):
 			template: Template|None,
 		) -> None:
 		super().__init__(message)
+		self.message: str = message
 		self.kind: Literal["create_template", "render_template"] = kind
 		self.content: str|None = content
 		self.context: dict[str, Any]|None = context
