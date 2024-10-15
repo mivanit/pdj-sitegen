@@ -2,7 +2,6 @@
 title: "My Page Title"
 author: "Author Name"
 date: "2023-10-14"
-__template__: "templates/base.html"
 variable_from_frontmatter: "This is a variable from front matter."
 ---
 
