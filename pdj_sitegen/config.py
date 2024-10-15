@@ -63,9 +63,37 @@ def save_data_file(
 		f.write(emitted_data)
 
 
+DEFAULT_CONFIG_YAML: str = """
+# directory with markdown content files and resources, relative to cwd
+content_dir: content
+# directory with resources, relative to `content_dir`
+resources_dir: resources
+# templates directory, relative to cwd
+templates_dir: templates
+# default template file, relative to `templates_dir`
+default_template: default.html.jinja2
+# output directory, relative to cwd
+output_dir: docs
+# extra globals to pass -- this can be anything
+globals_:
+  globals_key: some value
+# kwargs to pass to the Jinja2 environment
+jinja_env_kwargs: {}
+# pandoc formats
+pandoc_fmt_from: markdown+smart
+pandoc_fmt_to: html
+# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)
+pandoc_kwargs:
+  mathjax: true
+"""
+
+
 @serializable_dataclass
 class Config(SerializableDataclass):
 	"configuration for the site generator"
+
+	# paths
+	# ==================================================
 
 	content_dir: Path = serializable_field(
 		default=Path("content"),
@@ -87,16 +115,28 @@ class Config(SerializableDataclass):
 		default=Path("output"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	jinja_env_kwargs: dict[str, Any] = serializable_field(
-		default_factory=dict,
+	build_time_fname: Path = serializable_field(
+		default=Path(".build_time"),
+		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
 	# structure: StructureFormat = serializable_field(
 	# 	default="dotlist",
 	# 	assert_type=False,
 	# )
+
+	# jinja2 settings and extra globals
+	# ==================================================
+	
+	jinja_env_kwargs: dict[str, Any] = serializable_field(
+		default_factory=dict,
+	)
 	globals_: dict[str, Any] = serializable_field(
 		default_factory=dict,
 	)
+
+	# pandoc settings
+	# ==================================================
+
 	pandoc_kwargs: dict[str, Any] = serializable_field(
 		default_factory=lambda: {"mathjax": True},
 	)
@@ -121,7 +161,11 @@ class Config(SerializableDataclass):
 if __name__ == "__main__":
 	import sys
 
-	fmt: str = sys.argv[1] if len(sys.argv) > 1 else "yaml"
-	config: Config = Config()
-	config_str: str = config.as_str(fmt)
-	print(config_str)
+	if len(sys.argv) > 1:
+		fmt: str = sys.argv[1] 
+		config: Config = Config()
+		config_str: str = config.as_str(fmt)
+		print(config_str)
+	else:
+		print(DEFAULT_CONFIG_YAML)
+		

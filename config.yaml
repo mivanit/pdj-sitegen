@@ -1,12 +1,69 @@
 content_dir: content
+resources_dir: resources
+output_dir: docs/demo_site/
+templates_dir: templates
 default_template: default.html.jinja2
-globals_: {}
 jinja_env_kwargs: {}
-output_dir: docs
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html
 pandoc_kwargs:
   mathjax: true
-resources_dir: resources
-templates_dir: templates
-
+globals_:
+  globals_key: some value
+  ai_buzzwords:
+    - "Deep Learning Revolution"
+    - "Ethical AI Frameworks"
+    - "Quantum Machine Learning"
+    - "Neuromorphic Computing"
+    - "Explainable AI"
+  ai_areas:
+    - "natural language processing"
+    - "computer vision"
+    - "reinforcement learning"
+    - "generative adversarial networks"
+    - "federated learning"
+  ai_breakthroughs:
+    - "GPT-3"
+    - "AlphaFold"
+    - "DALL-E"
+    - "Stable Diffusion"
+    - "LaMDA"
+  ai_ethics_issues:
+    - "algorithmic bias"
+    - "privacy concerns"
+    - "job displacement"
+    - "autonomous weapons"
+    - "deepfakes and misinformation"
+  ai_application_areas:
+    - "healthcare"
+    - "finance"
+    - "education"
+    - "transportation"
+    - "environmental conservation"
+  industries:
+    - "healthcare"
+    - "finance"
+    - "manufacturing"
+    - "retail"
+    - "agriculture"
+    - "education"
+    - "transportation"
+    - "energy"
+  ai_technologies:
+    - "machine learning"
+    - "natural language processing"
+    - "computer vision"
+    - "robotics"
+    - "expert systems"
+  ai_benefits:
+    - "increased efficiency"
+    - "cost reduction"
+    - "improved accuracy"
+    - "enhanced customer experience"
+    - "data-driven decision making"
+  ai_outcomes:
+    - "disruption of traditional business models"
+    - "creation of new job opportunities"
+    - "improved product quality"
+    - "faster innovation cycles"
+    - "more personalized services"

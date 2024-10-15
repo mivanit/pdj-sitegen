@@ -407,3 +407,8 @@ help: help-targets gen-version-info
 # custom targets
 # ==================================================
 # (put them down here, or delimit with ~~~~~)
+
+.PHONY: site
+site:
+	@echo "generate site"
+	$(PYTHON) -m pdj_sitegen config.yaml

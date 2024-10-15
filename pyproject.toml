@@ -18,7 +18,9 @@ dependencies = [
 	"PyYAML>=6.0.2",
 	# pandoc
 	"pypandoc>=1.14",
-	"pandocfilters>=1.5.1"
+	"pandocfilters>=1.5.1",
+	# progress bar
+	"tqdm>=4.66.5",
 ]
 [tool.uv]
 dev-dependencies = [
