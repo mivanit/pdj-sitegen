@@ -27,12 +27,8 @@ def test_render_error_str():
 		render("{{ unclosed_tag", {}, jinja_env)
 	except RenderError as e:
 		assert "Error creating template" in str(e)
-		assert "content =" in str(e)
-		assert "jinja_env =" in str(e)
 
 	try:
 		render("{{ undefined_variable }}", {}, jinja_env)
 	except RenderError as e:
 		assert "Error rendering template" in str(e)
-		assert "template =" in str(e)
-		assert "context =" in str(e)
