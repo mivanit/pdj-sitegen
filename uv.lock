@@ -248,11 +248,11 @@ wheels = [
 
 [[package]]
 name = "muutils"
-version = "0.6.13"
+version = "0.6.14"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c1/31/68e56c6f8e8ef77e7677a4f233fd4b8a8e9394173aa5a97415a61da316d9/muutils-0.6.13.tar.gz", hash = "sha256:b6c67dfa6b15579f82cd839734e4fc86895dc48b93950ca68c28904565f232e9", size = 2029495 }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/33/86c858be7d5953a2f03171977433a4974e2ac683fc86e49ccbe4f80721f4/muutils-0.6.14.tar.gz", hash = "sha256:2da75b60eb2dead6e1e444e3af33d803f5e82c599edb92b3cbfb70750c961927", size = 2030022 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2e/95/c04e61293d53104b3c7e377d034ad665051bb84e1be3db92cfab3b3b1349/muutils-0.6.13-py3-none-any.whl", hash = "sha256:d4d219e229c463d501ab6b9c5db4a0b3e9d75e6537fade963559bf3d7d518a41", size = 123206 },
+    { url = "https://files.pythonhosted.org/packages/4d/04/9f5b61f39b1495d00a13408888d6edb04c6d31ddcfd1b76079538c23d52a/muutils-0.6.14-py3-none-any.whl", hash = "sha256:767f0484c0d67358c82eb9839efea7382ef9b93a0fc1135bae8383952344d993", size = 123214 },
 ]
 
 [package.optional-dependencies]
@@ -491,7 +491,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "jinja2", specifier = ">=3.1.4" },
-    { name = "muutils", extras = ["array"], specifier = ">=0.6.13" },
+    { name = "muutils", extras = ["array"], specifier = ">=0.6.14" },
     { name = "pandocfilters", specifier = ">=1.5.1" },
     { name = "pypandoc", specifier = ">=1.14" },
     { name = "pyyaml", specifier = ">=6.0.2" },

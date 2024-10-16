@@ -8,7 +8,7 @@ jaxtyping==0.2.34
 jinja2==3.1.4
 markupsafe==3.0.1
 mpmath==1.3.0
-muutils==0.6.13
+muutils==0.6.14
 networkx==3.4.1
 numpy==1.26.4
 nvidia-cublas-cu12==12.1.3.1 ; platform_machine == 'x86_64' and platform_system == 'Linux'
