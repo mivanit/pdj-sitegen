@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ frontmatter.title }}</title>
+    <meta name="description" content="{{ frontmatter.description }}">
+    <meta name="author" content="{{ frontmatter.author }}">
+    <meta name="keywords" content="{{ frontmatter.categories | join(", ") }}">
+</head>
+<body>
+    <header>
+        <h1>{{ frontmatter.title }}</h1>
+        <p>By {{ frontmatter.author }} - {{ frontmatter.date }}</p>
+        <p>{{ frontmatter.description }}</p>
+    </header>
+    <main>
+        <article>
+            <div class="content">
+                {{ __content__ | safe }}
+            </div>
+            <aside>
+                <h3>Summary</h3>
+                <ul>
+                    <li>Categories: {{ frontmatter.categories | join(", ") }}</li>
+                    <li>Tags: {{ frontmatter.tags | join(", ") }}</li>
+                </ul>
+                <h3>Related Links</h3>
+                <ul>
+                    <li><a href="/related">Related Content 1</a></li>
+                    <li><a href="/related2">Related Content 2</a></li>
+                </ul>
+            </aside>
+        </article>
+    </main>
+    <footer>
+        <p>Contact: <a href="mailto:{{ frontmatter.author | lower | replace(' ', '.') }}@example.com">{{ frontmatter.author }}@example.com</a></p>
+    </footer>
+</body>
+</html>

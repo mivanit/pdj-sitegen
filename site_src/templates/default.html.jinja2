@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ frontmatter.title }}</title>
+    <link rel="stylesheet" href="./resources/css/default.css">
+    <link rel="stylesheet" href="./resources/css/syntax.css">
+</head>
+<body>
+    <header>
+        <h1>{{ frontmatter.title }}</h1>
+        {% if frontmatter.author and frontmatter.date %}
+        <p>By {{ frontmatter.author }}, {{ frontmatter.date }}</p>
+        {% endif %}
+    </header>
+    <main>
+        {{ __content__ | safe }}
+    </main>
+    {% if frontmatter.tags %}
+    <footer>
+        <p>tags: {{ frontmatter.categories | join(", ") }}</p>
+    </footer>
+    {% endif %}
+</body>
+</html>
