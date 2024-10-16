@@ -13,18 +13,19 @@ FILE_LOCATIONS: dict[str, Path] = {
 	"config.yml": Path("config.yml"),
 	"default.html.jinja2": DEFAULT_CONFIG.templates_dir / "default.html.jinja2",
 	"index.md": DEFAULT_CONFIG.content_dir / "index.md",
-	"style.css": DEFAULT_CONFIG.content_dir / DEFAULT_CONFIG.resources_dir / "style.css",
-	"syntax.css": DEFAULT_CONFIG.content_dir / DEFAULT_CONFIG.resources_dir / "syntax.css",
+	"style.css": DEFAULT_CONFIG.content_dir
+	/ DEFAULT_CONFIG.resources_dir
+	/ "style.css",
+	"syntax.css": DEFAULT_CONFIG.content_dir
+	/ DEFAULT_CONFIG.resources_dir
+	/ "syntax.css",
 }
 
 
 def setup_site(root: Path = ".") -> None:
-
 	for file, path_rel in FILE_LOCATIONS.items():
 		contents: str = (
-			importlib.resources.files(pdj_sitegen)
-			.joinpath("data", file)
-			.read_text()
+			importlib.resources.files(pdj_sitegen).joinpath("data", file).read_text()
 		)
 
 		path: Path = root / path_rel

@@ -31,9 +31,9 @@ def test_setup_and_pipeline():
 	assert (root / "docs" / "index.html").exists()
 	assert (root / "docs" / "resources" / "style.css").exists()
 	assert (root / "docs" / "resources" / "syntax.css").exists()
-	assert (root / "docs" / "resources" / "style.css").read_text() == (root / "content" / "resources" / "style.css").read_text()
-	assert (root / "docs" / "resources" / "syntax.css").read_text() == (root / "content" / "resources" / "syntax.css").read_text()
-
-	
-
-
+	assert (root / "docs" / "resources" / "style.css").read_text() == (
+		root / "content" / "resources" / "style.css"
+	).read_text()
+	assert (root / "docs" / "resources" / "syntax.css").read_text() == (
+		root / "content" / "resources" / "syntax.css"
+	).read_text()
