@@ -7,7 +7,7 @@ import tomllib
 from pathlib import Path
 from typing import Any, Optional
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 from muutils.json_serialize import (
 	SerializableDataclass,
 	serializable_dataclass,
@@ -75,33 +75,34 @@ class Config(SerializableDataclass):
 	"configuration for the site generator"
 
 	# paths
+	# unpacking dicts here causes mypy to complain, so we ignore it
 	# ==================================================
 
-	content_dir: Path = serializable_field(
+	content_dir: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path("content"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	resources_dir: Path = serializable_field(
+	resources_dir: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path("resources"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	templates_dir: Path = serializable_field(
+	templates_dir: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path("templates"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	default_template: Path = serializable_field(
+	default_template: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path("default.html.jinja2"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	intermediates_dir: Optional[Path] = serializable_field(
+	intermediates_dir: Optional[Path] = serializable_field(  # type: ignore[call-overload]
 		default=None,
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	output_dir: Path = serializable_field(
+	output_dir: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path("output"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	build_time_fname: Path = serializable_field(
+	build_time_fname: Path = serializable_field(  # type: ignore[call-overload]
 		default=Path(".build_time"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
@@ -153,7 +154,8 @@ if __name__ == "__main__":
 	if len(sys.argv) > 1:
 		fmt: str = sys.argv[1]
 		config: Config = Config()
-		config_str: str = config.as_str(fmt)
+		# fmt being an invalid `Format` will be handled downstream when we call `emit_data_file`
+		config_str: str = config.as_str(fmt)  # type: ignore[arg-type]
 		print(config_str)
 	else:
 		print(DEFAULT_CONFIG_YAML)

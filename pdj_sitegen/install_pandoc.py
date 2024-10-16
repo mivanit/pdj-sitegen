@@ -1,5 +1,6 @@
 "install pandoc using pypandoc"
 
-from pypandoc.pandoc_download import download_pandoc
+from pypandoc.pandoc_download import download_pandoc  # type: ignore[import-untyped]
 
-download_pandoc()
+if __name__ == "__main__":
+	download_pandoc(targetfolder=".venv/pandoc/")

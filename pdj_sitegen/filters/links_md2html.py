@@ -1,4 +1,4 @@
-from pandocfilters import Link, toJSONFilter
+from pandocfilters import Link, toJSONFilter  # type: ignore[import-untyped]
 
 
 def links_md2html(key, value, format, meta) -> None:

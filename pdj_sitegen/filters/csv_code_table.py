@@ -9,7 +9,7 @@ import os
 import sys
 from typing import Optional
 
-from pandocfilters import toJSONFilter
+from pandocfilters import toJSONFilter  # type: ignore[import-untyped]
 
 ALIGN_MAP: dict[str, str] = {
 	"L": "AlignLeft",
@@ -23,7 +23,7 @@ def emptyblock() -> list:
 	return ["", [], []]
 
 
-def Plain_factory(val: str) -> list:
+def Plain_factory(val: str) -> dict:
 	return {
 		"t": "Plain",
 		"c": [

@@ -6,7 +6,7 @@ import tomllib
 from pathlib import Path
 from typing import Any, Callable, Literal
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 Format = Literal["yaml", "json", "toml"]
 

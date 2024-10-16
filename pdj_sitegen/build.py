@@ -14,20 +14,20 @@ Pipeline:
 """
 
 import argparse
+import datetime
+import functools
 import json
 import os
 import re
 import shutil
-import functools
 from pathlib import Path
-from typing import Any, Callable, Iterable, Optional, Tuple
-import datetime
+from typing import Any, Callable, ContextManager, Iterable, Optional, Tuple
 
-import pypandoc
-import tqdm
+import pypandoc  # type: ignore[import-untyped]
+import tqdm  # type: ignore[import-untyped]
 from jinja2 import Environment, FileSystemLoader, Template
 from muutils.json_serialize import json_serialize
-from muutils.spinner import NoOpContextManager, Spinner, SpinnerContext
+from muutils.spinner import NoOpContextManager, SpinnerContext
 
 from pdj_sitegen.config import Config
 from pdj_sitegen.consts import (
@@ -37,10 +37,10 @@ from pdj_sitegen.consts import (
 	Format,
 )
 from pdj_sitegen.exceptions import (
+	ConversionError,
+	MultipleExceptions,
 	RenderError,
 	SplitMarkdownError,
-	MultipleExceptions,
-	ConversionError,
 )
 
 
@@ -71,8 +71,10 @@ def split_md(
 		# if the regex matches, extract the frontmatter, body, and format
 		delimiter: str = match.group("delimiter")
 		frontmatter = match.group("frontmatter")
+		assert isinstance(frontmatter, str)
 		body = match.group("body")
-		fmt = FRONTMATTER_DELIMS.get(delimiter, None)
+		assert isinstance(body, str)
+		fmt = FRONTMATTER_DELIMS[delimiter]
 	else:
 		raise SplitMarkdownError(f"No frontmatter found in content\n{content = }")
 
@@ -189,7 +191,7 @@ def build_document_tree(
 			).strftime("%Y-%m-%d %H:%M:%S"),
 		}
 
-		frontmatter_rendered: dict[str, Any] = render(
+		frontmatter_rendered: str = render(
 			content=frontmatter_raw,
 			context={**frontmatter_context, "file_meta": file_meta},
 			jinja_env=jinja_env,
@@ -214,7 +216,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	- `bool` : if True, add the key to the list. if False, skip it.
 	- `str` : add the key and value to the list together.
 	- `iterable` : for each item in the iterable, add the key and item to the list together.
-			(i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
+	                (i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
 
 	# Parameters:
 	 - `pandoc_args : dict[str, Any]`
@@ -265,8 +267,11 @@ def convert_single_markdown_file(
 	intermediates_dir: Optional[Path] = None,
 ) -> None:
 	frontmatter: dict = doc.get("frontmatter", {})
-	body: dict = doc.get("body", "")
-	file_meta: str = doc.get("file_meta", {})
+	assert isinstance(frontmatter, dict)
+	body: str = doc.get("body", "")
+	assert isinstance(body, str)
+	file_meta: dict = doc.get("file_meta", {})
+	assert isinstance(file_meta, dict)
 	context: dict[str, Any] = {
 		**frontmatter,
 		"frontmatter": frontmatter,
@@ -409,8 +414,8 @@ def pipeline(
 	"""
 
 	# set up spinner context manager, depending on verbosity
-	sp_class: type[Spinner] = (
-		functools.partial(SpinnerContext, update_interval=0.01)
+	sp_class: type[ContextManager] = (
+		functools.partial(SpinnerContext, update_interval=0.01)  # type: ignore[assignment]
 		if verbose
 		else NoOpContextManager
 	)
@@ -418,12 +423,11 @@ def pipeline(
 	# get config path, change to the directory containing the config file
 	root_dir: Path = config_path.parent
 	root_dir_absolute: Path = root_dir.absolute()
-	config_path_rel: Path = config_path.name
 
 	# read config and set up Jinja environment
-	with sp_class(message="read config and set up jinja environment..."):
+	with sp_class(message="read config and set up jinja environment..."):  # type: ignore[call-arg]
 		# Read the config file
-		config: Config = Config.read(root_dir_absolute / config_path_rel)
+		config: Config = Config.read(root_dir_absolute / config_path.name)
 
 		# Set up Jinja2 environment
 		jinja_env = Environment(
@@ -467,7 +471,7 @@ def pipeline(
 	)
 
 	# copy resources dir to output dir
-	with sp_class(message="Copying resources directory..."):
+	with sp_class(message="Copying resources directory..."):  # type: ignore[call-arg]
 		src_abs: Path = root_dir_absolute / config.content_dir / config.resources_dir
 		out_abs: Path = root_dir_absolute / config.output_dir / config.resources_dir
 		shutil.copytree(

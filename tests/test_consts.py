@@ -1,7 +1,7 @@
 import os
 
 import pytest
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 from pdj_sitegen.consts import (
 	FORMAT_MAP,

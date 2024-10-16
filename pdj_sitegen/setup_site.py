@@ -6,7 +6,6 @@ from pathlib import Path
 import pdj_sitegen
 from pdj_sitegen.config import Config
 
-
 DEFAULT_CONFIG: Config = Config()
 
 FILE_LOCATIONS: dict[str, Path] = {
@@ -22,7 +21,7 @@ FILE_LOCATIONS: dict[str, Path] = {
 }
 
 
-def setup_site(root: Path = ".") -> None:
+def setup_site(root: Path = Path(".")) -> None:
 	for file, path_rel in FILE_LOCATIONS.items():
 		contents: str = (
 			importlib.resources.files(pdj_sitegen).joinpath("data", file).read_text()
