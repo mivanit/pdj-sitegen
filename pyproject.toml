@@ -10,8 +10,7 @@ requires-python = ">=3.11"
 
 dependencies = [
 	# basic utils
-	"muutils[array]>=0.6.14",
-	"zanj",
+	"muutils>=0.6.15",
 	# templating
 	"Jinja2>=3.1.4",
 	# yaml
