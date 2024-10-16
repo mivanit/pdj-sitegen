@@ -411,10 +411,12 @@ help: help-targets gen-version-info
 # ==================================================
 # (put them down here, or delimit with ~~~~~)
 
+BUILD_ARGS ?=
+
 .PHONY: site
 site:
 	@echo "generate site"
-	$(PYTHON) -m pdj_sitegen config.yaml
+	$(PYTHON) -m pdj_sitegen site_src/config.yml $(BUILD_ARGS)
 
 .PHONY: site-clean
 site-clean:

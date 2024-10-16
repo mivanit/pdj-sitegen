@@ -1,3 +1,4 @@
+# NOTE: the current working directory (cwd) will be set to the location of this file!
 # directory with markdown content files and resources, relative to cwd
 content_dir: content
 # directory with resources, relative to `content_dir`

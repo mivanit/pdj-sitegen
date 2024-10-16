@@ -108,7 +108,15 @@ This is a test."""
 
 	# Run the conversion
 	docs = mock_build_document_tree()
-	convert_markdown_files(docs, jinja_env, config, False, 0)
+	convert_markdown_files(
+		docs=docs,
+		jinja_env=jinja_env,
+		config=config,
+		output_root=tmp_path,
+		smart_rebuild=False,
+		rebuild_time=0,
+		verbose=True,
+	)
 
 	# Check if the output file was created
 	output_file = output_dir / "test.html"
@@ -131,7 +139,6 @@ def test_main(monkeypatch):
 	content_dir = tmp_path / "content"
 	output_dir = tmp_path / "output"
 	templates_dir = tmp_path / "templates"
-	resources_dir = Path("resources")
 
 	for d in [content_dir, output_dir, templates_dir]:
 		d.mkdir(parents=True, exist_ok=True)
@@ -139,12 +146,7 @@ def test_main(monkeypatch):
 	resources_dir_absolute.mkdir(parents=True, exist_ok=True)
 
 	# Create a test config file
-	config = Config(
-		content_dir=content_dir,
-		output_dir=output_dir,
-		templates_dir=templates_dir,
-		resources_dir=resources_dir,
-	)
+	config = Config()
 	config.save(config_path, "yaml")
 
 	# Create a test markdown file

@@ -21,10 +21,8 @@ from pdj_sitegen.consts import (  # StructureFormat,
 	Format,
 )
 
-DEFAULT_CONFIG_YAML: str = importlib.resources.read_text(
-	package=pdj_sitegen,
-	resource="data/config.yml",
-	encoding="utf-8",
+DEFAULT_CONFIG_YAML: str = (
+	importlib.resources.files(pdj_sitegen).joinpath("data", "config.yml").read_text()
 )
 
 

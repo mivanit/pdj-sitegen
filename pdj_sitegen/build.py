@@ -17,6 +17,7 @@ import argparse
 import os
 import re
 import shutil
+import functools
 from pathlib import Path
 from typing import Any, Iterable, Optional, Tuple
 
@@ -227,6 +228,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 
 def convert_single_markdown_file(
 	path: str,
+	output_root: Path,
 	doc: dict[str, Any],
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
@@ -280,7 +282,7 @@ def convert_single_markdown_file(
 	final_html: str = template.render({"__content__": html_content, **context})
 
 	# Output HTML file
-	output_path: Path = config.output_dir / file_meta["path_html"]
+	output_path: Path = output_root / config.output_dir / file_meta["path_html"]
 	output_path.parent.mkdir(parents=True, exist_ok=True)
 	with open(output_path, "w", encoding="utf-8") as f:
 		f.write(final_html)
@@ -290,6 +292,7 @@ def convert_markdown_files(
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
 	config: Config,
+	output_root: Path,
 	smart_rebuild: bool,
 	rebuild_time: float,
 	verbose: bool = True,
@@ -310,6 +313,7 @@ def convert_markdown_files(
 
 			convert_single_markdown_file(
 				path=path,
+				output_root=output_root,
 				doc=doc,
 				docs=docs,
 				jinja_env=jinja_env,
@@ -317,48 +321,42 @@ def convert_markdown_files(
 			)
 
 
-def main() -> None:
+def pipeline(
+	config_path: Path,
+	verbose: bool = True,
+	smart_rebuild: bool = False,
+) -> None:
 	"""build the website
 
 	# what this does:
 
+	- change directory to the directory containing the config file
 	- read the config file from the given path
 	- set up a Jinja2 environment according to the config
 	- build a document tree from the markdown files in the content directory
 	- process the markdown files into HTML files and write them to the output directory
 	"""
-	# parse args
-	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser()
-	arg_parser.add_argument("config_path", type=str, help="path to the config file")
-	arg_parser.add_argument(
-		"-q",
-		"--quiet",
-		action="store_true",
-		help="disable verbose output",
-	)
-	arg_parser.add_argument(
-		"-s",
-		"--smart-rebuild",
-		action="store_true",
-		help="enable smart rebuild",
-	)
-	args: argparse.Namespace = arg_parser.parse_args()
-
-	# get config path, change to the directory containing the config file
-	config_path: Path = Path(args.config_path)
-	os.chdir(config_path.parent)
 
 	# set up spinner context manager, depending on verbosity
-	sp_class: type[Spinner] = SpinnerContext if not args.quiet else NoOpContextManager
+	sp_class: type[Spinner] = (
+		functools.partial(SpinnerContext, update_interval=0.01)
+		if verbose
+		else NoOpContextManager
+	)
+
+	# get config path, change to the directory containing the config file
+	root_dir: Path = config_path.parent
+	root_dir_absolute: Path = root_dir.absolute()
+	config_path_rel: Path = config_path.name
 
 	# read config and set up Jinja environment
-	with sp_class(message="reading config and setting up jinja environment..."):
+	with sp_class(message="read config and set up jinja environment..."):
 		# Read the config file
-		config: Config = Config.read(config_path)
+		config: Config = Config.read(root_dir_absolute / config_path_rel)
 
 		# Set up Jinja2 environment
 		jinja_env = Environment(
-			loader=FileSystemLoader([config.templates_dir]),
+			loader=FileSystemLoader([root_dir_absolute / config.templates_dir]),
 			**config.jinja_env_kwargs,
 		)
 
@@ -375,10 +373,10 @@ def main() -> None:
 
 	# build doc tree (get .md files from `config.content_dir`, split content and frontmatter, execute templates on frontmatter)
 	docs: dict[str, dict[str, Any]] = build_document_tree(
-		content_dir=config.content_dir,
+		content_dir=root_dir_absolute / config.content_dir,
 		frontmatter_context={"config": config.serialize()},
 		jinja_env=jinja_env,
-		verbose=not args.quiet,
+		verbose=verbose,
 	)
 
 	# convert markdown files to HTML (execute templates with frontmatter on content, convert to HTML with Pandoc, execute template on HTML)
@@ -386,18 +384,45 @@ def main() -> None:
 		docs=docs,
 		jinja_env=jinja_env,
 		config=config,
-		smart_rebuild=args.smart_rebuild,
+		output_root=root_dir_absolute,
+		smart_rebuild=smart_rebuild,
 		rebuild_time=rebuild_time,
-		verbose=not args.quiet,
+		verbose=verbose,
 	)
 
 	# copy resources dir to output dir
 	with sp_class(message="Copying resources directory..."):
+		src_abs: Path = root_dir_absolute / config.content_dir / config.resources_dir
+		out_abs: Path = root_dir_absolute / config.output_dir / config.resources_dir
 		shutil.copytree(
-			config.content_dir / config.resources_dir,
-			config.output_dir / config.resources_dir,
+			src=src_abs,
+			dst=out_abs,
 			dirs_exist_ok=True,
 		)
+
+
+def main() -> None:
+	# parse args
+	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser()
+	arg_parser.add_argument("config_path", type=str, help="path to the config file")
+	arg_parser.add_argument(
+		"-q",
+		"--quiet",
+		action="store_true",
+		help="disable verbose output",
+	)
+	arg_parser.add_argument(
+		"-s",
+		"--smart-rebuild",
+		action="store_true",
+		help="enable smart rebuild",
+	)
+	args: argparse.Namespace = arg_parser.parse_args()
+	pipeline(
+		config_path=Path(args.config_path),
+		verbose=not args.quiet,
+		smart_rebuild=args.smart_rebuild,
+	)
 
 
 if __name__ == "__main__":
