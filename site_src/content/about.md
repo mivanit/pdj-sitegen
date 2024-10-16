@@ -1,7 +1,7 @@
 ---
 title: About
 __template__: about.html.jinja2
-pandoc_kwargs:
+__pandoc__:
   email-obfuscation: 'references' # options: none|javascript|references
 tags:
   - about

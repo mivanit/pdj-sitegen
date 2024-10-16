@@ -201,7 +201,7 @@ Pipeline:
         - Execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
 - Copy the resources directory to the output directory
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L0-L510)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L0-L515)
 
 
 
@@ -211,7 +211,7 @@ Pipeline:
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L47-L81)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L48-L82)
 
 
 parse markdown into a tuple of frontmatter, body, and frontmatter format
@@ -241,7 +241,7 @@ the possible delimiters are defined in `FRONTMATTER_DELIMS`.
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L84-L130)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L85-L131)
 
 
 render content given context and jinja2 environment. raise RenderError if error occurs
@@ -273,7 +273,7 @@ render content given context and jinja2 environment. raise RenderError if error 
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L133-L206)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L134-L207)
 
 
 given a dir of markdown files, return a dict of documents with rendered frontmatter
@@ -304,7 +304,7 @@ the dict for each document will contain:
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L209-L240)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L210-L241)
 
 
 given args to pass to pandoc, turn them into a list of strings we can actually pass
@@ -337,7 +337,7 @@ when a value is a:
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L243-L257)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L244-L258)
 
 
 Dump content to an intermediate file if intermediates_dir is specified
@@ -357,7 +357,7 @@ Dump content to an intermediate file if intermediates_dir is specified
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L260-L345)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L261-L350)
 
 
 
@@ -377,7 +377,7 @@ Dump content to an intermediate file if intermediates_dir is specified
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L348-L397)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L353-L402)
 
 
 
@@ -392,7 +392,7 @@ Dump content to an intermediate file if intermediates_dir is specified
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L400-L483)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L405-L488)
 
 
 build the website
@@ -412,7 +412,7 @@ build the website
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L486-L507)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L491-L512)
 
 
 
@@ -443,11 +443,11 @@ define the config, and also provide CLI for printing template
 
 define the config, and also provide CLI for printing template
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L166)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L172)
 
 
 
-- `DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to `content_dir`\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to `templates_dir`\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)\npandoc_kwargs:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'`
+- `DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to `content_dir`\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to `templates_dir`\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with `__pandoc__` from the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'`
 
 
 
@@ -497,7 +497,7 @@ save a file as json or yaml
 
 ### `class Config(muutils.json_serialize.serializable_dataclass.SerializableDataclass):` { #Config }
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L154)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L160)
 
 
 configuration for the site generator
@@ -515,7 +515,8 @@ configuration for the site generator
     build_time_fname: pathlib.Path = WindowsPath('.build_time'),
     jinja_env_kwargs: dict[str, typing.Any] = <factory>,
     globals_: dict[str, typing.Any] = <factory>,
-    pandoc_kwargs: dict[str, typing.Any] = <factory>,
+    prettify: bool = False,
+    __pandoc__: dict[str, typing.Any] = <factory>,
     pandoc_fmt_from: str = 'markdown+smart',
     pandoc_fmt_to: str = 'html'
 )
@@ -569,7 +570,7 @@ configuration for the site generator
 
 
 
-- `pandoc_kwargs: dict[str, typing.Any] `
+- `prettify: bool = False`
 
 
 
@@ -594,7 +595,7 @@ configuration for the site generator
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L143-L145)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L149-L151)
 
 
 
@@ -605,7 +606,7 @@ configuration for the site generator
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L147-L148)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L153-L154)
 
 
 
@@ -620,7 +621,7 @@ configuration for the site generator
 ```
 
 
-[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L150-L151)
+[View Source on GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L156-L157)
 
 
 
@@ -1135,7 +1136,7 @@ cli for setting up a site
 
 
 
-- `DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, pandoc_kwargs={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')`
+- `DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, prettify=False, __pandoc__={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')`
 
 
 

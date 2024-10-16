@@ -111,7 +111,7 @@
                                 <a class="variable" href="#Config.globals_">globals_</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Config.pandoc_kwargs">pandoc_kwargs</a>
+                                <a class="variable" href="#Config.prettify">prettify</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Config.pandoc_fmt_from">pandoc_fmt_from</a>
@@ -164,7 +164,7 @@
                         <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="mod-config-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L166" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L172" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -300,44 +300,50 @@
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>	<span class="p">)</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>	<span class="c1"># pandoc settings</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>	<span class="c1"># whether to prettify html with bs4</span>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>	<span class="c1"># ==================================================</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>	<span class="n">pandoc_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;mathjax&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>	<span class="p">)</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;markdown+smart&quot;</span><span class="p">,</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>	<span class="p">)</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">,</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>	<span class="n">prettify</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>		<span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>	<span class="p">)</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>	<span class="c1"># pandoc settings</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>	<span class="c1"># ==================================================</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>	<span class="n">__pandoc__</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;mathjax&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
 </span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>	<span class="p">)</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>	<span class="nd">@classmethod</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;markdown+smart&quot;</span><span class="p">,</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>	<span class="p">)</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">,</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>	<span class="p">)</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>	<span class="nd">@classmethod</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>	<span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>		<span class="bp">self</span><span class="o">.</span><span class="n">validate_fields_types</span><span class="p">()</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>	<span class="kn">import</span> <span class="nn">sys</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>		<span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>		<span class="n">config</span><span class="p">:</span> <span class="n">Config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>		<span class="c1"># fmt being an invalid `Format` will be handled downstream when we call `emit_data_file`</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>		<span class="n">config_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">config_str</span><span class="p">)</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>	<span class="k">else</span><span class="p">:</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>	<span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>		<span class="bp">self</span><span class="o">.</span><span class="n">validate_fields_types</span><span class="p">()</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>	<span class="kn">import</span> <span class="nn">sys</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>		<span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>		<span class="n">config</span><span class="p">:</span> <span class="n">Config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>		<span class="c1"># fmt being an invalid `Format` will be handled downstream when we call `emit_data_file`</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>		<span class="n">config_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">config_str</span><span class="p">)</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>	<span class="k">else</span><span class="p">:</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -347,7 +353,7 @@
                     <div class="attr variable">
             <span class="name">DEFAULT_CONFIG_YAML</span><span class="annotation">: str</span>        =
 <input id="DEFAULT_CONFIG_YAML-view-value" class="view-value-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-            <label class="view-value-button pdoc-button" for="DEFAULT_CONFIG_YAML-view-value"></label><span class="default_value">&#39;# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to `content_dir`\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to `templates_dir`\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)\npandoc_kwargs:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen&#39;</span>
+            <label class="view-value-button pdoc-button" for="DEFAULT_CONFIG_YAML-view-value"></label><span class="default_value">&#39;# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to `content_dir`\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to `templates_dir`\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with `__pandoc__` from the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen&#39;</span>
 
         
     </div>
@@ -483,7 +489,7 @@
                 <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="Config-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L154" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L160" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -542,31 +548,37 @@
 </span><span id="Config-128"><a href="#Config-128"><span class="linenos">128</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
 </span><span id="Config-129"><a href="#Config-129"><span class="linenos">129</span></a>	<span class="p">)</span>
 </span><span id="Config-130"><a href="#Config-130"><span class="linenos">130</span></a>
-</span><span id="Config-131"><a href="#Config-131"><span class="linenos">131</span></a>	<span class="c1"># pandoc settings</span>
+</span><span id="Config-131"><a href="#Config-131"><span class="linenos">131</span></a>	<span class="c1"># whether to prettify html with bs4</span>
 </span><span id="Config-132"><a href="#Config-132"><span class="linenos">132</span></a>	<span class="c1"># ==================================================</span>
-</span><span id="Config-133"><a href="#Config-133"><span class="linenos">133</span></a>
-</span><span id="Config-134"><a href="#Config-134"><span class="linenos">134</span></a>	<span class="n">pandoc_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="Config-135"><a href="#Config-135"><span class="linenos">135</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;mathjax&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-</span><span id="Config-136"><a href="#Config-136"><span class="linenos">136</span></a>	<span class="p">)</span>
-</span><span id="Config-137"><a href="#Config-137"><span class="linenos">137</span></a>	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="Config-138"><a href="#Config-138"><span class="linenos">138</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;markdown+smart&quot;</span><span class="p">,</span>
-</span><span id="Config-139"><a href="#Config-139"><span class="linenos">139</span></a>	<span class="p">)</span>
-</span><span id="Config-140"><a href="#Config-140"><span class="linenos">140</span></a>	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
-</span><span id="Config-141"><a href="#Config-141"><span class="linenos">141</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">,</span>
+</span><span id="Config-133"><a href="#Config-133"><span class="linenos">133</span></a>	<span class="n">prettify</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="Config-134"><a href="#Config-134"><span class="linenos">134</span></a>		<span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="Config-135"><a href="#Config-135"><span class="linenos">135</span></a>	<span class="p">)</span>
+</span><span id="Config-136"><a href="#Config-136"><span class="linenos">136</span></a>
+</span><span id="Config-137"><a href="#Config-137"><span class="linenos">137</span></a>	<span class="c1"># pandoc settings</span>
+</span><span id="Config-138"><a href="#Config-138"><span class="linenos">138</span></a>	<span class="c1"># ==================================================</span>
+</span><span id="Config-139"><a href="#Config-139"><span class="linenos">139</span></a>
+</span><span id="Config-140"><a href="#Config-140"><span class="linenos">140</span></a>	<span class="n">__pandoc__</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="Config-141"><a href="#Config-141"><span class="linenos">141</span></a>		<span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;mathjax&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
 </span><span id="Config-142"><a href="#Config-142"><span class="linenos">142</span></a>	<span class="p">)</span>
-</span><span id="Config-143"><a href="#Config-143"><span class="linenos">143</span></a>
-</span><span id="Config-144"><a href="#Config-144"><span class="linenos">144</span></a>	<span class="nd">@classmethod</span>
-</span><span id="Config-145"><a href="#Config-145"><span class="linenos">145</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="Config-146"><a href="#Config-146"><span class="linenos">146</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
-</span><span id="Config-147"><a href="#Config-147"><span class="linenos">147</span></a>
-</span><span id="Config-148"><a href="#Config-148"><span class="linenos">148</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="Config-149"><a href="#Config-149"><span class="linenos">149</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
-</span><span id="Config-150"><a href="#Config-150"><span class="linenos">150</span></a>
-</span><span id="Config-151"><a href="#Config-151"><span class="linenos">151</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config-152"><a href="#Config-152"><span class="linenos">152</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="Config-143"><a href="#Config-143"><span class="linenos">143</span></a>	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="Config-144"><a href="#Config-144"><span class="linenos">144</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;markdown+smart&quot;</span><span class="p">,</span>
+</span><span id="Config-145"><a href="#Config-145"><span class="linenos">145</span></a>	<span class="p">)</span>
+</span><span id="Config-146"><a href="#Config-146"><span class="linenos">146</span></a>	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">serializable_field</span><span class="p">(</span>
+</span><span id="Config-147"><a href="#Config-147"><span class="linenos">147</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">,</span>
+</span><span id="Config-148"><a href="#Config-148"><span class="linenos">148</span></a>	<span class="p">)</span>
+</span><span id="Config-149"><a href="#Config-149"><span class="linenos">149</span></a>
+</span><span id="Config-150"><a href="#Config-150"><span class="linenos">150</span></a>	<span class="nd">@classmethod</span>
+</span><span id="Config-151"><a href="#Config-151"><span class="linenos">151</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="Config-152"><a href="#Config-152"><span class="linenos">152</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span><span id="Config-153"><a href="#Config-153"><span class="linenos">153</span></a>
-</span><span id="Config-154"><a href="#Config-154"><span class="linenos">154</span></a>	<span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Config-155"><a href="#Config-155"><span class="linenos">155</span></a>		<span class="bp">self</span><span class="o">.</span><span class="n">validate_fields_types</span><span class="p">()</span>
+</span><span id="Config-154"><a href="#Config-154"><span class="linenos">154</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="Config-155"><a href="#Config-155"><span class="linenos">155</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="Config-156"><a href="#Config-156"><span class="linenos">156</span></a>
+</span><span id="Config-157"><a href="#Config-157"><span class="linenos">157</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config-158"><a href="#Config-158"><span class="linenos">158</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="Config-159"><a href="#Config-159"><span class="linenos">159</span></a>
+</span><span id="Config-160"><a href="#Config-160"><span class="linenos">160</span></a>	<span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Config-161"><a href="#Config-161"><span class="linenos">161</span></a>		<span class="bp">self</span><span class="o">.</span><span class="n">validate_fields_types</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -577,7 +589,7 @@
                             <div id="Config.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">Config</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">content_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">resources_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">templates_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;templates&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">default_template</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;default.html.jinja2&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">intermediates_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">output_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">build_time_fname</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;.build_time&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">jinja_env_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">globals_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">pandoc_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;markdown+smart&#39;</span>,</span><span class="param">	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span></span>)</span>
+        <span class="name">Config</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">content_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">resources_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">templates_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;templates&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">default_template</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;default.html.jinja2&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">intermediates_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">output_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">build_time_fname</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">WindowsPath</span><span class="p">(</span><span class="s1">&#39;.build_time&#39;</span><span class="p">)</span>,</span><span class="param">	<span class="n">jinja_env_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">globals_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">prettify</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">__pandoc__</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">factory</span><span class="o">&gt;</span>,</span><span class="param">	<span class="n">pandoc_fmt_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;markdown+smart&#39;</span>,</span><span class="param">	<span class="n">pandoc_fmt_to</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;html&#39;</span></span>)</span>
 
         
     </div>
@@ -692,13 +704,14 @@
     
 
                             </div>
-                            <div id="Config.pandoc_kwargs" class="classattr">
+                            <div id="Config.prettify" class="classattr">
                                 <div class="attr variable">
-            <span class="name">pandoc_kwargs</span><span class="annotation">: dict[str, typing.Any]</span>
+            <span class="name">prettify</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
 
         
     </div>
-    <a class="headerlink" href="#Config.pandoc_kwargs"></a>
+    <a class="headerlink" href="#Config.prettify"></a>
     
     
 
@@ -738,7 +751,7 @@
                 <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="Config.read-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L143-L145" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L149-L151" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -746,9 +759,9 @@
 
     </div>
     <a class="headerlink" href="#Config.read"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.read-144"><a href="#Config.read-144"><span class="linenos">144</span></a>	<span class="nd">@classmethod</span>
-</span><span id="Config.read-145"><a href="#Config.read-145"><span class="linenos">145</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="Config.read-146"><a href="#Config.read-146"><span class="linenos">146</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.read-150"><a href="#Config.read-150"><span class="linenos">150</span></a>	<span class="nd">@classmethod</span>
+</span><span id="Config.read-151"><a href="#Config.read-151"><span class="linenos">151</span></a>	<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="Config.read-152"><a href="#Config.read-152"><span class="linenos">152</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -765,7 +778,7 @@
                 <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="Config.as_str-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L147-L148" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L153-L154" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -773,8 +786,8 @@
 
     </div>
     <a class="headerlink" href="#Config.as_str"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.as_str-148"><a href="#Config.as_str-148"><span class="linenos">148</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="Config.as_str-149"><a href="#Config.as_str-149"><span class="linenos">149</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.as_str-154"><a href="#Config.as_str-154"><span class="linenos">154</span></a>	<span class="k">def</span> <span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="Config.as_str-155"><a href="#Config.as_str-155"><span class="linenos">155</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -791,7 +804,7 @@
                 <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="Config.save-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L150-L151" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L156-L157" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -799,8 +812,8 @@
 
     </div>
     <a class="headerlink" href="#Config.save"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.save-151"><a href="#Config.save-151"><span class="linenos">151</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config.save-152"><a href="#Config.save-152"><span class="linenos">152</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.save-157"><a href="#Config.save-157"><span class="linenos">157</span></a>	<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Format</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config.save-158"><a href="#Config.save-158"><span class="linenos">158</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
 </span></pre></div>
 
 

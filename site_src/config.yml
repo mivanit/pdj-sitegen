@@ -13,11 +13,13 @@ output_dir: ../docs/demo_site/
 intermediates_dir: ../tests/_temp/demo_site_intermediates
 # kwargs to pass to the Jinja2 environment
 jinja_env_kwargs: {}
+# whether to prettify with bs4
+prettify: true
 # pandoc formats
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html
-# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)
-pandoc_kwargs:
+# extra kwargs to pass to pandoc (this will be augmented with `__pandoc__` from the frontmatter of a file)
+__pandoc__:
   mathjax: true
 # extra globals to pass -- this can be anything
 globals_:
