@@ -28,6 +28,7 @@ import tqdm  # type: ignore[import-untyped]
 from jinja2 import Environment, FileSystemLoader, Template
 from muutils.json_serialize import json_serialize
 from muutils.spinner import NoOpContextManager, SpinnerContext
+from bs4 import BeautifulSoup
 
 from pdj_sitegen.config import Config
 from pdj_sitegen.consts import (
@@ -314,8 +315,8 @@ def convert_single_markdown_file(
 	# Convert Markdown to HTML using Pandoc
 	pandoc_args: list[str] = process_pandoc_args(
 		{
-			**config.pandoc_kwargs,
-			**context["frontmatter"].get("pandoc_kwargs", {}),
+			**config.__pandoc__,
+			**context["frontmatter"].get("__pandoc__", {}),
 		}
 	)
 
@@ -337,12 +338,13 @@ def convert_single_markdown_file(
 	# Render final HTML
 	template: Template = jinja_env.get_template(template_name)
 	final_html: str = template.render({"__content__": html_content, **context})
+	final_html_pretty: str = BeautifulSoup(final_html, "html.parser").prettify(formatter="minimal")
 
 	# Output HTML file
 	output_path: Path = output_root / config.output_dir / file_meta["path_html"]
 	output_path.parent.mkdir(parents=True, exist_ok=True)
 	with open(output_path, "w", encoding="utf-8") as f:
-		f.write(final_html)
+		f.write(final_html_pretty)
 
 
 def convert_markdown_files(

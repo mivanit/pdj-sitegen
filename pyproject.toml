@@ -30,6 +30,8 @@ dependencies = [
 	"pandocfilters>=1.5.1",
 	# progress bar
 	"tqdm>=4.66.5",
+	# pretty printing html
+	"beautifulsoup4>=4.12.3",
 ]
 [tool.uv]
 dev-dependencies = [

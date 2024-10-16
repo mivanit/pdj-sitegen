@@ -23,7 +23,7 @@ def test_config_default_values():
 	assert config.build_time_fname == Path(".build_time")
 	assert config.jinja_env_kwargs == {}
 	assert config.globals_ == {}
-	assert config.pandoc_kwargs == {"mathjax": True}
+	assert config.__pandoc__ == {"mathjax": True}
 	assert config.pandoc_fmt_from == "markdown+smart"
 	assert config.pandoc_fmt_to == "html"
 
@@ -39,7 +39,7 @@ def test_config_custom_values():
 		"build_time_fname": "custom_build_time",
 		"jinja_env_kwargs": {"autoescape": True, "trim_blocks": True},
 		"globals_": {"site_name": "My Site", "author": "John Doe"},
-		"pandoc_kwargs": {"mathjax": False, "toc": True, "number-sections": True},
+		"__pandoc__": {"mathjax": False, "toc": True, "number-sections": True},
 		"pandoc_fmt_from": "markdown",
 		"pandoc_fmt_to": "html5",
 		"intermediates_dir": None,
@@ -57,7 +57,7 @@ def test_config_custom_values():
 	assert config.build_time_fname == Path("custom_build_time")
 	assert config.jinja_env_kwargs == {"autoescape": True, "trim_blocks": True}
 	assert config.globals_ == {"site_name": "My Site", "author": "John Doe"}
-	assert config.pandoc_kwargs == {
+	assert config.__pandoc__ == {
 		"mathjax": False,
 		"toc": True,
 		"number-sections": True,
@@ -78,7 +78,7 @@ def test_config_partial_custom_values():
 	assert config.jinja_env_kwargs == {"autoescape": True}
 	# Check that other values remain default
 	assert config.resources_dir == Path("resources")
-	assert config.pandoc_kwargs == {"mathjax": True}
+	assert config.__pandoc__ == {"mathjax": True}
 
 
 @pytest.mark.parametrize("fmt", ["yaml", "json"])

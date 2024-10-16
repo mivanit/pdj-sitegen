@@ -130,7 +130,7 @@ class Config(SerializableDataclass):
 	# pandoc settings
 	# ==================================================
 
-	pandoc_kwargs: dict[str, Any] = serializable_field(
+	__pandoc__: dict[str, Any] = serializable_field(
 		default_factory=lambda: {"mathjax": True},
 	)
 	pandoc_fmt_from: str = serializable_field(

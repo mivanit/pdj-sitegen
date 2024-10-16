@@ -16,8 +16,8 @@ jinja_env_kwargs: {}
 # pandoc formats
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html
-# extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)
-pandoc_kwargs:
+# extra kwargs to pass to pandoc (this will be augmented with `__pandoc__` from the frontmatter of a file)
+__pandoc__:
   mathjax: true
 # extra globals to pass -- this can be anything
 globals_:
