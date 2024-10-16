@@ -36,7 +36,12 @@ from pdj_sitegen.consts import (
 	FRONTMATTER_REGEX,
 	Format,
 )
-from pdj_sitegen.exceptions import RenderError, SplitMarkdownError
+from pdj_sitegen.exceptions import (
+	RenderError,
+	SplitMarkdownError,
+	MultipleExceptions,
+	ConversionError,
+)
 
 
 def split_md(
@@ -244,7 +249,7 @@ def dump_intermediate(
 	if intermediates_dir:
 		if subdir is None:
 			subdir = fmt
-		output_path: Path = intermediates_dir / fmt / (path + fmt)
+		output_path: Path = intermediates_dir / fmt / f"{path}.{fmt}"
 		output_path.parent.mkdir(parents=True, exist_ok=True)
 		with open(output_path, "w", encoding="utf-8") as f:
 			f.write(content)
@@ -348,6 +353,7 @@ def convert_markdown_files(
 	n_files: int = len(docs)
 	path: str
 	doc: dict[str, Any]
+	exceptions: dict[str, Exception] = dict()
 	if verbose:
 		print(f"Converting {n_files} markdown files to HTML...")
 	for idx, (path, doc) in enumerate(docs.items()):
@@ -359,15 +365,31 @@ def convert_markdown_files(
 			if verbose:
 				print(f"\t({idx+1:3} / {n_files})  [building..]  '{path_raw}'")
 
-			convert_single_markdown_file(
-				path=path,
-				output_root=output_root,
-				doc=doc,
-				docs=docs,
-				jinja_env=jinja_env,
-				config=config,
-				intermediates_dir=intermediates_dir,
-			)
+			try:
+				convert_single_markdown_file(
+					path=path,
+					output_root=output_root,
+					doc=doc,
+					docs=docs,
+					jinja_env=jinja_env,
+					config=config,
+					intermediates_dir=intermediates_dir,
+				)
+			except Exception as e:
+				exceptions[path_raw] = e
+				if verbose:
+					print(f"\t  Error converting '{path_raw}'!!!")
+	if exceptions:
+		first_key: str = next(iter(exceptions.keys()))
+		if len(exceptions) == 1:
+			raise ConversionError(
+				f"error converting file '{first_key}'\n{exceptions[first_key]}"
+			) from exceptions[first_key]
+		else:
+			raise MultipleExceptions(
+				f"failed to convert {len(exceptions)}/{n_files} files",
+				exceptions,
+			) from exceptions[first_key]
 
 
 def pipeline(
