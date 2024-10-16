@@ -127,6 +127,12 @@ class Config(SerializableDataclass):
 		default_factory=dict,
 	)
 
+	# whether to prettify html with bs4
+	# ==================================================
+	prettify: bool = serializable_field(
+		default=False,
+	)
+
 	# pandoc settings
 	# ==================================================
 

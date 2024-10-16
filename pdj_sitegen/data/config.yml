@@ -13,6 +13,8 @@ output_dir: docs
 intermediates_dir: null
 # kwargs to pass to the Jinja2 environment
 jinja_env_kwargs: {}
+# whether to prettify with bs4
+prettify: false
 # pandoc formats
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html

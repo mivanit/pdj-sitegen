@@ -43,6 +43,7 @@ def test_config_custom_values():
 		"pandoc_fmt_from": "markdown",
 		"pandoc_fmt_to": "html5",
 		"intermediates_dir": None,
+		"prettify": False,
 	}
 	config = Config.load(custom_config)
 
