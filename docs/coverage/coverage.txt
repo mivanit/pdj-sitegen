@@ -2,7 +2,7 @@ Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
 pdj_sitegen\__init__.py                     0      0   100%
 pdj_sitegen\__main__.py                     3      3     0%   1-4
-pdj_sitegen\build.py                      149     22    85%   120-121, 238, 252-257, 367-368, 383-386, 388-394, 442-444, 509
+pdj_sitegen\build.py                      149     20    87%   120-121, 238, 252-257, 367-368, 383-386, 388-394, 511
 pdj_sitegen\config.py                      75     13    83%   47-51, 148, 158-167
 pdj_sitegen\consts.py                      12      0   100%
 pdj_sitegen\exceptions.py                  28      7    75%   47-54, 65-67, 70
@@ -17,4 +17,4 @@ tests\test_consts.py                       40      0   100%
 tests\test_pdj_sitegen.py                  72      0   100%
 tests\test_setup.py                        24      0   100%
 ---------------------------------------------------------------------
-TOTAL                                     620    130    79%
+TOTAL                                     620    128    79%

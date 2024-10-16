@@ -1,4 +1,4 @@
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -127,7 +127,7 @@ Usage
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -366,7 +366,7 @@ def main
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -530,7 +530,7 @@ Inherited Members
 -   diff
 -   update_from_nested_dict
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -562,7 +562,7 @@ View Source on GitHub
 
 -   FRONTMATTER_REGEX: re.Pattern = re.compile('^(?P<delimiter>\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P<frontmatter>.*?)\\n(?P=delimiter)\\n(?P<body>.*)', re.DOTALL)
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -674,7 +674,7 @@ Inherited Members
 -   add_note
 -   args
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Submodules
 
@@ -685,7 +685,7 @@ View Source on GitHub
 
 pdj_sitegen.filters
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -772,7 +772,7 @@ def test_filter
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 API Documentation
 
@@ -792,7 +792,7 @@ View Source on GitHub
 
 convert dendron links to markdown links
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 
@@ -806,7 +806,7 @@ install pandoc using pypandoc
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.1
+  docs for pdj_sitegen v0.0.2
 
 Contents
 

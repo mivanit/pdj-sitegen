@@ -1,5 +1,5 @@
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -93,7 +93,7 @@ python -m pdj_sitegen your_config.yaml
 - [`setup_site`](#setup_site)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/__init__.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py)
 
 # `pdj_sitegen`
 
@@ -178,10 +178,10 @@ python -m pdj_sitegen your_config.yaml
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/__init__.py#L0-L2)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py#L0-L2)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -213,7 +213,7 @@ Pipeline:
 - [`main`](#main)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py)
 
 # `pdj_sitegen.build`
 
@@ -233,7 +233,7 @@ Pipeline:
 - Copy the resources directory to the output directory
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L0-L508)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L0-L510)
 
 ### `def split_md`
 
@@ -242,7 +242,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L0-L508)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L47-L81)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L47-L81)
 
 parse markdown into a tuple of frontmatter, body, and frontmatter format
 
@@ -274,7 +274,7 @@ frontmatter and body. the possible delimiters are defined in
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L84-L130)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L84-L130)
 
 render content given context and jinja2 environment. raise RenderError
 if error occurs
@@ -306,7 +306,7 @@ if error occurs
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L133-L206)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L133-L206)
 
 given a dir of markdown files, return a dict of documents with rendered
 frontmatter
@@ -339,7 +339,7 @@ removed. the dict for each document will contain:
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L209-L240)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L209-L240)
 
 given args to pass to pandoc, turn them into a list of strings we can
 actually pass
@@ -376,7 +376,7 @@ when a value is a:
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L243-L257)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L243-L257)
 
 Dump content to an intermediate file if intermediates_dir is specified
 
@@ -395,7 +395,7 @@ Dump content to an intermediate file if intermediates_dir is specified
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L260-L345)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L260-L345)
 
 ### `def convert_markdown_files`
 
@@ -413,7 +413,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L260-L345)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L348-L397)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L348-L397)
 
 ### `def pipeline`
 
@@ -426,7 +426,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L348-L397)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L400-L481)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L400-L483)
 
 build the website
 
@@ -446,10 +446,10 @@ build the website
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/build.py#L484-L505)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L486-L507)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -464,14 +464,14 @@ define the config, and also provide CLI for printing template
 - [`Config`](#Config)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py)
 
 # `pdj_sitegen.config`
 
 define the config, and also provide CLI for printing template
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L0-L166)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L166)
 
 - `DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to`content_dir`\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to`templates_dir`\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with`pandoc_args`from the frontmatter of a file)\npandoc_kwargs:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'`
 
@@ -485,7 +485,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L0-L166)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L35-L51)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L35-L51)
 
 read a file from any of json, yaml, or toml
 
@@ -496,7 +496,7 @@ read a file from any of json, yaml, or toml
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L54-L64)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L54-L64)
 
 emit a file as json or yaml
 
@@ -511,14 +511,14 @@ emit a file as json or yaml
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L67-L76)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L67-L76)
 
 save a file as json or yaml
 
 ### `class Config(muutils.json_serialize.serializable_dataclass.SerializableDataclass):`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L79-L154)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L154)
 
 configuration for the site generator
 
@@ -576,7 +576,7 @@ configuration for the site generator
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L143-L145)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L143-L145)
 
 ### `def as_str`
 
@@ -585,7 +585,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L143-L145)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L147-L148)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L147-L148)
 
 ### `def save`
 
@@ -598,7 +598,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L147-L148)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L150-L151)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L150-L151)
 
 ### `def serialize`
 
@@ -607,7 +607,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L150-L151)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L697-L753)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L697-L753)
 
 returns the class as a dict, implemented by using
 `@serializable_dataclass` decorator
@@ -619,7 +619,7 @@ returns the class as a dict, implemented by using
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L760-L824)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L760-L824)
 
 takes in an appropriately structured dict and returns an instance of the
 class, implemented by using `@serializable_dataclass` decorator
@@ -634,7 +634,7 @@ class, implemented by using `@serializable_dataclass` decorator
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/config.py#L303-L312)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L303-L312)
 
 validate the types of all the fields on a `SerializableDataclass`. calls
 `SerializableDataclass__validate_field_type` for each field
@@ -646,7 +646,7 @@ validate the types of all the fields on a `SerializableDataclass`. calls
 - [`update_from_nested_dict`](#Config.update_from_nested_dict)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -661,14 +661,14 @@ type definitions, format maps and parsers, and frontmatter regex
 - [`FRONTMATTER_REGEX`](#FRONTMATTER_REGEX)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/consts.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/consts.py)
 
 # `pdj_sitegen.consts`
 
 type definitions, format maps and parsers, and frontmatter regex
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/consts.py#L0-L49)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/consts.py#L0-L49)
 
 - `Format = typing.Literal['yaml', 'json', 'toml']`
 
@@ -681,7 +681,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/consts.py#L0-L49)
 - `FRONTMATTER_REGEX: re.Pattern = re.compile('^(?P<delimiter>\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P<frontmatter>.*?)\\n(?P=delimiter)\\n(?P<body>.*)', re.DOTALL)`
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -695,19 +695,19 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/consts.py#L0-L49)
 - [`MultipleExceptions`](#MultipleExceptions)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py)
 
 # `pdj_sitegen.exceptions`
 
 `SplitMarkdownError` and `RenderError` exceptions
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L0-L72)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L0-L72)
 
 ### `class SplitMarkdownError(builtins.Exception):`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L8-L11)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L8-L11)
 
 error while splitting markdown
 
@@ -724,7 +724,7 @@ error while splitting markdown
 ### `class ConversionError(builtins.Exception):`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L14-L17)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L14-L17)
 
 error while converting markdown
 
@@ -741,7 +741,7 @@ error while converting markdown
 ### `class RenderError(builtins.Exception):`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L20-L60)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L20-L60)
 
 error while rendering template
 
@@ -759,7 +759,7 @@ error while rendering template
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L23-L38)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L23-L38)
 
 - `message: str`
 
@@ -782,7 +782,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L23-L38)
 ### `class MultipleExceptions(builtins.Exception):`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L63-L73)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L63-L73)
 
 Common base class for all non-exit exceptions.
 
@@ -793,7 +793,7 @@ Common base class for all non-exit exceptions.
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L64-L67)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L64-L67)
 
 - `message: str`
 
@@ -806,7 +806,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L64-L67)
 - [`args`](#MultipleExceptions.args)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Submodules
 
@@ -814,12 +814,12 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/exceptions.py#L64-L67)
 - [`links_md2html`](#links_md2html)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/__init__.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/__init__.py)
 
 # `pdj_sitegen.filters`
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -842,7 +842,7 @@ By [@mivanit](mivanit.github.io)
 - [`test_filter`](#test_filter)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py)
 
 # `pdj_sitegen.filters.csv_code_table`
 
@@ -852,7 +852,7 @@ python pandoc filter replicating
 By [@mivanit](mivanit.github.io)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L0-L163)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L0-L163)
 
 - `ALIGN_MAP: dict[str, str] = {'L': 'AlignLeft', 'C': 'AlignCenter', 'R': 'AlignRight', 'D': 'AlignDefault'}`
 
@@ -863,7 +863,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L22-L23)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L22-L23)
 
 ### `def Plain_factory`
 
@@ -872,7 +872,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L26-L33)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L26-L33)
 
 ### `def table_cell_factory`
 
@@ -881,7 +881,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L36-L43)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L36-L43)
 
 ### `def table_row_factory`
 
@@ -890,7 +890,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L46-L47)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L46-L47)
 
 ### `def header_factory`
 
@@ -899,7 +899,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L50-L54)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L50-L54)
 
 ### `def body_factory`
 
@@ -908,7 +908,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L57-L65)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L57-L65)
 
 ### `def keyvals_process`
 
@@ -917,7 +917,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L68-L69)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L68-L69)
 
 ### `def codeblock_process`
 
@@ -926,7 +926,7 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L72-L148)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L72-L148)
 
 ### `def test_filter`
 
@@ -935,22 +935,22 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/csv_code_table.py#L151-L159)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L151-L159)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## API Documentation
 
 - [`links_md2html`](#links_md2html)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/links_md2html.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py)
 
 # `pdj_sitegen.filters.links_md2html`
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/links_md2html.py#L0-L24)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L0-L24)
 
 ### `def links_md2html`
 
@@ -959,29 +959,29 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/links_md2html.
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/filters/links_md2html.py#L4-L21)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L4-L21)
 
 convert dendron links to markdown links
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
 install pandoc using pypandoc
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/install_pandoc.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/install_pandoc.py)
 
 # `pdj_sitegen.install_pandoc`
 
 install pandoc using pypandoc
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/install_pandoc.py#L0-L5)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/install_pandoc.py#L0-L5)
 
 > docs for [`pdj_sitegen`](https://github.com/mivanit/pdj-sitegen)
-> v0.0.1
+> v0.0.2
 
 ## Contents
 
@@ -994,14 +994,14 @@ cli for setting up a site
 - [`setup_site`](#setup_site)
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/setup_site.py)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py)
 
 # `pdj_sitegen.setup_site`
 
 cli for setting up a site
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/setup_site.py#L0-L46)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py#L0-L46)
 
 - `DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, pandoc_kwargs={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')`
 
@@ -1014,4 +1014,4 @@ GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/setup_site.py#L0-L46)
 ```
 
 [View Source on
-GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.1/setup_site.py#L24-L33)
+GitHub](https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py#L24-L33)
