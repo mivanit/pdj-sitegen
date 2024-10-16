@@ -42,6 +42,7 @@ def test_config_custom_values():
 		"pandoc_kwargs": {"mathjax": False, "toc": True, "number-sections": True},
 		"pandoc_fmt_from": "markdown",
 		"pandoc_fmt_to": "html5",
+		"intermediates_dir": None,
 	}
 	config = Config.load(custom_config)
 

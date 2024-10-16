@@ -9,9 +9,8 @@ templates_dir: templates
 default_template: default.html.jinja2
 # output directory, relative to cwd
 output_dir: docs
-# extra globals to pass -- this can be anything
-globals_:
-  pdjsg_url: https://github.com/mivanit/pdj-sitegen
+# intermediate files directory -- if null, then no intermediate files will be saved
+intermediates_dir: null
 # kwargs to pass to the Jinja2 environment
 jinja_env_kwargs: {}
 # pandoc formats
@@ -20,3 +19,6 @@ pandoc_fmt_to: html
 # extra kwargs to pass to pandoc (this will be augmented with `pandoc_args` from the frontmatter of a file)
 pandoc_kwargs:
   mathjax: true
+# extra globals to pass -- this can be anything
+globals_:
+  pdjsg_url: https://github.com/mivanit/pdj-sitegen

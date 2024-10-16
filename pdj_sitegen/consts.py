@@ -45,6 +45,6 @@ FRONTMATTER_REGEX: re.Pattern = re.compile(
 )
 
 _PATH_FIELD_SERIALIZATION_KWARGS: dict[str, Callable] = dict(
-	serialization_fn=lambda x: x.as_posix(),
-	deserialize_fn=lambda x: Path(x),
+	serialization_fn=lambda x: x.as_posix() if x else None,
+	deserialize_fn=lambda x: Path(x) if x else None,
 )

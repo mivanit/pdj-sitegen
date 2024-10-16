@@ -284,9 +284,9 @@ docs-clean:
 	rm -rf $(DOCS_DIR)/combined/
 	rm -rf $(DOCS_DIR)/$(PACKAGE_NAME)/
 	rm -rf $(COVERAGE_REPORTS_DIR)/
-	rm $(DOCS_DIR)/$(PACKAGE_NAME).html
-	rm $(DOCS_DIR)/index.html
-	rm $(DOCS_DIR)/search.js
+	rm -f $(DOCS_DIR)/$(PACKAGE_NAME).html
+	rm -f $(DOCS_DIR)/index.html
+	rm -f $(DOCS_DIR)/search.js
 
 
 # ==================================================

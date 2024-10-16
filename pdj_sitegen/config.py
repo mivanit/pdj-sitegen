@@ -93,6 +93,10 @@ class Config(SerializableDataclass):
 		default=Path("default.html.jinja2"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
+	intermediates_dir: Optional[Path] = serializable_field(
+		default=None,
+		**_PATH_FIELD_SERIALIZATION_KWARGS,
+	)
 	output_dir: Path = serializable_field(
 		default=Path("output"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,

@@ -4,27 +4,29 @@ Pipeline:
 
 - Get all markdown files
 - For each markdown file:
-    - Regex frontmatter and content from the markdown file
-    - Execute a template on the frontmatter, with globals_ and file metadata as context
-    - Load the frontmatter into a dict
-    - Execute a template on the content with frontmatter, globals_, file metadata, and all other docs as context
-    - Convert the content to HTML using Pandoc
-    - Execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
+	- Regex frontmatter and content from the markdown file
+	- Execute a template on the frontmatter, with globals_ and file metadata as context
+	- Load the frontmatter into a dict
+	- Execute a template on the content with frontmatter, globals_, file metadata, and all other docs as context
+	- Convert the content to HTML using Pandoc
+	- Execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
 - Copy the resources directory to the output directory
 """
 
 import argparse
+import json
 import os
 import re
 import shutil
 import functools
 from pathlib import Path
-from typing import Any, Iterable, Optional, Tuple
+from typing import Any, Callable, Iterable, Optional, Tuple
 import datetime
 
 import pypandoc
 import tqdm
 from jinja2 import Environment, FileSystemLoader, Template
+from muutils.json_serialize import json_serialize
 from muutils.spinner import NoOpContextManager, Spinner, SpinnerContext
 
 from pdj_sitegen.config import Config
@@ -207,7 +209,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	- `bool` : if True, add the key to the list. if False, skip it.
 	- `str` : add the key and value to the list together.
 	- `iterable` : for each item in the iterable, add the key and item to the list together.
-	        (i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
+			(i.e. `"filters": ["filter_a", "filter_b"]` -> `["--filters", "filter_a", "--filters", "filter_b"]`)
 
 	# Parameters:
 	 - `pandoc_args : dict[str, Any]`
@@ -231,6 +233,23 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	return args
 
 
+def dump_intermediate(
+	content: str,
+	intermediates_dir: Optional[Path],
+	fmt: str,
+	path: str,
+	subdir: str | None = None,
+) -> None:
+	"""Dump content to an intermediate file if intermediates_dir is specified"""
+	if intermediates_dir:
+		if subdir is None:
+			subdir = fmt
+		output_path: Path = intermediates_dir / fmt / (path + fmt)
+		output_path.parent.mkdir(parents=True, exist_ok=True)
+		with open(output_path, "w", encoding="utf-8") as f:
+			f.write(content)
+
+
 def convert_single_markdown_file(
 	path: str,
 	output_root: Path,
@@ -238,6 +257,7 @@ def convert_single_markdown_file(
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
 	config: Config,
+	intermediates_dir: Optional[Path] = None,
 ) -> None:
 	frontmatter: dict = doc.get("frontmatter", {})
 	body: dict = doc.get("body", "")
@@ -253,6 +273,24 @@ def convert_single_markdown_file(
 		},
 	}
 
+	dump_intermediate_partial: Callable = functools.partial(
+		dump_intermediate,
+		intermediates_dir=intermediates_dir,
+		path=file_meta["path"],
+	)
+
+	# dump frontmatter to intermediates
+	dump_intermediate_partial(
+		content=str(frontmatter),
+		fmt="txt",
+		subdir="frontmatter_txt",
+	)
+	dump_intermediate_partial(
+		content=json.dumps(json_serialize(frontmatter)),
+		fmt="json",
+		subdir="frontmatter_json",
+	)
+
 	# Now, execute a template on the content with context
 	# Render Markdown content with Jinja2
 	rendered_md: str = render(
@@ -260,6 +298,8 @@ def convert_single_markdown_file(
 		context=context,
 		jinja_env=jinja_env,
 	)
+
+	dump_intermediate_partial(content=rendered_md, fmt="md")
 
 	# Convert Markdown to HTML using Pandoc
 	pandoc_args: list[str] = process_pandoc_args(
@@ -275,6 +315,8 @@ def convert_single_markdown_file(
 		format=config.pandoc_fmt_from,
 		extra_args=pandoc_args,
 	)
+
+	dump_intermediate_partial(content=html_content, fmt="html")
 
 	# Determine which HTML template to use
 	template_name: str = frontmatter.get(
@@ -301,6 +343,7 @@ def convert_markdown_files(
 	smart_rebuild: bool,
 	rebuild_time: float,
 	verbose: bool = True,
+	intermediates_dir: Optional[Path] = None,
 ) -> None:
 	n_files: int = len(docs)
 	path: str
@@ -323,6 +366,7 @@ def convert_markdown_files(
 				docs=docs,
 				jinja_env=jinja_env,
 				config=config,
+				intermediates_dir=intermediates_dir,
 			)
 
 
@@ -393,6 +437,11 @@ def pipeline(
 		smart_rebuild=smart_rebuild,
 		rebuild_time=rebuild_time,
 		verbose=verbose,
+		intermediates_dir=(
+			root_dir_absolute / config.intermediates_dir
+			if config.intermediates_dir
+			else None
+		),
 	)
 
 	# copy resources dir to output dir
