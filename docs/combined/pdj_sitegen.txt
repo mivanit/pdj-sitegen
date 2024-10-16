@@ -1,0 +1,837 @@
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+[PyPI] [PyPI - Downloads] [docs]
+
+[Checks] [Checks - docs] [Coverage]
+
+[GitHub commits] [GitHub commit activity] [GitHub closed pull requests]
+[code size, bytes]
+
+pdj_sitegen
+
+Pandoc and Jinja Site Generator
+
+-   docs: miv.name/pdj_sitegen/
+-   demo site: miv.name/pdj_sitegen/demo_site/
+-   source: github.com/mivanit/pdj-sitegen
+
+Installation:
+
+    pip install pdj-sitegen
+
+you should either have Pandoc installed, or you can run
+
+    python -m pdj_sitegen.install_pandoc
+
+which will install pandoc using pypandoc
+
+Usage
+
+1.  create a config file. For an example, see
+    pdj_sitegen.config.DEFAULT_CONFIG_YAML, or print a copy of it via
+
+    python -m pdj_sitegen.config
+
+2.  adjust the config file to your needs. most importantly:
+
+    # directory with markdown content files and resources, relative to cwd
+    content_dir: content/
+    # directory with resources, relative to `content_dir`
+    resources_dir: resources/
+    # templates directory, relative to cwd
+    templates_dir: templates/
+    # default template file, relative to `templates_dir`
+    default_template: default.html.jinja2
+    # output directory, relative to cwd
+    output_dir: docs/
+
+3.  populate the content directory with markdown files, populate
+    content/resources/ with resources (images, css, etc.), and adjust
+    templates in the templates directory. See the demo site for usage
+    examples.
+
+4.  run the generator
+
+    python -m pdj_sitegen your_config.yaml
+
+Submodules
+
+-   build
+-   config
+-   consts
+-   exceptions
+-   filters
+-   install_pandoc
+-   setup_site
+
+View Source on GitHub
+
+pdj_sitegen
+
+[PyPI] [PyPI - Downloads] [docs]
+
+[Checks] [Checks - docs] [Coverage]
+
+[GitHub commits] [GitHub commit activity] [GitHub closed pull requests]
+[code size, bytes]
+
+pdj_sitegen
+
+Pandoc and Jinja Site Generator
+
+-   docs: miv.name/pdj_sitegen/
+-   demo site: miv.name/pdj_sitegen/demo_site/
+-   source: github.com/mivanit/pdj-sitegen
+
+Installation:
+
+    pip install pdj-sitegen
+
+you should either have Pandoc installed, or you can run
+
+    python -m <a href="pdj_sitegen/install_pandoc.html">pdj_sitegen.install_pandoc</a>
+
+which will install pandoc using pypandoc
+
+Usage
+
+1.  create a config file. For an example, see
+    <a href="pdj_sitegen/config.html#DEFAULT_CONFIG_YAML">pdj_sitegen.config.DEFAULT_CONFIG_YAML</a>,
+    or print a copy of it via
+
+    python -m <a href="pdj_sitegen/config.html">pdj_sitegen.config</a>
+
+2.  adjust the config file to your needs. most importantly:
+
+    ### directory with markdown content files and resources, relative to cwd
+    content_dir: content/
+    ### directory with resources, relative to `content_dir`
+    resources_dir: resources/
+    ### templates directory, relative to cwd
+    templates_dir: templates/
+    ### default template file, relative to `templates_dir`
+    default_template: default.html.jinja2
+    ### output directory, relative to cwd
+    output_dir: docs/
+
+3.  populate the content directory with markdown files, populate
+    content/resources/ with resources (images, css, etc.), and adjust
+    templates in the templates directory. See the demo site for usage
+    examples.
+
+4.  run the generator
+
+    python -m pdj_sitegen your_config.yaml
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+Build a site from markdown files using Jinja2 and Pandoc
+
+Pipeline:
+
+-   Get all markdown files
+-   For each markdown file: - Regex frontmatter and content from the
+    markdown file - Execute a template on the frontmatter, with globals_
+    and file metadata as context - Load the frontmatter into a dict -
+    Execute a template on the content with frontmatter, globals_, file
+    metadata, and all other docs as context - Convert the content to
+    HTML using Pandoc - Execute a template on the specified or default
+    template with the HTML content, frontmatter, globals_ and file
+    metadata as context
+-   Copy the resources directory to the output directory
+
+API Documentation
+
+-   split_md
+-   render
+-   build_document_tree
+-   process_pandoc_args
+-   dump_intermediate
+-   convert_single_markdown_file
+-   convert_markdown_files
+-   pipeline
+-   main
+
+View Source on GitHub
+
+pdj_sitegen.build
+
+Build a site from markdown files using Jinja2 and Pandoc
+
+Pipeline:
+
+-   Get all markdown files
+-   For each markdown file: - Regex frontmatter and content from the
+    markdown file - Execute a template on the frontmatter, with globals_
+    and file metadata as context - Load the frontmatter into a dict -
+    Execute a template on the content with frontmatter, globals_, file
+    metadata, and all other docs as context - Convert the content to
+    HTML using Pandoc - Execute a template on the specified or default
+    template with the HTML content, frontmatter, globals_ and file
+    metadata as context
+-   Copy the resources directory to the output directory
+
+View Source on GitHub
+
+def split_md
+
+    (content: str) -> Tuple[str, str, Literal['yaml', 'json', 'toml']]
+
+View Source on GitHub
+
+parse markdown into a tuple of frontmatter, body, and frontmatter format
+
+will use FRONTMATTER_REGEX to split the markdown content into
+frontmatter and body. the possible delimiters are defined in
+FRONTMATTER_DELIMS.
+
+Parameters:
+
+-   content : str markdown content to split
+
+Returns:
+
+-   Tuple[str, str, Format] tuple of frontmatter, body, and frontmatter
+    format (yaml, json, toml)
+
+Raises:
+
+-   SplitMarkdownError : if the regex does not match
+
+def render
+
+    (
+        content: str,
+        context: dict[str, typing.Any],
+        jinja_env: jinja2.environment.Environment
+    ) -> str
+
+View Source on GitHub
+
+render content given context and jinja2 environment. raise RenderError
+if error occurs
+
+Parameters:
+
+-   content : str text content with jinja2 template syntax
+-   context : dict[str, Any] data to render into the template
+-   jinja_env : Environment jinja2 environment to use for rendering
+
+Returns:
+
+-   str rendered content
+
+Raises:
+
+-   RenderError : if an error occurs while creating or rendering the
+    template
+
+def build_document_tree
+
+    (
+        content_dir: pathlib.Path,
+        frontmatter_context: dict[str, typing.Any],
+        jinja_env: jinja2.environment.Environment,
+        verbose: bool = True
+    ) -> dict[str, dict[str, typing.Any]]
+
+View Source on GitHub
+
+given a dir of markdown files, return a dict of documents with rendered
+frontmatter
+
+documents are keyed by their path relative to content_dir, with suffix
+removed. the dict for each document will contain:
+
+-   frontmatter: dict[str, Any] : rendered and parsed frontmatter for
+    that document
+-   body: str : plain, unrendered markdown content for that document
+-   file_meta: dict[str, Any] : metadata about the file, including
+    "path", "path_html", "path_raw", "modified_time"
+
+Parameters:
+
+-   content_dir : Path path to glob for markdown files
+-   frontmatter_context : dict[str, Any] context to use to render the
+    frontmatter before parsing it into a dict
+-   jinja_env : Environment jinja2 environment to use for rendering
+
+Returns:
+
+-   dict[str, dict[str, Any]] dict of documents with rendered
+    frontmatter.
+
+def process_pandoc_args
+
+    (pandoc_args: dict[str, typing.Any]) -> list[str]
+
+View Source on GitHub
+
+given args to pass to pandoc, turn them into a list of strings we can
+actually pass
+
+keys must be strings. values can be strings, bools, or iterables of
+strings.
+
+when a value is a:
+
+-   bool : if True, add the key to the list. if False, skip it.
+-   str : add the key and value to the list together.
+-   iterable : for each item in the iterable, add the key and item to
+    the list together. (i.e. "filters": ["filter_a", "filter_b"] ->
+    ["--filters", "filter_a", "--filters", "filter_b"])
+
+Parameters:
+
+-   pandoc_args : dict[str, Any]
+
+Returns:
+
+-   list[str]
+
+def dump_intermediate
+
+    (
+        content: str,
+        intermediates_dir: Optional[pathlib.Path],
+        fmt: str,
+        path: str,
+        subdir: str | None = None
+    ) -> None
+
+View Source on GitHub
+
+Dump content to an intermediate file if intermediates_dir is specified
+
+def convert_single_markdown_file
+
+    (
+        path: str,
+        output_root: pathlib.Path,
+        doc: dict[str, typing.Any],
+        docs: dict[str, dict[str, typing.Any]],
+        jinja_env: jinja2.environment.Environment,
+        config: pdj_sitegen.config.Config,
+        intermediates_dir: Optional[pathlib.Path] = None
+    ) -> None
+
+View Source on GitHub
+
+def convert_markdown_files
+
+    (
+        docs: dict[str, dict[str, typing.Any]],
+        jinja_env: jinja2.environment.Environment,
+        config: pdj_sitegen.config.Config,
+        output_root: pathlib.Path,
+        smart_rebuild: bool,
+        rebuild_time: float,
+        verbose: bool = True,
+        intermediates_dir: Optional[pathlib.Path] = None
+    ) -> None
+
+View Source on GitHub
+
+def pipeline
+
+    (
+        config_path: pathlib.Path,
+        verbose: bool = True,
+        smart_rebuild: bool = False
+    ) -> None
+
+View Source on GitHub
+
+build the website
+
+what this does:
+
+-   change directory to the directory containing the config file
+-   read the config file from the given path
+-   set up a Jinja2 environment according to the config
+-   build a document tree from the markdown files in the content
+    directory
+-   process the markdown files into HTML files and write them to the
+    output directory
+
+def main
+
+    () -> None
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+define the config, and also provide CLI for printing template
+
+API Documentation
+
+-   DEFAULT_CONFIG_YAML
+-   read_data_file
+-   emit_data_file
+-   save_data_file
+-   Config
+
+View Source on GitHub
+
+pdj_sitegen.config
+
+define the config, and also provide CLI for printing template
+
+View Source on GitHub
+
+-   DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative tocontent_dir\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative totemplates_dir\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented withpandoc_argsfrom the frontmatter of a file)\npandoc_kwargs:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'
+
+def read_data_file
+
+    (
+        file_path: pathlib.Path,
+        fmt: Optional[Literal['yaml', 'json', 'toml']] = None
+    ) -> dict[str, typing.Any]
+
+View Source on GitHub
+
+read a file from any of json, yaml, or toml
+
+def emit_data_file
+
+    (data: dict[str, typing.Any], fmt: Literal['yaml', 'json', 'toml']) -> str
+
+View Source on GitHub
+
+emit a file as json or yaml
+
+def save_data_file
+
+    (
+        data: dict[str, typing.Any],
+        file_path: pathlib.Path,
+        fmt: Optional[Literal['yaml', 'json', 'toml']] = None
+    ) -> None
+
+View Source on GitHub
+
+save a file as json or yaml
+
+class Config(muutils.json_serialize.serializable_dataclass.SerializableDataclass):
+
+View Source on GitHub
+
+configuration for the site generator
+
+Config
+
+    (
+        content_dir: pathlib.Path = WindowsPath('content'),
+        resources_dir: pathlib.Path = WindowsPath('resources'),
+        templates_dir: pathlib.Path = WindowsPath('templates'),
+        default_template: pathlib.Path = WindowsPath('default.html.jinja2'),
+        intermediates_dir: Optional[pathlib.Path] = None,
+        output_dir: pathlib.Path = WindowsPath('output'),
+        build_time_fname: pathlib.Path = WindowsPath('.build_time'),
+        jinja_env_kwargs: dict[str, typing.Any] = <factory>,
+        globals_: dict[str, typing.Any] = <factory>,
+        pandoc_kwargs: dict[str, typing.Any] = <factory>,
+        pandoc_fmt_from: str = 'markdown+smart',
+        pandoc_fmt_to: str = 'html'
+    )
+
+-   content_dir: pathlib.Path = WindowsPath('content')
+
+-   resources_dir: pathlib.Path = WindowsPath('resources')
+
+-   templates_dir: pathlib.Path = WindowsPath('templates')
+
+-   default_template: pathlib.Path = WindowsPath('default.html.jinja2')
+
+-   intermediates_dir: Optional[pathlib.Path] = None
+
+-   output_dir: pathlib.Path = WindowsPath('output')
+
+-   build_time_fname: pathlib.Path = WindowsPath('.build_time')
+
+-   jinja_env_kwargs: dict[str, typing.Any]
+
+-   globals_: dict[str, typing.Any]
+
+-   pandoc_kwargs: dict[str, typing.Any]
+
+-   pandoc_fmt_from: str = 'markdown+smart'
+
+-   pandoc_fmt_to: str = 'html'
+
+def read
+
+    (
+        cls,
+        config_path: pathlib.Path,
+        fmt: Optional[Literal['yaml', 'json', 'toml']] = None
+    ) -> pdj_sitegen.config.Config
+
+View Source on GitHub
+
+def as_str
+
+    (self, fmt: Literal['yaml', 'json', 'toml']) -> str
+
+View Source on GitHub
+
+def save
+
+    (
+        self,
+        config_path: pathlib.Path,
+        fmt: Optional[Literal['yaml', 'json', 'toml']] = 'json'
+    ) -> None
+
+View Source on GitHub
+
+def serialize
+
+    (self) -> dict[str, typing.Any]
+
+View Source on GitHub
+
+returns the class as a dict, implemented by using
+@serializable_dataclass decorator
+
+def load
+
+    (cls, data: Union[dict[str, Any], ~T]) -> Type[~T]
+
+View Source on GitHub
+
+takes in an appropriately structured dict and returns an instance of the
+class, implemented by using @serializable_dataclass decorator
+
+def validate_fields_types
+
+    (
+        self: muutils.json_serialize.serializable_dataclass.SerializableDataclass,
+        on_typecheck_error: muutils.errormode.ErrorMode = ErrorMode.Except
+    ) -> bool
+
+View Source on GitHub
+
+validate the types of all the fields on a SerializableDataclass. calls
+SerializableDataclass__validate_field_type for each field
+
+Inherited Members
+
+-   validate_field_type
+-   diff
+-   update_from_nested_dict
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+type definitions, format maps and parsers, and frontmatter regex
+
+API Documentation
+
+-   Format
+-   FORMAT_MAP
+-   FORMAT_PARSERS
+-   FRONTMATTER_DELIMS
+-   FRONTMATTER_REGEX
+
+View Source on GitHub
+
+pdj_sitegen.consts
+
+type definitions, format maps and parsers, and frontmatter regex
+
+View Source on GitHub
+
+-   Format = typing.Literal['yaml', 'json', 'toml']
+
+-   FORMAT_MAP: dict[str, typing.Literal['yaml', 'json', 'toml']] = {'yaml': 'yaml', 'yml': 'yaml', 'YAML': 'yaml', 'YML': 'yaml', 'json': 'json', 'JSON': 'json', 'toml': 'toml', 'tml': 'toml', 'TOML': 'toml', 'TML': 'toml'}
+
+-   FORMAT_PARSERS: dict[typing.Literal['yaml', 'json', 'toml'], typing.Callable[[str], dict[str, typing.Any]]] = {'yaml': <function safe_load>, 'json': <function loads>, 'toml': <function loads>}
+
+-   FRONTMATTER_DELIMS: dict[str, typing.Literal['yaml', 'json', 'toml']] = {'---': 'yaml', ';;;': 'json', '+++': 'toml'}
+
+-   FRONTMATTER_REGEX: re.Pattern = re.compile('^(?P<delimiter>\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P<frontmatter>.*?)\\n(?P=delimiter)\\n(?P<body>.*)', re.DOTALL)
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+SplitMarkdownError and RenderError exceptions
+
+API Documentation
+
+-   SplitMarkdownError
+-   ConversionError
+-   RenderError
+-   MultipleExceptions
+
+View Source on GitHub
+
+pdj_sitegen.exceptions
+
+SplitMarkdownError and RenderError exceptions
+
+View Source on GitHub
+
+class SplitMarkdownError(builtins.Exception):
+
+View Source on GitHub
+
+error while splitting markdown
+
+Inherited Members
+
+-   Exception
+
+-   with_traceback
+
+-   add_note
+
+-   args
+
+class ConversionError(builtins.Exception):
+
+View Source on GitHub
+
+error while converting markdown
+
+Inherited Members
+
+-   Exception
+
+-   with_traceback
+
+-   add_note
+
+-   args
+
+class RenderError(builtins.Exception):
+
+View Source on GitHub
+
+error while rendering template
+
+RenderError
+
+    (
+        message: str,
+        kind: Literal['create_template', 'render_template'],
+        content: str | None,
+        context: dict[str, typing.Any] | None,
+        jinja_env: jinja2.environment.Environment | None,
+        template: jinja2.environment.Template | None
+    )
+
+View Source on GitHub
+
+-   message: str
+
+-   kind: Literal['create_template', 'render_template']
+
+-   content: str | None
+
+-   context: dict[str, typing.Any] | None
+
+-   jinja_env: jinja2.environment.Environment | None
+
+-   template: jinja2.environment.Template | None
+
+Inherited Members
+
+-   with_traceback
+-   add_note
+-   args
+
+class MultipleExceptions(builtins.Exception):
+
+View Source on GitHub
+
+Common base class for all non-exit exceptions.
+
+MultipleExceptions
+
+    (message: str, exceptions: dict[str, Exception])
+
+View Source on GitHub
+
+-   message: str
+
+-   exceptions: dict[str, Exception]
+
+Inherited Members
+
+-   with_traceback
+-   add_note
+-   args
+
+  docs for pdj_sitegen v0.0.1
+
+Submodules
+
+-   csv_code_table
+-   links_md2html
+
+View Source on GitHub
+
+pdj_sitegen.filters
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+python pandoc filter replicating pandoc-csv2table
+
+By @mivanit
+
+API Documentation
+
+-   ALIGN_MAP
+-   emptyblock
+-   Plain_factory
+-   table_cell_factory
+-   table_row_factory
+-   header_factory
+-   body_factory
+-   keyvals_process
+-   codeblock_process
+-   test_filter
+
+View Source on GitHub
+
+pdj_sitegen.filters.csv_code_table
+
+python pandoc filter replicating pandoc-csv2table
+
+By @mivanit
+
+View Source on GitHub
+
+-   ALIGN_MAP: dict[str, str] = {'L': 'AlignLeft', 'C': 'AlignCenter', 'R': 'AlignRight', 'D': 'AlignDefault'}
+
+def emptyblock
+
+    () -> list
+
+View Source on GitHub
+
+def Plain_factory
+
+    (val: str) -> dict
+
+View Source on GitHub
+
+def table_cell_factory
+
+    (val: str) -> list
+
+View Source on GitHub
+
+def table_row_factory
+
+    (lst_vals: list) -> list
+
+View Source on GitHub
+
+def header_factory
+
+    (lst_vals: list) -> list
+
+View Source on GitHub
+
+def body_factory
+
+    (table_vals: list) -> list
+
+View Source on GitHub
+
+def keyvals_process
+
+    (keyvals: list[tuple[str, str]]) -> dict[str, str]
+
+View Source on GitHub
+
+def codeblock_process
+
+    (key, value, format_, _)
+
+View Source on GitHub
+
+def test_filter
+
+    ()
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.1
+
+API Documentation
+
+-   links_md2html
+
+View Source on GitHub
+
+pdj_sitegen.filters.links_md2html
+
+View Source on GitHub
+
+def links_md2html
+
+    (key, value, format, meta) -> None
+
+View Source on GitHub
+
+convert dendron links to markdown links
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+install pandoc using pypandoc
+
+View Source on GitHub
+
+pdj_sitegen.install_pandoc
+
+install pandoc using pypandoc
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.1
+
+Contents
+
+cli for setting up a site
+
+API Documentation
+
+-   DEFAULT_CONFIG
+-   FILE_LOCATIONS
+-   setup_site
+
+View Source on GitHub
+
+pdj_sitegen.setup_site
+
+cli for setting up a site
+
+View Source on GitHub
+
+-   DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, pandoc_kwargs={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')
+
+-   FILE_LOCATIONS: dict[str, pathlib.Path] = {'config.yml': WindowsPath('config.yml'), 'default.html.jinja2': WindowsPath('templates/default.html.jinja2'), 'index.md': WindowsPath('content/index.md'), 'style.css': WindowsPath('content/resources/style.css'), 'syntax.css': WindowsPath('content/resources/syntax.css')}
+
+def setup_site
+
+    (root: pathlib.Path = WindowsPath('.')) -> None
+
+View Source on GitHub
