@@ -438,12 +438,14 @@ def pipeline(
 		# figure out the last rebuild time, write the current time to the file
 		rebuild_time: float
 		try:
-			rebuild_time = os.path.getmtime(config.build_time_fname)
+			rebuild_time = os.path.getmtime(root_dir_absolute / config.build_time_fname)
 		except FileNotFoundError:
 			# set it to very old time so that all files are rebuilt
 			rebuild_time = -1.0
 
-		with open(config.build_time_fname, "w", encoding="utf-8") as f:
+		with open(
+			root_dir_absolute / config.build_time_fname, "w", encoding="utf-8"
+		) as f:
 			f.write(str(rebuild_time))
 
 	# build doc tree (get .md files from `config.content_dir`, split content and frontmatter, execute templates on frontmatter)
