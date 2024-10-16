@@ -6,12 +6,15 @@ import sys
 import tomllib
 from pathlib import Path
 from typing import Any, Optional
+import warnings
 
 import yaml  # type: ignore[import-untyped]
-from muutils.json_serialize import (
+
+from muutils.json_serialize.serializable_dataclass import (
 	SerializableDataclass,
 	serializable_dataclass,
 	serializable_field,
+	ZanjMissingWarning,
 )
 
 import pdj_sitegen
@@ -20,6 +23,9 @@ from pdj_sitegen.consts import (  # StructureFormat,
 	FORMAT_MAP,
 	Format,
 )
+
+# we don't care about zanj being missing when we call `serializable_dataclass`
+warnings.filterwarnings("ignore", category=ZanjMissingWarning)
 
 DEFAULT_CONFIG_YAML: str = (
 	importlib.resources.files(pdj_sitegen).joinpath("data", "config.yml").read_text()
