@@ -22,60 +22,27 @@ pandoc_kwargs:
 # extra globals to pass -- this can be anything
 globals_:
   globals_key: some value
-  ai_buzzwords:
-    - "Deep Learning Revolution"
-    - "Ethical AI Frameworks"
-    - "Quantum Machine Learning"
-    - "Neuromorphic Computing"
-    - "Explainable AI"
-  ai_areas:
-    - "natural language processing"
-    - "computer vision"
-    - "reinforcement learning"
-    - "generative adversarial networks"
-    - "federated learning"
-  ai_breakthroughs:
-    - "GPT-3"
-    - "AlphaFold"
-    - "DALL-E"
-    - "Stable Diffusion"
-    - "LaMDA"
-  ai_ethics_issues:
-    - "algorithmic bias"
-    - "privacy concerns"
-    - "job displacement"
-    - "autonomous weapons"
-    - "deepfakes and misinformation"
-  ai_application_areas:
-    - "healthcare"
-    - "finance"
-    - "education"
-    - "transportation"
-    - "environmental conservation"
-  industries:
-    - "healthcare"
-    - "finance"
-    - "manufacturing"
-    - "retail"
-    - "agriculture"
-    - "education"
-    - "transportation"
-    - "energy"
-  ai_technologies:
-    - "machine learning"
-    - "natural language processing"
-    - "computer vision"
-    - "robotics"
-    - "expert systems"
-  ai_benefits:
-    - "increased efficiency"
-    - "cost reduction"
-    - "improved accuracy"
-    - "enhanced customer experience"
-    - "data-driven decision making"
-  ai_outcomes:
-    - "disruption of traditional business models"
-    - "creation of new job opportunities"
-    - "improved product quality"
-    - "faster innovation cycles"
-    - "more personalized services"
+  company_name: Lorem Ipsum Technologies
+  mission_statement: consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+  industry: dolor sit amet
+  contact_email: Lorem-Ipsum-Technologies@not-a-real-website.com
+  contact_phone: +99 (111) 111-1111
+  hq_address: |
+    123 Dolor Sit Avenue
+    Amet City, LP 12345
+    Consectetur Country
+  company_values:
+    - Ut enim ad minim veniam
+    - Quis nostrud exercitation ullamco
+    - Laboris nisi ut aliquip ex ea commodo consequat
+  social_media:
+    twitter: https://fake-twitter-link.com/loremipsum
+    facebook: https://fake-facebook-link.com/loremipsum
+    linkedin: https://fake-linkedin-link.com/company/loremipsum
+  founding_year: 2030
+  employee_count: 256
+  main_services:
+    - Duis aute irure dolor in reprehenderit
+    - Voluptate velit esse cillum dolore
+    - Fugiat nulla pariatur
+  company_slogan: Excepteur sint occaecat cupidatat non proident

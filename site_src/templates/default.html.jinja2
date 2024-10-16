@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ frontmatter.title }}</title>
-    <link rel="stylesheet" href="./resources/css/default.css">
-    <link rel="stylesheet" href="./resources/css/syntax.css">
+    <link rel="stylesheet" href="./resources/default.css">
+    <link rel="stylesheet" href="./resources/syntax.css">
 </head>
 <body>
-    <header>
-        <h1>{{ frontmatter.title }}</h1>
-        {% if frontmatter.author and frontmatter.date %}
-        <p>By {{ frontmatter.author }}, {{ frontmatter.date }}</p>
-        {% endif %}
-    </header>
+    <nav class="nav">
+        <a class="nav" href="./about.html">About</a>
+        <a class="nav" href="./index.html">Home</a>
+        <a class="nav" href="https://github.com/mivanit/pdj-sitegen">GitHub</a>
+        <a class="nav" href="./blog.html">Blog</a>
+        <a class="nav" href="./projects.html">Projects</a>
+    </nav>
     <main>
         {{ __content__ | safe }}
     </main>
     {% if frontmatter.tags %}
     <footer>
-        <p>tags: {{ frontmatter.categories | join(", ") }}</p>
+        <p>tags: {{ frontmatter.tags | join(", ") }}</p>
     </footer>
     {% endif %}
 </body>

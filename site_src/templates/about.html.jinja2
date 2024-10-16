@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ frontmatter.title }} - {{ config.globals_.company_name }}</title>
+    <link rel="stylesheet" href="./resources/default.css">
+    <link rel="stylesheet" href="./resources/syntax.css">
+</head>
+<body>
+    <header>
+        <h1>{{ frontmatter.title }}</h1>
+        <p>{{ config.globals_.company_slogan }}</p>
+    </header>
+    <main>
+		{{ __content__ | safe }}
+        <section id="company-overview">
+            <h2>About {{ config.globals_.company_name }}</h2>
+            <p>{{ config.globals_.mission_statement }}</p>
+            <p>Founded in {{ config.globals_.founding_year }}, we have grown to over {{ config.globals_.employee_count }} employees, all dedicated to excellence in {{ config.globals_.industry }}.</p>
+        </section>
+
+        <section id="our-values">
+            <h2>Our Values</h2>
+            <ul>
+            {% for value in config.globals_.company_values %}
+                <li>{{ value }}</li>
+            {% endfor %}
+            </ul>
+        </section>
+
+        <section id="our-services">
+            <h2>Our Services</h2>
+            <ul>
+            {% for service in config.globals_.main_services %}
+                <li>{{ service }}</li>
+            {% endfor %}
+            </ul>
+        </section>
+
+        {{ __content__ | safe }}
+
+        <section id="contact-info">
+            <h2>Contact Us</h2>
+            <p>Email: {{ config.globals_.contact_email }}</p>
+            <p>Phone: {{ config.globals_.contact_phone }}</p>
+            <address>
+                {{ config.globals_.hq_address | replace('\n', '<br>') | safe }}
+            </address>
+        </section>
+    </main>
+    <footer>
+        <p>{{ config.globals_.founding_year }} {{ config.globals_.company_name }}</p>
+        <div id="social-media">
+            <a href="{{ config.globals_.social_media.twitter }}">Twitter</a>
+            <a href="{{ config.globals_.social_media.facebook }}">Facebook</a>
+            <a href="{{ config.globals_.social_media.linkedin }}">LinkedIn</a>
+        </div>
+    </footer>
+</body>
+</html>
