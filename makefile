@@ -147,10 +147,13 @@ version: gen-commit-log
 	@echo "Current version is $(VERSION), last auto-uploaded version is $(LAST_VERSION)"
 	@echo "Commit log since last version from '$(COMMIT_LOG_FILE)':"
 	@cat $(COMMIT_LOG_FILE)
-	@echo ""
+
+.PHONY: version-new-check
+version-new-check: version
+	@echo "verifying that the new version is different from the last version"
 	@if [ "$(VERSION)" = "$(LAST_VERSION)" ]; then \
 		echo "!!! ERROR !!!"; \
-		echo "Python package $(VERSION) is the same as last published version $(LAST_VERSION), exiting!"; \
+		echo "Version $(VERSION) is the same as the last version $(LAST_VERSION), exiting!"; \
 		exit 1; \
 	fi
 
@@ -322,7 +325,7 @@ build:
 # will ask the user to confirm the new version number (and this allows for editing the tag info)
 # will also print the contents of $(PYPI_TOKEN_FILE) to the console for the user to copy and paste in when prompted by twine
 .PHONY: publish
-publish: gen-commit-log check build verify-git version gen-version-info
+publish: gen-commit-log check build verify-git version-new-check
 	@echo "run all checks, build, and then publish"
 
 	@echo "Enter the new version number if you want to upload to pypi and create a new tag"
