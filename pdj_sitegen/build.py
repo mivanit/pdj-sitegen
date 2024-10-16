@@ -20,6 +20,7 @@ import shutil
 import functools
 from pathlib import Path
 from typing import Any, Iterable, Optional, Tuple
+import datetime
 
 import pypandoc
 import tqdm
@@ -170,11 +171,13 @@ def build_document_tree(
 		fmt: Format
 		frontmatter_raw, body, fmt = split_md(content)
 
+		last_modified_time: float = file_path.stat().st_mtime
 		file_meta: dict[str, Any] = {
 			"path": file_path_str,
 			"path_html": f"{file_path_str}.html",
 			"path_raw": file_path.as_posix(),
-			"modified_time": os.path.getmtime(file_path),
+			"modified_time": last_modified_time,
+			"modified_time_str": datetime.datetime.fromtimestamp(last_modified_time).strftime("%Y-%m-%d %H:%M:%S"),
 		}
 
 		frontmatter_rendered: dict[str, Any] = render(

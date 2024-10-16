@@ -4,37 +4,33 @@ import importlib.resources
 from pathlib import Path
 
 import pdj_sitegen
+from pdj_sitegen.config import Config
+
+
+DEFAULT_CONFIG: Config = Config()
+
+FILE_LOCATIONS: dict[str, Path] = {
+	"config.yml": Path("config.yml"),
+	"default.html.jinja2": DEFAULT_CONFIG.templates_dir / "default.html.jinja2",
+	"index.md": DEFAULT_CONFIG.content_dir / "index.md",
+	"style.css": DEFAULT_CONFIG.content_dir / DEFAULT_CONFIG.resources_dir / "style.css",
+	"syntax.css": DEFAULT_CONFIG.content_dir / DEFAULT_CONFIG.resources_dir / "syntax.css",
+}
 
 
 def setup_site(root: Path = ".") -> None:
-	config_yaml: str = (
-		importlib.resources.files(pdj_sitegen)
-		.joinpath("data", "config.yml")
-		.read_text()
-	)
 
-	default_template: str = (
-		importlib.resources.files(pdj_sitegen)
-		.joinpath("data", "default.html.jinja2")
-		.read_text()
-	)
+	for file, path_rel in FILE_LOCATIONS.items():
+		contents: str = (
+			importlib.resources.files(pdj_sitegen)
+			.joinpath("data", file)
+			.read_text()
+		)
 
-	default_index: str = (
-		importlib.resources.files(pdj_sitegen).joinpath("data", "index.md").read_text()
-	)
-
-	root.mkdir(parents=True, exist_ok=True)
-	with open(root / "config.yaml", "w", encoding="utf-8") as f:
-		f.write(config_yaml)
-
-	(root / "templates").mkdir(exist_ok=True)
-	with open(root / "templates/default.html.jinja2", "w", encoding="utf-8") as f:
-		f.write(default_template)
-
-	(root / "content").mkdir(exist_ok=True)
-	(root / "content" / "resources").mkdir(exist_ok=True)
-	with open(root / "content/index.md", "w", encoding="utf-8") as f:
-		f.write(default_index)
+		path: Path = root / path_rel
+		path.parent.mkdir(parents=True, exist_ok=True)
+		with open(path, "w", encoding="utf-8") as f:
+			f.write(contents)
 
 
 if __name__ == "__main__":
