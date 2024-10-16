@@ -1,3 +1,16 @@
+[![PyPI](https://img.shields.io/pypi/v/pdj-sitegen)](https://pypi.org/project/pdj-sitegen/)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/pdj-sitegen)
+[![docs](https://img.shields.io/badge/docs-latest-blue)](https://miv.name/pdj-sitegen)
+
+[![Checks](https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml/badge.svg)](https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml)
+[![Checks - docs](https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml/badge.svg)](https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml)
+[![Coverage](docs/coverage/coverage.svg)](docs/coverage/html/)
+
+![GitHub commits](https://img.shields.io/github/commit-activity/t/mivanit/pdj-sitegen)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/mivanit/pdj-sitegen)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mivanit/pdj-sitegen)
+![code size, bytes](https://img.shields.io/github/languages/code-size/mivanit/pdj-sitegen)
+
 # `pdj_sitegen`
 
 **_P_**an**_d_**oc and **_J_**inja **_Site_** **_Gen_**erator

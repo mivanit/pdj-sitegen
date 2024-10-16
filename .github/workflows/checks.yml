@@ -1,0 +1,94 @@
+name: Checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+
+jobs:
+  dep-check:
+    name: Check dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        versions:
+          - python: "3.10"
+          - python: "3.11"
+          - python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # whole history for making version
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.versions.python }}
+
+      - name: set up uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: print python version
+        run: python --version
+
+      - name: check version
+        run: make version
+
+      - name: check deps
+        run: make dep-check
+      
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: install
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          make setup
+
+      - name: format-check
+        run: make format-check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        versions:
+          - python: "3.10"
+          - python: "3.11"
+          - python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.versions.python }}
+
+      - name: install
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          make setup
+      - name: Install pandoc
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: pandoc
+          version: '3.3'
+
+      - name: tests
+        run: make test
+
+      - name: test building example site
+        run: make site
+        
+      - name: typing checks
+        run: make typing

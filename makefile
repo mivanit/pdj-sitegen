@@ -219,9 +219,12 @@ test: clean
 	@echo "running tests"
 	$(PYTHON) -m pytest $(PYTEST_OPTIONS) $(TESTS_DIR)
 
+# ~~~~~~~~~~
+# added check dep
 .PHONY: check
-check: clean format-check test typing
-	@echo "run format checks, tests, and typing checks"
+check: clean dep-check format-check test typing
+	@echo "run format checks, dep checks, tests, typing checks"
+# ~~~~~~~~~~
 
 # ==================================================
 # coverage & docs
