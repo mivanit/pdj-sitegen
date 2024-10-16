@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="stylesheet" href="./resources/default.css">
+    <link rel="stylesheet" href="./resources/syntax.css">
+</head>
+<body>
+    <nav class="nav">
+        <a class="nav" href="./about.html">About</a>
+        <a class="nav" href="./index.html">Home</a>
+        <a class="nav" href="https://github.com/mivanit/pdj-sitegen">GitHub</a>
+        <a class="nav" href="./blog.html">Blog</a>
+        <a class="nav" href="./projects.html">Projects</a>
+    </nav>
+    <main>
+        <h1 id="index">index</h1>
+<p><select id="tagFilter" onchange="filterPosts()">
+<option value="">Select a tag</option></p>
+<p><option value="about">about</option></p>
+<p><option value="company">company</option></p>
+<p><option value="contact">contact</option></p>
+<p><option value="blog">blog</option></p>
+<p><option value="index">index</option></p>
+<p><option value="events">events</option></p>
+<p><option value="faq">faq</option></p>
+<p><option value="projects">projects</option></p>
+<p><option value="team">team</option></p>
+<p></select></p>
+<ul id="postList">
+<li class="post-item" data-tags="about, company, contact">
+<a href="about.html">About</a>
+<p>
+</p>
+<p>
+tags: about, company, contact
+</p>
+</li>
+<li class="post-item" data-tags="blog, index">
+<a href="blog.html">Our Blog</a>
+<p>
+lorem ipsum blog posts
+</p>
+<p>
+tags: blog, index
+</p>
+</li>
+<li class="post-item" data-tags="blog">
+<a href="blog.post-1.html">Lorem Ipsum Dolor Sit Amet</a>
+<p>
+</p>
+<p>
+tags: blog
+</p>
+</li>
+<li class="post-item" data-tags="blog">
+<a href="blog.post-2.html">Nemo Enim Ipsam Voluptatem</a>
+<p>
+</p>
+<p>
+tags: blog
+</p>
+</li>
+<li class="post-item" data-tags="events, index">
+<a href="events.html">Upcoming Events</a>
+<p>
+lorem ipsum events
+</p>
+<p>
+tags: events, index
+</p>
+</li>
+<li class="post-item" data-tags="faq">
+<a href="faq.html">Frequently Asked Questions</a>
+<p>
+</p>
+<p>
+tags: faq
+</p>
+</li>
+<li class="post-item" data-tags="index">
+<a href="index.html">index</a>
+<p>
+index of all pages
+</p>
+<p>
+tags: index
+</p>
+</li>
+<li class="post-item" data-tags="projects, index">
+<a href="projects.html">Our Projects</a>
+<p>
+</p>
+<p>
+tags: projects, index
+</p>
+</li>
+<li class="post-item" data-tags="projects">
+<a href="projects.project-alpha.html">Projectum Alphaum</a>
+<p>
+</p>
+<p>
+tags: projects
+</p>
+</li>
+<li class="post-item" data-tags="projects">
+<a href="projects.project-beta.html">Projectum Betaum</a>
+<p>
+</p>
+<p>
+tags: projects
+</p>
+</li>
+<li class="post-item" data-tags="team, index">
+<a href="team.html">Our Team</a>
+<p>
+Meet the team
+</p>
+<p>
+tags: team, index
+</p>
+</li>
+</ul>
+<script>
+function filterPosts() {
+    const filter = document.getElementById('tagFilter').value.toLowerCase();
+    const posts = document.querySelectorAll('.post-item');
+
+    posts.forEach(post => {
+        const tags = post.getAttribute('data-tags').toLowerCase();
+        if (filter === "" || tags.includes(filter)) {
+            post.style.display = '';
+        } else {
+            post.style.display = 'none';
+        }
+    });
+}
+</script>
+
+    </main>
+    
+    <footer>
+        <p>tags: index</p>
+    </footer>
+    
+</body>
+</html>
