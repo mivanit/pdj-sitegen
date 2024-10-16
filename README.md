@@ -58,3 +58,19 @@ output_dir: docs/
 ```bash
 python -m pdj_sitegen your_config.yaml
 ```
+
+# similar tools/resources
+
+This project is a descendant of my old project [pandoc-sitegen](https://github.com/mivanit/pandoc-sitegen), which was very similar but used mustache templates instead of jinja2.
+
+Some other similar projects:
+
+- https://github.com/brianbuccola/brianbuccola.github.io
+- https://runningcrocodile.fi/pandoc_static_site/
+- http://pdsite.org/installing/
+- https://github.com/locua/pandoc-python-static-site-gen
+- https://github.com/lukasschwab/pandoc-blog
+- https://github.com/fcanas/bake
+
+if you end up using this script for your site and would me to list it here, email me or submit a PR :)
+
