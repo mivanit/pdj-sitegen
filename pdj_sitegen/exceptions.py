@@ -66,7 +66,7 @@ class MultipleExceptions(Exception):
 		self.message: str = message
 		self.exceptions: dict[str, Exception] = exceptions
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return (
 			f"{len(self.exceptions)} exceptions occurred in: {list(self.exceptions.keys())}\n{self.message}\n"
 			+ "\n".join(f"{name}: {exc}" for name, exc in self.exceptions.items())

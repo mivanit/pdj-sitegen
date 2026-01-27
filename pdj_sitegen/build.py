@@ -21,7 +21,7 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Any, Callable, ContextManager, Iterable, Optional, Tuple
+from typing import Any, Callable, ContextManager, Iterable
 
 import pypandoc  # type: ignore[import-untyped]
 import tqdm  # type: ignore[import-untyped]
@@ -47,7 +47,7 @@ from pdj_sitegen.exceptions import (
 
 def split_md(
 	content: str,
-) -> Tuple[str, str, Format]:
+) -> tuple[str, str, Format]:
 	"""parse markdown into a tuple of frontmatter, body, and frontmatter format
 
 	will use `FRONTMATTER_REGEX` to split the markdown content into frontmatter and body.
@@ -58,13 +58,13 @@ def split_md(
 	   markdown content to split
 
 	# Returns:
-	 - `Tuple[str, str, Format]`
+	 - `tuple[str, str, Format]`
 	   tuple of frontmatter, body, and frontmatter format (yaml, json, toml)
 
 	# Raises:
 	 - `SplitMarkdownError` : if the regex does not match
 	"""
-	match: Optional[re.Match[str]] = re.match(FRONTMATTER_REGEX, content)
+	match: re.Match[str] | None = re.match(FRONTMATTER_REGEX, content)
 	frontmatter: str
 	body: str
 	fmt: Format
@@ -225,7 +225,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	# Returns:
 	 - `list[str]`
 	"""
-	args: list[str] = list()
+	args: list[str] = []
 	for k, v in pandoc_args.items():
 		if isinstance(v, bool):
 			if v:
@@ -243,7 +243,7 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 
 def dump_intermediate(
 	content: str,
-	intermediates_dir: Optional[Path],
+	intermediates_dir: Path | None,
 	fmt: str,
 	path: str,
 	subdir: str | None = None,
@@ -265,13 +265,13 @@ def convert_single_markdown_file(
 	docs: dict[str, dict[str, Any]],
 	jinja_env: Environment,
 	config: Config,
-	intermediates_dir: Optional[Path] = None,
+	intermediates_dir: Path | None = None,
 ) -> None:
-	frontmatter: dict = doc.get("frontmatter", {})
+	frontmatter: dict[str, Any] = doc.get("frontmatter", {})
 	assert isinstance(frontmatter, dict)
 	body: str = doc.get("body", "")
 	assert isinstance(body, str)
-	file_meta: dict = doc.get("file_meta", {})
+	file_meta: dict[str, Any] = doc.get("file_meta", {})
 	assert isinstance(file_meta, dict)
 	context: dict[str, Any] = {
 		**frontmatter,
@@ -284,7 +284,7 @@ def convert_single_markdown_file(
 		},
 	}
 
-	dump_intermediate_partial: Callable = functools.partial(
+	dump_intermediate_partial: Callable[..., None] = functools.partial(
 		dump_intermediate,
 		intermediates_dir=intermediates_dir,
 		path=file_meta["path"],
@@ -358,12 +358,12 @@ def convert_markdown_files(
 	smart_rebuild: bool,
 	rebuild_time: float,
 	verbose: bool = True,
-	intermediates_dir: Optional[Path] = None,
+	intermediates_dir: Path | None = None,
 ) -> None:
 	n_files: int = len(docs)
 	path: str
 	doc: dict[str, Any]
-	exceptions: dict[str, Exception] = dict()
+	exceptions: dict[str, Exception] = {}
 	if verbose:
 		print(f"Converting {n_files} markdown files to HTML...")
 	for idx, (path, doc) in enumerate(docs.items()):
@@ -419,7 +419,7 @@ def pipeline(
 	"""
 
 	# set up spinner context manager, depending on verbosity
-	sp_class: type[ContextManager] = (
+	sp_class: type[ContextManager[Any]] = (
 		functools.partial(SpinnerContext, update_interval=0.01)  # type: ignore[assignment]
 		if verbose
 		else NoOpContextManager
@@ -435,7 +435,7 @@ def pipeline(
 		config: Config = Config.read(root_dir_absolute / config_path.name)
 
 		# Set up Jinja2 environment
-		jinja_env = Environment(
+		jinja_env: Environment = Environment(
 			loader=FileSystemLoader([root_dir_absolute / config.templates_dir]),
 			**config.jinja_env_kwargs,
 		)

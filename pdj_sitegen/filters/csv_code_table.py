@@ -5,9 +5,10 @@ By [@mivanit](mivanit.github.io)
 
 import csv
 import io
+import json
 import os
 import sys
-from typing import Optional
+from typing import Any
 
 from pandocfilters import toJSONFilter  # type: ignore[import-untyped]
 
@@ -19,11 +20,11 @@ ALIGN_MAP: dict[str, str] = {
 }
 
 
-def emptyblock() -> list:
+def emptyblock() -> list[Any]:
 	return ["", [], []]
 
 
-def Plain_factory(val: str) -> dict:
+def Plain_factory(val: str) -> dict[str, Any]:
 	return {
 		"t": "Plain",
 		"c": [
@@ -33,7 +34,7 @@ def Plain_factory(val: str) -> dict:
 	}
 
 
-def table_cell_factory(val: str) -> list:
+def table_cell_factory(val: str) -> list[Any]:
 	return [
 		emptyblock(),
 		{"t": "AlignDefault"},
@@ -43,18 +44,18 @@ def table_cell_factory(val: str) -> list:
 	]
 
 
-def table_row_factory(lst_vals: list) -> list:
+def table_row_factory(lst_vals: list[str]) -> list[Any]:
 	return [emptyblock(), [table_cell_factory(val) for val in lst_vals]]
 
 
-def header_factory(lst_vals: list) -> list:
+def header_factory(lst_vals: list[str]) -> list[Any]:
 	return [
 		emptyblock(),
 		[table_row_factory(lst_vals)],
 	]
 
 
-def body_factory(table_vals: list) -> list:
+def body_factory(table_vals: list[list[str]]) -> list[Any]:
 	return [
 		[
 			emptyblock(),
@@ -69,26 +70,28 @@ def keyvals_process(keyvals: list[tuple[str, str]]) -> dict[str, str]:
 	return {key: val for key, val in keyvals}
 
 
-def codeblock_process(key, value, format_, _):
+def codeblock_process(key: str, value: Any, format_: str, _: Any) -> dict[str, Any] | None:
 	# figure out whether this block should be processed
 	if not (key == "CodeBlock"):
 		return None
 
 	[[ident, classes, lst_keyvals], code] = value
+	# ident: str, classes: list[str], lst_keyvals: list[tuple[str, str]], code: str
 
 	if "csv_table" not in classes:
 		return None
 
 	# read the keyvals
-	keyvals: dict = keyvals_process(lst_keyvals)
+	keyvals: dict[str, str] = keyvals_process(lst_keyvals)
 	header: bool = bool(int(keyvals.get("header", 1)))
-	source: Optional[str] = keyvals.get("source")
-	aligns: Optional[list[str]] = (
+	source: str | None = keyvals.get("source")
+	aligns: list[str] | None = (
 		list(keyvals.get("aligns", "")) if "aligns" in keyvals else None
 	)
-	caption: Optional[str] = keyvals.get("caption", None)
+	caption: str | None = keyvals.get("caption", None)
 
 	# read the csv source into a table
+	table_data: list[list[str]]
 	if source is None:
 		table_data = list(csv.reader(io.StringIO(code)))
 	else:
@@ -112,9 +115,11 @@ def codeblock_process(key, value, format_, _):
 		else:
 			raise Exception(f"aligns length mismatch: {aligns}")
 
+	row_header: list[str]
+	table_rows: list[list[str]]
 	if header:
-		row_header: list = table_data[0]
-		table_rows: list = table_data[1:]
+		row_header = table_data[0]
+		table_rows = table_data[1:]
 	else:
 		raise Exception("lack of header not supported")
 		row_header = []
@@ -149,14 +154,12 @@ def codeblock_process(key, value, format_, _):
 	}
 
 
-def test_filter():
-	import json
-
+def test_filter() -> None:
 	with open(sys.argv[1]) as f:
-		data = json.load(f)
-	key = data["blocks"][0]["t"]
-	value = data["blocks"][0]["c"]
-	newdata = codeblock_process(key, value, "", "")
+		data: Any = json.load(f)
+	key: str = data["blocks"][0]["t"]
+	value: Any = data["blocks"][0]["c"]
+	newdata: dict[str, Any] | None = codeblock_process(key, value, "", "")
 	print(json.dumps(newdata, indent=2))
 
 

@@ -37,14 +37,14 @@ FRONTMATTER_DELIMS: dict[str, Format] = {
 	"+++": "toml",
 }
 
-FRONTMATTER_REGEX: re.Pattern = re.compile(
+FRONTMATTER_REGEX: re.Pattern[str] = re.compile(
 	r"^(?P<delimiter>{delims})\n(?P<frontmatter>.*?)\n(?P=delimiter)\n(?P<body>.*)".format(
 		delims="|".join([re.escape(d) for d in FRONTMATTER_DELIMS.keys()]),
 	),
 	re.DOTALL,
 )
 
-_PATH_FIELD_SERIALIZATION_KWARGS: dict[str, Callable] = dict(
+_PATH_FIELD_SERIALIZATION_KWARGS: dict[str, Callable[[Any], Any]] = dict(
 	serialization_fn=lambda x: x.as_posix() if x else None,
 	deserialize_fn=lambda x: Path(x) if x else None,
 )

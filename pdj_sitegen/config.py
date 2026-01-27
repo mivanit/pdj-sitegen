@@ -5,7 +5,7 @@ import json
 import sys
 import tomllib
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 import warnings
 
 import yaml  # type: ignore[import-untyped]
@@ -32,7 +32,7 @@ DEFAULT_CONFIG_YAML: str = (
 )
 
 
-def read_data_file(file_path: Path, fmt: Optional[Format] = None) -> dict[str, Any]:
+def read_data_file(file_path: Path, fmt: Format | None = None) -> dict[str, Any]:
 	"read a file from any of json, yaml, or toml"
 	if fmt is None:
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
@@ -65,7 +65,7 @@ def emit_data_file(data: dict[str, Any], fmt: Format) -> str:
 
 
 def save_data_file(
-	data: dict[str, Any], file_path: Path, fmt: Optional[Format] = None
+	data: dict[str, Any], file_path: Path, fmt: Format | None = None
 ) -> None:
 	"save a file as json or yaml"
 	if fmt is None:
@@ -100,7 +100,7 @@ class Config(SerializableDataclass):
 		default=Path("default.html.jinja2"),
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
-	intermediates_dir: Optional[Path] = serializable_field(  # type: ignore[call-overload]
+	intermediates_dir: Path | None = serializable_field(  # type: ignore[call-overload]
 		default=None,
 		**_PATH_FIELD_SERIALIZATION_KWARGS,
 	)
@@ -147,16 +147,16 @@ class Config(SerializableDataclass):
 	)
 
 	@classmethod
-	def read(cls, config_path: Path, fmt: Optional[Format] = None) -> "Config":
+	def read(cls, config_path: Path, fmt: Format | None = None) -> "Config":
 		return cls.load(read_data_file(config_path, fmt))
 
 	def as_str(self, fmt: Format) -> str:
 		return emit_data_file(self.serialize(), fmt)
 
-	def save(self, config_path: Path, fmt: Optional[Format] = "json") -> None:
+	def save(self, config_path: Path, fmt: Format | None = "json") -> None:
 		save_data_file(self.serialize(), config_path, fmt)
 
-	def __post_init__(self):
+	def __post_init__(self) -> None:
 		self.validate_fields_types()
 
 
