@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
@@ -33,8 +34,8 @@ dependencies = [
 	# pretty printing html
 	"beautifulsoup4>=4.12.3",
 ]
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
 	# lint
 	"pycln>=2.1.3",
 	"ruff>=0.4.8",
@@ -53,6 +54,9 @@ dev-dependencies = [
 Repository = "https://github.com/mivanit/pdj-sitegen"
 Issues = "https://github.com/mivanit/pdj-sitegen/issues"
 Documentation = "https://miv.name/pdj-sitegen/"
+
+[project.scripts]
+pdj-sitegen = "pdj_sitegen.build:main"
 
 # build system
 [build-system]

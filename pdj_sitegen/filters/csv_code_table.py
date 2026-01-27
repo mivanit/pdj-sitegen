@@ -93,7 +93,8 @@ def codeblock_process(key, value, format_, _):
 		table_data = list(csv.reader(io.StringIO(code)))
 	else:
 		if os.path.isfile(source):
-			table_data = list(csv.reader(open(source, "r")))
+			with open(source, "r") as f:
+				table_data = list(csv.reader(f))
 		else:
 			raise Exception(f"csv source file not found: {source}")
 
