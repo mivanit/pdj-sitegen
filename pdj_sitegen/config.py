@@ -20,6 +20,10 @@ DEFAULT_CONFIG_YAML: str = (
 	importlib.resources.files(pdj_sitegen).joinpath("data", "config.yml").read_text()
 )
 
+DEFAULT_CONFIG_TOML: str = (
+	importlib.resources.files(pdj_sitegen).joinpath("data", "config.toml").read_text()
+)
+
 
 def read_data_file(file_path: Path, fmt: Format | None = None) -> dict[str, Any]:
 	"read a file from any of json, yaml, or toml"
@@ -148,11 +152,12 @@ class Config:
 if __name__ == "__main__":
 	import sys
 
-	if len(sys.argv) > 1:
-		fmt: str = sys.argv[1]
-		config: Config = Config()
-		# fmt being an invalid `Format` will be handled downstream when we call `emit_data_file`
-		config_str: str = config.as_str(fmt)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
-		print(config_str)
-	else:
+	fmt: str = sys.argv[1] if len(sys.argv) > 1 else "toml"
+
+	if fmt == "toml":
+		print(DEFAULT_CONFIG_TOML)
+	elif fmt == "yaml":
 		print(DEFAULT_CONFIG_YAML)
+	else:
+		print(f"Unknown format: {fmt}. Use 'toml' or 'yaml'.", file=sys.stderr)
+		sys.exit(1)

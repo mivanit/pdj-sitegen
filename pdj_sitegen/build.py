@@ -585,7 +585,16 @@ def pipeline(
 
 def main() -> None:
 	# parse args
-	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser()
+	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser(
+		description="Build a static site from markdown content using pandoc and jinja2.",
+		epilog=(
+			"To get a default config file:\n"
+			"  python -m pdj_sitegen.config        # prints TOML (default)\n"
+			"  python -m pdj_sitegen.config toml   # prints TOML\n"
+			"  python -m pdj_sitegen.config yaml   # prints YAML"
+		),
+		formatter_class=argparse.RawDescriptionHelpFormatter,
+	)
 	arg_parser.add_argument("config_path", type=str, help="path to the config file")
 	arg_parser.add_argument(
 		"-q",

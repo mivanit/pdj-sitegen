@@ -7,7 +7,7 @@ templates_dir = "templates"
 # default template file, relative to `templates_dir`
 default_template = "default.html.jinja2"
 # output directory, relative to cwd
-output_dir = "docs"
+output_dir = "output"
 # intermediate files directory -- if null, then no intermediate files will be saved
 # intermediates_dir = "intermediates"
 

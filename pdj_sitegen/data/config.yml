@@ -6,9 +6,9 @@ templates_dir: templates
 # default template file, relative to `templates_dir`
 default_template: default.html.jinja2
 # output directory, relative to cwd
-output_dir: docs
-# intermediate files directory -- if null, then no intermediate files will be saved
-intermediates_dir: null
+output_dir: output
+# intermediate files directory -- if set, intermediate files will be saved there
+# intermediates_dir: intermediates
 
 # Content mirroring: files from content_dir are copied to output_dir
 # copy_include: glob patterns to include (empty list = everything)
