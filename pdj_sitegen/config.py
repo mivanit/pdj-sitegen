@@ -152,7 +152,7 @@ if __name__ == "__main__":
 		fmt: str = sys.argv[1]
 		config: Config = Config()
 		# fmt being an invalid `Format` will be handled downstream when we call `emit_data_file`
-		config_str: str = config.as_str(fmt)  # type: ignore[arg-type]
+		config_str: str = config.as_str(fmt)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 		print(config_str)
 	else:
 		print(DEFAULT_CONFIG_YAML)
