@@ -3,7 +3,6 @@
 import json
 import re
 import tomllib
-from pathlib import Path
 from typing import Any, Callable, Literal
 
 import yaml  # type: ignore[import-untyped]
@@ -44,7 +43,3 @@ FRONTMATTER_REGEX: re.Pattern[str] = re.compile(
 	re.DOTALL,
 )
 
-_PATH_FIELD_SERIALIZATION_KWARGS: dict[str, Callable[[Any], Any]] = dict(
-	serialization_fn=lambda x: x.as_posix() if x else None,
-	deserialize_fn=lambda x: Path(x) if x else None,
-)

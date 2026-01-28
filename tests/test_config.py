@@ -168,7 +168,7 @@ def test_emit_data_file_toml():
 
 def test_emit_data_file_invalid_format():
 	with pytest.raises(ValueError):
-		pdjsg_config.emit_data_file({}, "invalid")
+		pdjsg_config.emit_data_file({}, "invalid")  # type: ignore[arg-type]
 
 
 @pytest.mark.parametrize("fmt", ["yaml", "json"])

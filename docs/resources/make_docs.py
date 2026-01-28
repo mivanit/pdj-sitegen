@@ -20,8 +20,8 @@ PACKAGE_CODE_URL: str
 PACKAGE_VERSION: str
 # ====================================================================================================
 
-pdoc.render_helpers.markdown_extensions["alerts"] = True
-pdoc.render_helpers.markdown_extensions["admonitions"] = True
+pdoc.render_helpers.markdown_extensions["alerts"] = True  # type: ignore[assignment]
+pdoc.render_helpers.markdown_extensions["admonitions"] = True  # type: ignore[assignment]
 
 
 def get_package_meta_global(config_path: str | Path = Path("pyproject.toml")):
