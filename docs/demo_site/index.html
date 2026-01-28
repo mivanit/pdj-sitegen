@@ -39,6 +39,26 @@
     </select>
    </p>
    <p>
+    <option value="blog">
+     blog
+    </option>
+   </p>
+   <p>
+    <option value="index">
+     index
+    </option>
+   </p>
+   <p>
+    <option value="projects">
+     projects
+    </option>
+   </p>
+   <p>
+    <option value="team">
+     team
+    </option>
+   </p>
+   <p>
     <option value="about">
      about
     </option>
@@ -54,13 +74,8 @@
     </option>
    </p>
    <p>
-    <option value="blog">
-     blog
-    </option>
-   </p>
-   <p>
-    <option value="index">
-     index
+    <option value="faq">
+     faq
     </option>
    </p>
    <p>
@@ -69,33 +84,8 @@
     </option>
    </p>
    <p>
-    <option value="faq">
-     faq
-    </option>
-   </p>
-   <p>
-    <option value="projects">
-     projects
-    </option>
-   </p>
-   <p>
-    <option value="team">
-     team
-    </option>
-   </p>
-   <p>
    </p>
    <ul id="postList">
-    <li class="post-item" data-tags="about, company, contact">
-     <a href="about.html">
-      About
-     </a>
-     <p>
-     </p>
-     <p>
-      tags: about, company, contact
-     </p>
-    </li>
     <li class="post-item" data-tags="blog, index">
      <a href="blog.html">
       Our Blog
@@ -107,6 +97,58 @@
       tags: blog, index
      </p>
     </li>
+    <li class="post-item" data-tags="projects">
+     <a href="projects.project-alpha.html">
+      Projectum Alphaum
+     </a>
+     <p>
+     </p>
+     <p>
+      tags: projects
+     </p>
+    </li>
+    <li class="post-item" data-tags="index">
+     <a href="index.html">
+      index
+     </a>
+     <p>
+      index of all pages
+     </p>
+     <p>
+      tags: index
+     </p>
+    </li>
+    <li class="post-item" data-tags="team, index">
+     <a href="team.html">
+      Our Team
+     </a>
+     <p>
+      Meet the team
+     </p>
+     <p>
+      tags: team, index
+     </p>
+    </li>
+    <li class="post-item" data-tags="projects, index">
+     <a href="projects.html">
+      Our Projects
+     </a>
+     <p>
+     </p>
+     <p>
+      tags: projects, index
+     </p>
+    </li>
+    <li class="post-item" data-tags="about, company, contact">
+     <a href="about.html">
+      About
+     </a>
+     <p>
+     </p>
+     <p>
+      tags: about, company, contact
+     </p>
+    </li>
     <li class="post-item" data-tags="blog">
      <a href="blog.post-1.html">
       Lorem Ipsum Dolor Sit Amet
@@ -115,6 +157,26 @@
      </p>
      <p>
       tags: blog
+     </p>
+    </li>
+    <li class="post-item" data-tags="faq">
+     <a href="faq.html">
+      Frequently Asked Questions
+     </a>
+     <p>
+     </p>
+     <p>
+      tags: faq
+     </p>
+    </li>
+    <li class="post-item" data-tags="projects">
+     <a href="projects.project-beta.html">
+      Projectum Betaum
+     </a>
+     <p>
+     </p>
+     <p>
+      tags: projects
      </p>
     </li>
     <li class="post-item" data-tags="blog">
@@ -138,82 +200,20 @@
       tags: events, index
      </p>
     </li>
-    <li class="post-item" data-tags="faq">
-     <a href="faq.html">
-      Frequently Asked Questions
-     </a>
-     <p>
-     </p>
-     <p>
-      tags: faq
-     </p>
-    </li>
-    <li class="post-item" data-tags="index">
-     <a href="index.html">
-      index
-     </a>
-     <p>
-      index of all pages
-     </p>
-     <p>
-      tags: index
-     </p>
-    </li>
-    <li class="post-item" data-tags="projects, index">
-     <a href="projects.html">
-      Our Projects
-     </a>
-     <p>
-     </p>
-     <p>
-      tags: projects, index
-     </p>
-    </li>
-    <li class="post-item" data-tags="projects">
-     <a href="projects.project-alpha.html">
-      Projectum Alphaum
-     </a>
-     <p>
-     </p>
-     <p>
-      tags: projects
-     </p>
-    </li>
-    <li class="post-item" data-tags="projects">
-     <a href="projects.project-beta.html">
-      Projectum Betaum
-     </a>
-     <p>
-     </p>
-     <p>
-      tags: projects
-     </p>
-    </li>
-    <li class="post-item" data-tags="team, index">
-     <a href="team.html">
-      Our Team
-     </a>
-     <p>
-      Meet the team
-     </p>
-     <p>
-      tags: team, index
-     </p>
-    </li>
    </ul>
    <script>
-    function filterPosts() {
-    const filter = document.getElementById('tagFilter').value.toLowerCase();
-    const posts = document.querySelectorAll('.post-item');
-
-    posts.forEach(post => {
-        const tags = post.getAttribute('data-tags').toLowerCase();
-        if (filter === "" || tags.includes(filter)) {
-            post.style.display = '';
-        } else {
-            post.style.display = 'none';
-        }
-    });
+    function filterPosts() {
+    const filter = document.getElementById('tagFilter').value.toLowerCase();
+    const posts = document.querySelectorAll('.post-item');
+
+    posts.forEach(post => {
+        const tags = post.getAttribute('data-tags').toLowerCase();
+        if (filter === "" || tags.includes(filter)) {
+            post.style.display = '';
+        } else {
+            post.style.display = 'none';
+        }
+    });
 }
    </script>
   </main>
