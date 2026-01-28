@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pdj_sitegen.setup_site
 from pdj_sitegen.build import pipeline
-from pdj_sitegen.setup_site import DEFAULT_CONFIG, FILE_LOCATIONS, setup_site
+from pdj_sitegen.setup_site import DEFAULT_CONFIG, FILE_LOCATIONS, RESOURCES_DIR, setup_site
 
 TEMP_DIR: Path = Path("tests/_temp")
 
@@ -41,7 +41,7 @@ class TestFileLocations:
 
     def test_resource_files_in_resources_dir(self):
         """Test resource files are in resources directory."""
-        expected_parent = DEFAULT_CONFIG.content_dir / DEFAULT_CONFIG.resources_dir
+        expected_parent = DEFAULT_CONFIG.content_dir / RESOURCES_DIR
         assert FILE_LOCATIONS["style.css"].parent == expected_parent
         assert FILE_LOCATIONS["syntax.css"].parent == expected_parent
 

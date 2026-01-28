@@ -28,7 +28,12 @@ DEFAULT_CONFIG_TOML: str = (
 def read_data_file(file_path: Path, fmt: Format | None = None) -> dict[str, Any]:
 	"read a file from any of json, yaml, or toml"
 	if fmt is None:
-		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
+		suffix: str = file_path.suffix.lstrip(".")
+		if suffix not in FORMAT_MAP:
+			raise ValueError(
+				f"Unknown file format: '.{suffix}'. Supported formats: {', '.join(FORMAT_MAP.keys())}"
+			)
+		fmt = FORMAT_MAP[suffix]
 
 	match fmt:
 		case "yaml":
@@ -62,7 +67,12 @@ def save_data_file(
 ) -> None:
 	"save a file as json or yaml"
 	if fmt is None:
-		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
+		suffix: str = file_path.suffix.lstrip(".")
+		if suffix not in FORMAT_MAP:
+			raise ValueError(
+				f"Unknown file format: '.{suffix}'. Supported formats: {', '.join(FORMAT_MAP.keys())}"
+			)
+		fmt = FORMAT_MAP[suffix]
 
 	emitted_data: str = emit_data_file(data, fmt)
 	with open(file_path, "w", encoding="utf-8") as f:
@@ -71,7 +81,6 @@ def save_data_file(
 
 _PATH_FIELDS: tuple[str, ...] = (
 	"content_dir",
-	"resources_dir",
 	"templates_dir",
 	"default_template",
 	"intermediates_dir",
@@ -86,7 +95,6 @@ class Config:
 
 	# paths
 	content_dir: Path = field(default_factory=lambda: Path("content"))
-	resources_dir: Path = field(default_factory=lambda: Path("resources"))
 	templates_dir: Path = field(default_factory=lambda: Path("templates"))
 	default_template: Path = field(default_factory=lambda: Path("default.html.jinja2"))
 	intermediates_dir: Path | None = None
@@ -150,8 +158,6 @@ class Config:
 
 
 if __name__ == "__main__":
-	import sys
-
 	fmt: str = sys.argv[1] if len(sys.argv) > 1 else "toml"
 
 	if fmt == "toml":

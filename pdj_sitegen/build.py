@@ -542,18 +542,16 @@ def pipeline(
 			**config.jinja_env_kwargs,
 		)
 
-		# figure out the last rebuild time, write the current time to the file
+		# figure out the last rebuild time, then touch the file to update its mtime
 		rebuild_time: float
+		build_time_path: Path = root_dir_absolute / config.build_time_fname
 		try:
-			rebuild_time = os.path.getmtime(root_dir_absolute / config.build_time_fname)
+			rebuild_time = os.path.getmtime(build_time_path)
 		except FileNotFoundError:
 			# set it to very old time so that all files are rebuilt
 			rebuild_time = -1.0
 
-		with open(
-			root_dir_absolute / config.build_time_fname, "w", encoding="utf-8"
-		) as f:
-			f.write(str(rebuild_time))
+		build_time_path.touch()
 
 	# build doc tree (get .md files from `config.content_dir`, split content and frontmatter, execute templates on frontmatter)
 	docs: dict[str, dict[str, Any]] = build_document_tree(

@@ -17,7 +17,6 @@ os.makedirs("tests/_temp", exist_ok=True)
 def test_config_default_values():
 	config = Config()
 	assert config.content_dir == Path("content")
-	assert config.resources_dir == Path("resources")
 	assert config.templates_dir == Path("templates")
 	assert config.default_template == Path("default.html.jinja2")
 	assert config.output_dir == Path("output")
@@ -33,7 +32,6 @@ def test_config_custom_values():
 	custom_config = {
 		"__format__": "Config(SerializableDataclass)",
 		"content_dir": "custom_content",
-		"resources_dir": "custom_resources",
 		"templates_dir": "custom_templates",
 		"default_template": "custom_default.html.jinja2",
 		"output_dir": "custom_output",
@@ -54,7 +52,6 @@ def test_config_custom_values():
 
 	# Check individual attributes
 	assert config.content_dir == Path("custom_content")
-	assert config.resources_dir == Path("custom_resources")
 	assert config.templates_dir == Path("custom_templates")
 	assert config.default_template == Path("custom_default.html.jinja2")
 	assert config.output_dir == Path("custom_output")
@@ -81,7 +78,6 @@ def test_config_partial_custom_values():
 	assert config.content_dir == Path("custom_content")
 	assert config.jinja_env_kwargs == {"autoescape": True}
 	# Check that other values remain default
-	assert config.resources_dir == Path("resources")
 	assert config.__pandoc__ == {"mathjax": True}
 
 
@@ -105,7 +101,7 @@ def test_config_read_save(fmt, tmp_path):
 
 
 def test_config_invalid_format():
-	with pytest.raises(KeyError):
+	with pytest.raises(ValueError, match="Unknown file format"):
 		Config.read(Path("non_existent.txt"))
 
 
@@ -140,7 +136,7 @@ def test_read_data_file(fmt, tmp_path):
 
 
 def test_read_data_file_invalid_format():
-	with pytest.raises(KeyError):
+	with pytest.raises(ValueError, match="Unknown file format"):
 		pdjsg_config.read_data_file(Path("test.txt"))
 
 
@@ -192,5 +188,5 @@ def test_save_data_file(fmt, tmp_path):
 
 
 def test_save_data_file_invalid_format(tmp_path):
-	with pytest.raises(KeyError):
+	with pytest.raises(ValueError, match="Unknown file format"):
 		pdjsg_config.save_data_file({}, tmp_path / "test.txt")
