@@ -46,7 +46,7 @@
 </script></head>
 <body>
 <div class="package-version">
-    docs for <a href="https://github.com/mivanit/pdj-sitegen">pdj_sitegen</a> v0.0.2<br>
+    docs for <a href="https://github.com/mivanit/pdj-sitegen">pdj_sitegen</a> v0.0.3<br>
 </div>
     <nav class="pdoc">
         <label id="navtoggle" for="togglestate" class="pdoc-button">
@@ -62,7 +62,23 @@
             <ul>
   <li><a href="#pdj_sitegen"><code>pdj_sitegen</code></a></li>
   <li><a href="#installation">Installation:</a></li>
-  <li><a href="#usage">Usage</a></li>
+  <li><a href="#usage">Usage</a>
+  <ul>
+    <li><a href="#quick-start">Quick Start</a></li>
+    <li><a href="#manual-setup">Manual Setup</a></li>
+    <li><a href="#cli-arguments">CLI Arguments</a></li>
+  </ul></li>
+  <li><a href="#configuration">Configuration</a>
+  <ul>
+    <li><a href="#config-file-formats">Config File Formats</a></li>
+    <li><a href="#content-mirroring">Content Mirroring</a></li>
+    <li><a href="#additional-options">Additional Options</a></li>
+    <li><a href="#content-organization">Content Organization</a></li>
+    <li><a href="#pandoc-filters">Pandoc Filters</a></li>
+    <li><a href="#template-variables">Template Variables</a></li>
+    <li><a href="#frontmatter-formats">Frontmatter Formats</a></li>
+  </ul></li>
+  <li><a href="#similar-toolsresources">similar tools/resources</a></li>
 </ul>
 
 
@@ -87,7 +103,7 @@
     </nav>
     <main class="pdoc">
             <section class="module-info">
-                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py">View Source on GitHub</a>
+                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/__init__.py">View Source on GitHub</a>
                     <h1 class="modulename">
 pdj_sitegen    </h1>
 
@@ -97,7 +113,7 @@ pdj_sitegen    </h1>
 
 <p><a href="https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml"><img src="https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml/badge.svg" alt="Checks" /></a>
 <a href="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml"><img src="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml/badge.svg" alt="Checks - docs" /></a>
-<a href="docs/coverage/html/"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iOTkiIGhlaWdodD0iMjAiPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4NCiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+DQogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPg0KICAgIDwvbGluZWFyR3JhZGllbnQ+DQogICAgPG1hc2sgaWQ9ImEiPg0KICAgICAgICA8cmVjdCB3aWR0aD0iOTkiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIi8+DQogICAgPC9tYXNrPg0KICAgIDxnIG1hc2s9InVybCgjYSkiPg0KICAgICAgICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDYzdjIwSDB6Ii8+DQogICAgICAgIDxwYXRoIGZpbGw9IiNhNGE2MWQiIGQ9Ik02MyAwaDM2djIwSDYzeiIvPg0KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+DQogICAgPC9nPg0KICAgIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4NCiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSIzMS41IiB5PSIxNCI+Y292ZXJhZ2U8L3RleHQ+DQogICAgICAgIDx0ZXh0IHg9IjgwIiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+NzklPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjc5JTwvdGV4dD4NCiAgICA8L2c+DQo8L3N2Zz4NCg==" alt="Coverage" /></a></p>
+<a href="docs/coverage/html/"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImEiPgogICAgICAgIDxyZWN0IHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCIgcng9IjMiIGZpbGw9IiNmZmYiLz4KICAgIDwvbWFzaz4KICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNjN2MjBIMHoiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjOTdDQTAwIiBkPSJNNjMgMGgzNnYyMEg2M3oiLz4KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjMxLjUiIHk9IjE0Ij5jb3ZlcmFnZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjkzJTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjkzJTwvdGV4dD4KICAgIDwvZz4KPC9zdmc+Cg==" alt="Coverage" /></a></p>
 
 <p><img src="https://img.shields.io/github/commit-activity/t/mivanit/pdj-sitegen" alt="GitHub commits" />
 <img src="https://img.shields.io/github/commit-activity/m/mivanit/pdj-sitegen" alt="GitHub commit activity" />
@@ -132,6 +148,27 @@ pdj_sitegen    </h1>
 
 <h1 id="usage">Usage</h1>
 
+<h2 id="quick-start">Quick Start</h2>
+
+<p>Scaffold a new site with all default files:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span><a href="pdj_sitegen/setup_site.html">pdj_sitegen.setup_site</a><span class="w"> </span><span class="o">[</span>directory<span class="o">]</span>
+</code></pre>
+</div>
+
+<p>This creates:</p>
+
+<ul>
+<li><code>config.yml</code> - default configuration</li>
+<li><code>templates/default.html.jinja2</code> - default HTML template</li>
+<li><code>content/index.md</code> - sample index page</li>
+<li><code>content/resources/style.css</code> - basic stylesheet</li>
+<li><code>content/resources/syntax.css</code> - code syntax highlighting</li>
+</ul>
+
+<h2 id="manual-setup">Manual Setup</h2>
+
 <ol>
 <li>create a config file. For an example, see <code><a href="pdj_sitegen/config.html#DEFAULT_CONFIG_YAML">pdj_sitegen.config.DEFAULT_CONFIG_YAML</a></code>, or print a copy of it via</li>
 </ol>
@@ -147,20 +184,18 @@ pdj_sitegen    </h1>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="c1"># directory with markdown content files and resources, relative to cwd</span>
-<span class="nt">content_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content/</span>
-<span class="c1"># directory with resources, relative to `content_dir`</span>
-<span class="nt">resources_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/</span>
+<span class="nt">content_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content</span>
 <span class="c1"># templates directory, relative to cwd</span>
-<span class="nt">templates_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">templates/</span>
+<span class="nt">templates_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">templates</span>
 <span class="c1"># default template file, relative to `templates_dir`</span>
 <span class="nt">default_template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default.html.jinja2</span>
 <span class="c1"># output directory, relative to cwd</span>
-<span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs/</span>
+<span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs</span>
 </code></pre>
 </div>
 
 <ol start="3">
-<li><p>populate the <code>content</code> directory with markdown files, populate <code>content/resources/</code> with resources (images, css, etc.), and adjust templates in the <code>templates</code> directory. See the demo site for usage examples.</p></li>
+<li><p>populate the <code>content</code> directory with markdown files and resources (images, css, etc.), and adjust templates in the <code>templates</code> directory. See the demo site for usage examples.</p></li>
 <li><p>run the generator</p></li>
 </ol>
 
@@ -168,6 +203,291 @@ pdj_sitegen    </h1>
 <pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pdj_sitegen<span class="w"> </span>your_config.yaml
 </code></pre>
 </div>
+
+<h2 id="cli-arguments">CLI Arguments</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pdj_sitegen<span class="w"> </span>your_config.yaml<span class="w"> </span><span class="o">[</span>-q<span class="o">]</span><span class="w"> </span><span class="o">[</span>-s<span class="o">]</span>
+</code></pre>
+</div>
+
+<ul>
+<li><code>-q, --quiet</code>: Disable verbose output</li>
+<li><code>-s, --smart-rebuild</code>: Only rebuild files modified since last build (compares file modification times against <code>.build_time</code>)</li>
+</ul>
+
+<h1 id="configuration">Configuration</h1>
+
+<h2 id="config-file-formats">Config File Formats</h2>
+
+<p>pdj-sitegen supports multiple configuration file formats:</p>
+
+<ul>
+<li><strong>YAML</strong> (<code>.yml</code>, <code>.yaml</code>) - recommended, human-friendly</li>
+<li><strong>TOML</strong> (<code>.toml</code>) - also supported</li>
+<li><strong>JSON</strong> (<code>.json</code>) - for programmatic generation</li>
+</ul>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pdj_sitegen<span class="w"> </span>config.yml<span class="w">   </span><span class="c1"># YAML</span>
+python<span class="w"> </span>-m<span class="w"> </span>pdj_sitegen<span class="w"> </span>config.toml<span class="w">  </span><span class="c1"># TOML</span>
+python<span class="w"> </span>-m<span class="w"> </span>pdj_sitegen<span class="w"> </span>config.json<span class="w">  </span><span class="c1"># JSON</span>
+</code></pre>
+</div>
+
+<h2 id="content-mirroring">Content Mirroring</h2>
+
+<p>Files from <code>content_dir</code> are automatically copied to <code>output_dir</code>, excluding markdown files (which are processed into HTML). Control this with <code>copy_include</code> and <code>copy_exclude</code>:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># Default: copy everything except .md files</span>
+<span class="nt">copy_include</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="nt">copy_exclude</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.md&quot;</span>
+
+<span class="c1"># Also exclude temp files and .git</span>
+<span class="nt">copy_exclude</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.md&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.tmp&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;.git*&quot;</span>
+
+<span class="c1"># Copy only specific file types</span>
+<span class="nt">copy_include</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.css&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.js&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.png&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.jpg&quot;</span>
+<span class="nt">copy_exclude</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+
+<span class="c1"># Force copy .md files too (include wins over exclude)</span>
+<span class="nt">copy_include</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.md&quot;</span>
+<span class="nt">copy_exclude</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;*.md&quot;</span>
+</code></pre>
+</div>
+
+<h2 id="additional-options">Additional Options</h2>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># Global template variables accessible in all templates</span>
+<span class="nt">globals_</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;My</span><span class="nv"> </span><span class="s">Site&quot;</span>
+<span class="w">  </span><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Your</span><span class="nv"> </span><span class="s">Name&quot;</span>
+
+<span class="c1"># Directory to save intermediate processing files (for debugging)</span>
+<span class="nt">intermediates_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># or &quot;_intermediates&quot;</span>
+
+<span class="c1"># Prettify HTML output (uses BeautifulSoup)</span>
+<span class="nt">prettify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="c1"># Pandoc format settings</span>
+<span class="nt">pandoc_fmt_from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;markdown+smart&quot;</span>
+<span class="nt">pandoc_fmt_to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;html&quot;</span>
+
+<span class="c1"># Global Pandoc options (can be overridden per-file in frontmatter)</span>
+<span class="nt">__pandoc__</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mathjax</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre>
+</div>
+
+<h2 id="content-organization">Content Organization</h2>
+
+<p>pdj-sitegen supports both flat and nested content structures:</p>
+
+<p><strong>Flat structure</strong> (using dot notation):</p>
+
+<pre><code>content/
+  index.md
+  blog.md
+  blog.post-1.md
+  blog.post-2.md
+</code></pre>
+
+<p>Outputs: <code>index.html</code>, <code>blog.html</code>, <code>blog.post-1.html</code>, <code>blog.post-2.html</code></p>
+
+<p><strong>Nested structure</strong> (using directories):</p>
+
+<pre><code>content/
+  index.md
+  blog/
+    index.md
+    post-1.md
+    post-2.md
+</code></pre>
+
+<p>Outputs: <code>index.html</code>, <code>blog/index.html</code>, <code>blog/post-1.html</code>, <code>blog/post-2.html</code></p>
+
+<p>Both approaches work with <code>child_docs</code> in templates for hierarchical navigation.</p>
+
+<h2 id="pandoc-filters">Pandoc Filters</h2>
+
+<p>pdj-sitegen includes two built-in pandoc filters:</p>
+
+<h3 id="links_md2html"><code>links_md2html</code></h3>
+
+<p>Converts links ending in <code>.md</code> to <code>.html</code> during conversion. Enable in frontmatter or global config:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="nt">__pandoc__</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">filter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">links_md2html</span>
+</code></pre>
+</div>
+
+<h3 id="csv_code_table"><code>csv_code_table</code></h3>
+
+<p>Converts fenced code blocks with class <code>csv_table</code> to HTML tables.</p>
+
+<p>In your markdown, use a fenced code block with the <code>csv_table</code> class and options:</p>
+
+<pre><code>  ```{.csv_table header=1 aligns=LCR caption="My Table"}
+  Name,Count,Status
+  Alice,42,Active
+  Bob,17,Pending
+  ```
+</code></pre>
+
+<p>Options:</p>
+
+<ul>
+<li><code>header</code>: Number of header rows (default: 1)</li>
+<li><code>source</code>: Path to external CSV file</li>
+<li><code>aligns</code>: Column alignments (L=left, C=center, R=right, D=default)</li>
+<li><code>caption</code>: Table caption</li>
+</ul>
+
+<h2 id="template-variables">Template Variables</h2>
+
+<p>The following variables are available in templates:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Variable</th>
+  <th>Description</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>frontmatter</code></td>
+  <td>Full frontmatter dict from the current document</td>
+  <td><code>{"title": "My Page"}</code></td>
+</tr>
+<tr>
+  <td><code>file_meta.path</code></td>
+  <td>Relative path without extension</td>
+  <td><code>blog/post-1</code></td>
+</tr>
+<tr>
+  <td><code>file_meta.path_html</code></td>
+  <td>HTML output path</td>
+  <td><code>blog/post-1.html</code></td>
+</tr>
+<tr>
+  <td><code>file_meta.path_raw</code></td>
+  <td>Original file path</td>
+  <td><code>content/blog/post-1.md</code></td>
+</tr>
+<tr>
+  <td><code>file_meta.modified_time</code></td>
+  <td>Unix timestamp of last modification</td>
+  <td><code>1706380800.0</code></td>
+</tr>
+<tr>
+  <td><code>file_meta.modified_time_str</code></td>
+  <td>Human-readable modification time</td>
+  <td><code>2024-01-27 12:00:00</code></td>
+</tr>
+<tr>
+  <td><code>config</code></td>
+  <td>Serialized site configuration</td>
+  <td><code>{"output_dir": "docs"}</code></td>
+</tr>
+<tr>
+  <td><code>docs</code></td>
+  <td>Dictionary of all documents in the site</td>
+  <td><code>{"index": {...}}</code></td>
+</tr>
+<tr>
+  <td><code>child_docs</code></td>
+  <td>Documents that are children of the current path</td>
+  <td><code>{"blog/post-1": {...}}</code></td>
+</tr>
+<tr>
+  <td><code>content</code></td>
+  <td>Rendered HTML content (in final template only)</td>
+  <td><code>&lt;p&gt;Hello&lt;/p&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>All frontmatter fields are also available directly (e.g., <code>{{ title }}</code>).</p>
+
+<h2 id="frontmatter-formats">Frontmatter Formats</h2>
+
+<p>Frontmatter can be written in YAML, JSON, or TOML:</p>
+
+<p><strong>YAML</strong> (recommended):</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>---
+title: My Page
+<span class="gu">tags: [foo, bar]</span>
+<span class="gu">---</span>
+</code></pre>
+</div>
+
+<p><strong>JSON</strong>:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>;;;
+{&quot;title&quot;: &quot;My Page&quot;, &quot;tags&quot;: [&quot;foo&quot;, &quot;bar&quot;]}
+;;;
+</code></pre>
+</div>
+
+<p><strong>TOML</strong>:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>+++
+title = &quot;My Page&quot;
+tags = [&quot;foo&quot;, &quot;bar&quot;]
++++
+</code></pre>
+</div>
+
+<h3 id="per-file-overrides">Per-file Overrides</h3>
+
+<p>Override global settings in frontmatter:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My Page</span>
+<span class="nt">__template__</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom.html.jinja2</span><span class="w">  </span><span class="c1"># Use different template</span>
+<span class="nt">__pandoc__</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">toc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                        </span><span class="c1"># Override pandoc options</span>
+<span class="w">  </span><span class="nt">number-sections</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nn">---</span>
+</code></pre>
+</div>
+
+<h1 id="similar-toolsresources">similar tools/resources</h1>
+
+<p>This project is a descendant of my old project <a href="https://github.com/mivanit/pandoc-sitegen">pandoc-sitegen</a>, which was very similar but used mustache templates instead of jinja2.</p>
+
+<p>Some other similar projects:</p>
+
+<ul>
+<li><a href="https://github.com/brianbuccola/brianbuccola.github.io">https://github.com/brianbuccola/brianbuccola.github.io</a></li>
+<li><a href="https://runningcrocodile.fi/pandoc_static_site/">https://runningcrocodile.fi/pandoc_static_site/</a></li>
+<li><a href="http://pdsite.org/installing/">http://pdsite.org/installing/</a></li>
+<li><a href="https://github.com/locua/pandoc-python-static-site-gen">https://github.com/locua/pandoc-python-static-site-gen</a></li>
+<li><a href="https://github.com/lukasschwab/pandoc-blog">https://github.com/lukasschwab/pandoc-blog</a></li>
+<li><a href="https://github.com/fcanas/bake">https://github.com/fcanas/bake</a></li>
+</ul>
+
+<p>if you end up using this script for your site and would me to list it here, email me or submit a PR :)</p>
 </div>
 
                         <input id="mod-pdj_sitegen-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -175,7 +495,7 @@ pdj_sitegen    </h1>
                         <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="mod-pdj_sitegen-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py#L0-L2" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/__init__.py#L0-L2" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>

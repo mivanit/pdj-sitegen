@@ -1,7 +1,7 @@
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents">Contents</h2>
 <p><a href="https://pypi.org/project/pdj-sitegen/"><img
@@ -17,7 +17,7 @@ alt="Checks" /></a> <a
 href="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml"><img
 src="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml/badge.svg"
 alt="Checks - docs" /></a> <a href="docs/coverage/html/"><img
-src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iOTkiIGhlaWdodD0iMjAiPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4NCiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+DQogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPg0KICAgIDwvbGluZWFyR3JhZGllbnQ+DQogICAgPG1hc2sgaWQ9ImEiPg0KICAgICAgICA8cmVjdCB3aWR0aD0iOTkiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIi8+DQogICAgPC9tYXNrPg0KICAgIDxnIG1hc2s9InVybCgjYSkiPg0KICAgICAgICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDYzdjIwSDB6Ii8+DQogICAgICAgIDxwYXRoIGZpbGw9IiNhNGE2MWQiIGQ9Ik02MyAwaDM2djIwSDYzeiIvPg0KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+DQogICAgPC9nPg0KICAgIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4NCiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSIzMS41IiB5PSIxNCI+Y292ZXJhZ2U8L3RleHQ+DQogICAgICAgIDx0ZXh0IHg9IjgwIiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+NzklPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjc5JTwvdGV4dD4NCiAgICA8L2c+DQo8L3N2Zz4NCg=="
+src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImEiPgogICAgICAgIDxyZWN0IHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCIgcng9IjMiIGZpbGw9IiNmZmYiLz4KICAgIDwvbWFzaz4KICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNjN2MjBIMHoiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjOTdDQTAwIiBkPSJNNjMgMGgzNnYyMEg2M3oiLz4KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjMxLjUiIHk9IjE0Ij5jb3ZlcmFnZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjkzJTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjkzJTwvdGV4dD4KICAgIDwvZz4KPC9zdmc+Cg=="
 alt="Coverage" /></a></p>
 <p><img
 src="https://img.shields.io/github/commit-activity/t/mivanit/pdj-sitegen"
@@ -50,36 +50,275 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="
 <p>which will install <code>pandoc</code> using <a
 href="https://github.com/JessicaTegner/pypandoc"><code>pypandoc</code></a></p>
 <h1 id="usage">Usage</h1>
+<h2 id="quick-start">Quick Start</h2>
+<p>Scaffold a new site with all default files:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen.setup_site <span class="pp">[</span><span class="ss">directory</span><span class="pp">]</span></span></code></pre></div>
+<p>This creates: - <code>config.yml</code> - default configuration -
+<code>templates/default.html.jinja2</code> - default HTML template -
+<code>content/index.md</code> - sample index page -
+<code>content/resources/style.css</code> - basic stylesheet -
+<code>content/resources/syntax.css</code> - code syntax highlighting</p>
+<h2 id="manual-setup">Manual Setup</h2>
 <ol type="1">
 <li>create a config file. For an example, see
 <code>pdj_sitegen.config.DEFAULT_CONFIG_YAML</code>, or print a copy of
 it via</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen.config</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen.config</span></code></pre></div>
 <ol start="2" type="1">
 <li>adjust the config file to your needs. most importantly:</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># directory with markdown content files and resources, relative to cwd</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">content_dir</span><span class="kw">:</span><span class="at"> content/</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># directory with resources, relative to `content_dir`</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">resources_dir</span><span class="kw">:</span><span class="at"> resources/</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># templates directory, relative to cwd</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">templates_dir</span><span class="kw">:</span><span class="at"> templates/</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># default template file, relative to `templates_dir`</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">default_template</span><span class="kw">:</span><span class="at"> default.html.jinja2</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># output directory, relative to cwd</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> docs/</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># directory with markdown content files and resources, relative to cwd</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">content_dir</span><span class="kw">:</span><span class="at"> content</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># templates directory, relative to cwd</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">templates_dir</span><span class="kw">:</span><span class="at"> templates</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># default template file, relative to `templates_dir`</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">default_template</span><span class="kw">:</span><span class="at"> default.html.jinja2</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># output directory, relative to cwd</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> docs</span></span></code></pre></div>
 <ol start="3" type="1">
-<li><p>populate the <code>content</code> directory with markdown files,
-populate <code>content/resources/</code> with resources (images, css,
-etc.), and adjust templates in the <code>templates</code> directory. See
-the demo site for usage examples.</p></li>
+<li><p>populate the <code>content</code> directory with markdown files
+and resources (images, css, etc.), and adjust templates in the
+<code>templates</code> directory. See the demo site for usage
+examples.</p></li>
 <li><p>run the generator</p></li>
 </ol>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml</span></code></pre></div>
+<h2 id="cli-arguments">CLI Arguments</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml <span class="pp">[-</span><span class="ss">q</span><span class="pp">]</span> <span class="pp">[-</span><span class="ss">s</span><span class="pp">]</span></span></code></pre></div>
+<ul>
+<li><code>-q, --quiet</code>: Disable verbose output</li>
+<li><code>-s, --smart-rebuild</code>: Only rebuild files modified since
+last build (compares file modification times against
+<code>.build_time</code>)</li>
+</ul>
+<h1 id="configuration">Configuration</h1>
+<h2 id="config-file-formats">Config File Formats</h2>
+<p>pdj-sitegen supports multiple configuration file formats:</p>
+<ul>
+<li><strong>YAML</strong> (<code>.yml</code>, <code>.yaml</code>) -
+recommended, human-friendly</li>
+<li><strong>TOML</strong> (<code>.toml</code>) - also supported</li>
+<li><strong>JSON</strong> (<code>.json</code>) - for programmatic
+generation</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.yml   <span class="co"># YAML</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.toml  <span class="co"># TOML</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.json  <span class="co"># JSON</span></span></code></pre></div>
+<h2 id="content-mirroring">Content Mirroring</h2>
+<p>Files from <code>content_dir</code> are automatically copied to
+<code>output_dir</code>, excluding markdown files (which are processed
+into HTML). Control this with <code>copy_include</code> and
+<code>copy_exclude</code>:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default: copy everything except .md files</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Also exclude temp files and .git</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.tmp&quot;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;.git*&quot;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy only specific file types</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.css&quot;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.js&quot;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.png&quot;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.jpg&quot;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Force copy .md files too (include wins over exclude)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span></code></pre></div>
+<h2 id="additional-options">Additional Options</h2>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global template variables accessible in all templates</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">globals_</span><span class="kw">:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">site_name</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;My Site&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Directory to save intermediate processing files (for debugging)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">intermediates_dir</span><span class="kw">:</span><span class="at"> </span><span class="ch">null</span><span class="co">  # or &quot;_intermediates&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Prettify HTML output (uses BeautifulSoup)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">prettify</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Pandoc format settings</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">pandoc_fmt_from</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;markdown+smart&quot;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">pandoc_fmt_to</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;html&quot;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Pandoc options (can be overridden per-file in frontmatter)</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">mathjax</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
+<h2 id="content-organization">Content Organization</h2>
+<p>pdj-sitegen supports both flat and nested content structures:</p>
+<p><strong>Flat structure</strong> (using dot notation):</p>
+<pre><code>content/
+  index.md
+  blog.md
+  blog.post-1.md
+  blog.post-2.md</code></pre>
+<p>Outputs: <code>index.html</code>, <code>blog.html</code>,
+<code>blog.post-1.html</code>, <code>blog.post-2.html</code></p>
+<p><strong>Nested structure</strong> (using directories):</p>
+<pre><code>content/
+  index.md
+  blog/
+    index.md
+    post-1.md
+    post-2.md</code></pre>
+<p>Outputs: <code>index.html</code>, <code>blog/index.html</code>,
+<code>blog/post-1.html</code>, <code>blog/post-2.html</code></p>
+<p>Both approaches work with <code>child_docs</code> in templates for
+hierarchical navigation.</p>
+<h2 id="pandoc-filters">Pandoc Filters</h2>
+<p>pdj-sitegen includes two built-in pandoc filters:</p>
+<h3 id="links_md2html"><code>links_md2html</code></h3>
+<p>Converts links ending in <code>.md</code> to <code>.html</code>
+during conversion. Enable in frontmatter or global config:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filter</span><span class="kw">:</span><span class="at"> links_md2html</span></span></code></pre></div>
+<h3 id="csv_code_table"><code>csv_code_table</code></h3>
+<p>Converts fenced code blocks with class <code>csv_table</code> to HTML
+tables.</p>
+<p>In your markdown, use a fenced code block with the
+<code>csv_table</code> class and options:</p>
+<pre><code>  ```{.csv_table header=1 aligns=LCR caption=&quot;My Table&quot;}
+  Name,Count,Status
+  Alice,42,Active
+  Bob,17,Pending
+  ```</code></pre>
+<p>Options: - <code>header</code>: Number of header rows (default: 1) -
+<code>source</code>: Path to external CSV file - <code>aligns</code>:
+Column alignments (L=left, C=center, R=right, D=default) -
+<code>caption</code>: Table caption</p>
+<h2 id="template-variables">Template Variables</h2>
+<p>The following variables are available in templates:</p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 47%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>frontmatter</code></td>
+<td>Full frontmatter dict from the current document</td>
+<td><code>{"title": "My Page"}</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.path</code></td>
+<td>Relative path without extension</td>
+<td><code>blog/post-1</code></td>
+</tr>
+<tr class="odd">
+<td><code>file_meta.path_html</code></td>
+<td>HTML output path</td>
+<td><code>blog/post-1.html</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.path_raw</code></td>
+<td>Original file path</td>
+<td><code>content/blog/post-1.md</code></td>
+</tr>
+<tr class="odd">
+<td><code>file_meta.modified_time</code></td>
+<td>Unix timestamp of last modification</td>
+<td><code>1706380800.0</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.modified_time_str</code></td>
+<td>Human-readable modification time</td>
+<td><code>2024-01-27 12:00:00</code></td>
+</tr>
+<tr class="odd">
+<td><code>config</code></td>
+<td>Serialized site configuration</td>
+<td><code>{"output_dir": "docs"}</code></td>
+</tr>
+<tr class="even">
+<td><code>docs</code></td>
+<td>Dictionary of all documents in the site</td>
+<td><code>{"index": {...}}</code></td>
+</tr>
+<tr class="odd">
+<td><code>child_docs</code></td>
+<td>Documents that are children of the current path</td>
+<td><code>{"blog/post-1": {...}}</code></td>
+</tr>
+<tr class="even">
+<td><code>content</code></td>
+<td>Rendered HTML content (in final template only)</td>
+<td><code>&lt;p&gt;Hello&lt;/p&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>All frontmatter fields are also available directly (e.g.,
+<code>{{ title }}</code>).</p>
+<h2 id="frontmatter-formats">Frontmatter Formats</h2>
+<p>Frontmatter can be written in YAML, JSON, or TOML:</p>
+<p><strong>YAML</strong> (recommended):</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> My Page</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> [foo, bar]</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
+<p><strong>JSON</strong>:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>;;;</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>{&quot;title&quot;: &quot;My Page&quot;, &quot;tags&quot;: <span class="co">[</span><span class="ot">&quot;foo&quot;, &quot;bar&quot;</span><span class="co">]</span>}</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>;;;</span></code></pre></div>
+<p><strong>TOML</strong>:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>+++</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>title = &quot;My Page&quot;</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>tags = <span class="co">[</span><span class="ot">&quot;foo&quot;, &quot;bar&quot;</span><span class="co">]</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>+++</span></code></pre></div>
+<h3 id="per-file-overrides">Per-file Overrides</h3>
+<p>Override global settings in frontmatter:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> My Page</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">__template__</span><span class="kw">:</span><span class="at"> custom.html.jinja2</span><span class="co">  # Use different template</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co">                        # Override pandoc options</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+<h1 id="similar-toolsresources">similar tools/resources</h1>
+<p>This project is a descendant of my old project <a
+href="https://github.com/mivanit/pandoc-sitegen">pandoc-sitegen</a>,
+which was very similar but used mustache templates instead of
+jinja2.</p>
+<p>Some other similar projects:</p>
+<ul>
+<li>https://github.com/brianbuccola/brianbuccola.github.io</li>
+<li>https://runningcrocodile.fi/pandoc_static_site/</li>
+<li>http://pdsite.org/installing/</li>
+<li>https://github.com/locua/pandoc-python-static-site-gen</li>
+<li>https://github.com/lukasschwab/pandoc-blog</li>
+<li>https://github.com/fcanas/bake</li>
+</ul>
+<p>if you end up using this script for your site and would me to list it
+here, email me or submit a PR :)</p>
 <h2 id="submodules">Submodules</h2>
 <ul>
 <li><a href="#build"><code>build</code></a></li>
@@ -91,7 +330,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="
 <li><a href="#setup_site"><code>setup_site</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/__init__.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen"><code>pdj_sitegen</code></h1>
 <p><a href="https://pypi.org/project/pdj-sitegen/"><img
@@ -107,7 +346,7 @@ alt="Checks" /></a> <a
 href="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml"><img
 src="https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml/badge.svg"
 alt="Checks - docs" /></a> <a href="docs/coverage/html/"><img
-src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iOTkiIGhlaWdodD0iMjAiPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDI9IjAiIHkyPSIxMDAlIj4NCiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+DQogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1vcGFjaXR5PSIuMSIvPg0KICAgIDwvbGluZWFyR3JhZGllbnQ+DQogICAgPG1hc2sgaWQ9ImEiPg0KICAgICAgICA8cmVjdCB3aWR0aD0iOTkiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIi8+DQogICAgPC9tYXNrPg0KICAgIDxnIG1hc2s9InVybCgjYSkiPg0KICAgICAgICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNMCAwaDYzdjIwSDB6Ii8+DQogICAgICAgIDxwYXRoIGZpbGw9IiNhNGE2MWQiIGQ9Ik02MyAwaDM2djIwSDYzeiIvPg0KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+DQogICAgPC9nPg0KICAgIDxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJEZWphVnUgU2FucyxWZXJkYW5hLEdlbmV2YSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIj4NCiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSIzMS41IiB5PSIxNCI+Y292ZXJhZ2U8L3RleHQ+DQogICAgICAgIDx0ZXh0IHg9IjgwIiB5PSIxNSIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+NzklPC90ZXh0Pg0KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjc5JTwvdGV4dD4NCiAgICA8L2c+DQo8L3N2Zz4NCg=="
+src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgyPSIwIiB5Mj0iMTAwJSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImEiPgogICAgICAgIDxyZWN0IHdpZHRoPSI5OSIgaGVpZ2h0PSIyMCIgcng9IjMiIGZpbGw9IiNmZmYiLz4KICAgIDwvbWFzaz4KICAgIDxnIG1hc2s9InVybCgjYSkiPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTUiIGQ9Ik0wIDBoNjN2MjBIMHoiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjOTdDQTAwIiBkPSJNNjMgMGgzNnYyMEg2M3oiLz4KICAgICAgICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJNMCAwaDk5djIwSDB6Ii8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRGVqYVZ1IFNhbnMsVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgICAgPHRleHQgeD0iMzEuNSIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPmNvdmVyYWdlPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjMxLjUiIHk9IjE0Ij5jb3ZlcmFnZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTUiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPjkzJTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI4MCIgeT0iMTQiPjkzJTwvdGV4dD4KICAgIDwvZz4KPC9zdmc+Cg=="
 alt="Coverage" /></a></p>
 <p><img
 src="https://img.shields.io/github/commit-activity/t/mivanit/pdj-sitegen"
@@ -131,52 +370,291 @@ href="https://miv.name/pdj-sitegen/demo_site/"><code>miv.name/pdj_sitegen/demo_s
 href="https://github.com/mivanit/pdj-sitegen"><code>github.com/mivanit/pdj-sitegen</code></a></li>
 </ul>
 <h3 id="installation-1">Installation:</h3>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pdj-sitegen</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pdj-sitegen</span></code></pre></div>
 <p>you should either have <a href="https://pandoc.org/">Pandoc</a>
 installed, or you can run</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> <span class="op">&lt;</span>a href=<span class="st">&quot;pdj_sitegen/install_pandoc.html&quot;</span><span class="op">&gt;</span>pdj_sitegen.install_pandoc<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> <span class="op">&lt;</span>a href=<span class="st">&quot;pdj_sitegen/install_pandoc.html&quot;</span><span class="op">&gt;</span>pdj_sitegen.install_pandoc<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code></pre></div>
 <p>which will install <code>pandoc</code> using <a
 href="https://github.com/JessicaTegner/pypandoc"><code>pypandoc</code></a></p>
 <h3 id="usage-1">Usage</h3>
+<h4 id="quick-start-1">Quick Start</h4>
+<p>Scaffold a new site with all default files:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> <span class="op">&lt;</span>a href=<span class="st">&quot;pdj_sitegen/setup_site.html&quot;</span><span class="op">&gt;</span>pdj_sitegen.setup_site<span class="op">&lt;</span>/a<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">directory</span><span class="pp">]</span></span></code></pre></div>
+<p>This creates: - <code>config.yml</code> - default configuration -
+<code>templates/default.html.jinja2</code> - default HTML template -
+<code>content/index.md</code> - sample index page -
+<code>content/resources/style.css</code> - basic stylesheet -
+<code>content/resources/syntax.css</code> - code syntax highlighting</p>
+<h4 id="manual-setup-1">Manual Setup</h4>
 <ol type="1">
 <li>create a config file. For an example, see
 <code>&lt;a href="pdj_sitegen/config.html#DEFAULT_CONFIG_YAML"&gt;pdj_sitegen.config.DEFAULT_CONFIG_YAML&lt;/a&gt;</code>,
 or print a copy of it via</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> <span class="op">&lt;</span>a href=<span class="st">&quot;pdj_sitegen/config.html&quot;</span><span class="op">&gt;</span>pdj_sitegen.config<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> <span class="op">&lt;</span>a href=<span class="st">&quot;pdj_sitegen/config.html&quot;</span><span class="op">&gt;</span>pdj_sitegen.config<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code></pre></div>
 <ol start="2" type="1">
 <li>adjust the config file to your needs. most importantly:</li>
 </ol>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">### directory with markdown content files and resources, relative to cwd</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">content_dir</span><span class="kw">:</span><span class="at"> content/</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">### directory with resources, relative to `content_dir`</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">resources_dir</span><span class="kw">:</span><span class="at"> resources/</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">### templates directory, relative to cwd</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">templates_dir</span><span class="kw">:</span><span class="at"> templates/</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">### default template file, relative to `templates_dir`</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">default_template</span><span class="kw">:</span><span class="at"> default.html.jinja2</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">### output directory, relative to cwd</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> docs/</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">### directory with markdown content files and resources, relative to cwd</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">content_dir</span><span class="kw">:</span><span class="at"> content</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">### templates directory, relative to cwd</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">templates_dir</span><span class="kw">:</span><span class="at"> templates</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">### default template file, relative to `templates_dir`</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">default_template</span><span class="kw">:</span><span class="at"> default.html.jinja2</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">### output directory, relative to cwd</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> docs</span></span></code></pre></div>
 <ol start="3" type="1">
-<li><p>populate the <code>content</code> directory with markdown files,
-populate <code>content/resources/</code> with resources (images, css,
-etc.), and adjust templates in the <code>templates</code> directory. See
-the demo site for usage examples.</p></li>
+<li><p>populate the <code>content</code> directory with markdown files
+and resources (images, css, etc.), and adjust templates in the
+<code>templates</code> directory. See the demo site for usage
+examples.</p></li>
 <li><p>run the generator</p></li>
 </ol>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml</span></code></pre></div>
+<h4 id="cli-arguments-1">CLI Arguments</h4>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen your_config.yaml <span class="pp">[-</span><span class="ss">q</span><span class="pp">]</span> <span class="pp">[-</span><span class="ss">s</span><span class="pp">]</span></span></code></pre></div>
+<ul>
+<li><code>-q, --quiet</code>: Disable verbose output</li>
+<li><code>-s, --smart-rebuild</code>: Only rebuild files modified since
+last build (compares file modification times against
+<code>.build_time</code>)</li>
+</ul>
+<h3 id="configuration-1">Configuration</h3>
+<h4 id="config-file-formats-1">Config File Formats</h4>
+<p>pdj-sitegen supports multiple configuration file formats:</p>
+<ul>
+<li><strong>YAML</strong> (<code>.yml</code>, <code>.yaml</code>) -
+recommended, human-friendly</li>
+<li><strong>TOML</strong> (<code>.toml</code>) - also supported</li>
+<li><strong>JSON</strong> (<code>.json</code>) - for programmatic
+generation</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.yml   <span class="co"># YAML</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.toml  <span class="co"># TOML</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.json  <span class="co"># JSON</span></span></code></pre></div>
+<h4 id="content-mirroring-1">Content Mirroring</h4>
+<p>Files from <code>content_dir</code> are automatically copied to
+<code>output_dir</code>, excluding markdown files (which are processed
+into HTML). Control this with <code>copy_include</code> and
+<code>copy_exclude</code>:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Default: copy everything except .md files</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">### Also exclude temp files and .git</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.tmp&quot;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;.git*&quot;</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">### Copy only specific file types</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.css&quot;</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.js&quot;</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.png&quot;</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.jpg&quot;</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">### Force copy .md files too (include wins over exclude)</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_include</span><span class="kw">:</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="fu">copy_exclude</span><span class="kw">:</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;*.md&quot;</span></span></code></pre></div>
+<h4 id="additional-options-1">Additional Options</h4>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Global template variables accessible in all templates</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">globals_</span><span class="kw">:</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">site_name</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;My Site&quot;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">### Directory to save intermediate processing files (for debugging)</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">intermediates_dir</span><span class="kw">:</span><span class="at"> </span><span class="ch">null</span><span class="co">  # or &quot;_intermediates&quot;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">### Prettify HTML output (uses BeautifulSoup)</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">prettify</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">### Pandoc format settings</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">pandoc_fmt_from</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;markdown+smart&quot;</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="fu">pandoc_fmt_to</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;html&quot;</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">### Global Pandoc options (can be overridden per-file in frontmatter)</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">mathjax</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
+<h4 id="content-organization-1">Content Organization</h4>
+<p>pdj-sitegen supports both flat and nested content structures:</p>
+<p><strong>Flat structure</strong> (using dot notation):</p>
+<pre><code>content/
+  index.md
+  blog.md
+  blog.post-1.md
+  blog.post-2.md</code></pre>
+<p>Outputs: <code>index.html</code>, <code>blog.html</code>,
+<code>blog.post-1.html</code>, <code>blog.post-2.html</code></p>
+<p><strong>Nested structure</strong> (using directories):</p>
+<pre><code>content/
+  index.md
+  blog/
+    index.md
+    post-1.md
+    post-2.md</code></pre>
+<p>Outputs: <code>index.html</code>, <code>blog/index.html</code>,
+<code>blog/post-1.html</code>, <code>blog/post-2.html</code></p>
+<p>Both approaches work with <code>child_docs</code> in templates for
+hierarchical navigation.</p>
+<h4 id="pandoc-filters-1">Pandoc Filters</h4>
+<p>pdj-sitegen includes two built-in pandoc filters:</p>
+<h5 id="links_md2html-1"><code>links_md2html</code></h5>
+<p>Converts links ending in <code>.md</code> to <code>.html</code>
+during conversion. Enable in frontmatter or global config:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filter</span><span class="kw">:</span><span class="at"> links_md2html</span></span></code></pre></div>
+<h5 id="csv_code_table-1"><code>csv_code_table</code></h5>
+<p>Converts fenced code blocks with class <code>csv_table</code> to HTML
+tables.</p>
+<p>In your markdown, use a fenced code block with the
+<code>csv_table</code> class and options:</p>
+<pre><code>  ```{.csv_table header=1 aligns=LCR caption=&quot;My Table&quot;}
+  Name,Count,Status
+  Alice,42,Active
+  Bob,17,Pending
+  ```</code></pre>
+<p>Options: - <code>header</code>: Number of header rows (default: 1) -
+<code>source</code>: Path to external CSV file - <code>aligns</code>:
+Column alignments (L=left, C=center, R=right, D=default) -
+<code>caption</code>: Table caption</p>
+<h4 id="template-variables-1">Template Variables</h4>
+<p>The following variables are available in templates:</p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 47%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>frontmatter</code></td>
+<td>Full frontmatter dict from the current document</td>
+<td><code>{"title": "My Page"}</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.path</code></td>
+<td>Relative path without extension</td>
+<td><code>blog/post-1</code></td>
+</tr>
+<tr class="odd">
+<td><code>file_meta.path_html</code></td>
+<td>HTML output path</td>
+<td><code>blog/post-1.html</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.path_raw</code></td>
+<td>Original file path</td>
+<td><code>content/blog/post-1.md</code></td>
+</tr>
+<tr class="odd">
+<td><code>file_meta.modified_time</code></td>
+<td>Unix timestamp of last modification</td>
+<td><code>1706380800.0</code></td>
+</tr>
+<tr class="even">
+<td><code>file_meta.modified_time_str</code></td>
+<td>Human-readable modification time</td>
+<td><code>2024-01-27 12:00:00</code></td>
+</tr>
+<tr class="odd">
+<td><code>config</code></td>
+<td>Serialized site configuration</td>
+<td><code>{"output_dir": "docs"}</code></td>
+</tr>
+<tr class="even">
+<td><code>docs</code></td>
+<td>Dictionary of all documents in the site</td>
+<td><code>{"index": {...}}</code></td>
+</tr>
+<tr class="odd">
+<td><code>child_docs</code></td>
+<td>Documents that are children of the current path</td>
+<td><code>{"blog/post-1": {...}}</code></td>
+</tr>
+<tr class="even">
+<td><code>content</code></td>
+<td>Rendered HTML content (in final template only)</td>
+<td><code>&lt;p&gt;Hello&lt;/p&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>All frontmatter fields are also available directly (e.g.,
+<code>{{ title }}</code>).</p>
+<h4 id="frontmatter-formats-1">Frontmatter Formats</h4>
+<p>Frontmatter can be written in YAML, JSON, or TOML:</p>
+<p><strong>YAML</strong> (recommended):</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> My Page</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> [foo, bar]</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code></pre></div>
+<p><strong>JSON</strong>:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>;;;</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>{&quot;title&quot;: &quot;My Page&quot;, &quot;tags&quot;: <span class="co">[</span><span class="ot">&quot;foo&quot;, &quot;bar&quot;</span><span class="co">]</span>}</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>;;;</span></code></pre></div>
+<p><strong>TOML</strong>:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>+++</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>title = &quot;My Page&quot;</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>tags = <span class="co">[</span><span class="ot">&quot;foo&quot;, &quot;bar&quot;</span><span class="co">]</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>+++</span></code></pre></div>
+<h5 id="per-file-overrides-1">Per-file Overrides</h5>
+<p>Override global settings in frontmatter:</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> My Page</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">__template__</span><span class="kw">:</span><span class="at"> custom.html.jinja2</span><span class="co">  # Use different template</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co">                        # Override pandoc options</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+<h3 id="similar-toolsresources-1">similar tools/resources</h3>
+<p>This project is a descendant of my old project <a
+href="https://github.com/mivanit/pandoc-sitegen">pandoc-sitegen</a>,
+which was very similar but used mustache templates instead of
+jinja2.</p>
+<p>Some other similar projects:</p>
+<ul>
+<li>https://github.com/brianbuccola/brianbuccola.github.io</li>
+<li>https://runningcrocodile.fi/pandoc_static_site/</li>
+<li>http://pdsite.org/installing/</li>
+<li>https://github.com/locua/pandoc-python-static-site-gen</li>
+<li>https://github.com/lukasschwab/pandoc-blog</li>
+<li>https://github.com/fcanas/bake</li>
+</ul>
+<p>if you end up using this script for your site and would me to list it
+here, email me or submit a PR :)</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/__init__.py#L0-L2">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/__init__.py#L0-L2">View
 Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-1">Contents</h2>
 <p>Build a site from markdown files using Jinja2 and Pandoc</p>
@@ -190,14 +668,20 @@ template on the content with frontmatter, globals_, file metadata, and
 all other docs as context - Convert the content to HTML using Pandoc -
 Execute a template on the specified or default template with the HTML
 content, frontmatter, globals_ and file metadata as context</li>
-<li>Copy the resources directory to the output directory</li>
+<li>Copy content files to output directory (based on
+copy_include/copy_exclude patterns)</li>
 </ul>
 <h2 id="api-documentation">API Documentation</h2>
 <ul>
+<li><a href="#should_copy"><code>should_copy</code></a></li>
+<li><a
+href="#copy_content_files"><code>copy_content_files</code></a></li>
 <li><a href="#split_md"><code>split_md</code></a></li>
 <li><a href="#render"><code>render</code></a></li>
 <li><a
 href="#build_document_tree"><code>build_document_tree</code></a></li>
+<li><a href="#BUILTIN_FILTERS"><code>BUILTIN_FILTERS</code></a></li>
+<li><a href="#resolve_filter"><code>resolve_filter</code></a></li>
 <li><a
 href="#process_pandoc_args"><code>process_pandoc_args</code></a></li>
 <li><a href="#dump_intermediate"><code>dump_intermediate</code></a></li>
@@ -209,7 +693,7 @@ href="#convert_markdown_files"><code>convert_markdown_files</code></a></li>
 <li><a href="#main"><code>main</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.build"><code>pdj_sitegen.build</code></h1>
 <p>Build a site from markdown files using Jinja2 and Pandoc</p>
@@ -223,29 +707,85 @@ template on the content with frontmatter, globals_, file metadata, and
 all other docs as context - Convert the content to HTML using Pandoc -
 Execute a template on the specified or default template with the HTML
 content, frontmatter, globals_ and file metadata as context</li>
-<li>Copy the resources directory to the output directory</li>
+<li>Copy content files to output directory (based on
+copy_include/copy_exclude patterns)</li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L0-L515">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L0-L624">View
 Source on GitHub</a></p>
-<h3 id="split_md"><code>def split_md</code></h3>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(content: <span class="bu">str</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">str</span>, <span class="bu">str</span>, Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]]</span></code></pre></div>
+<h3 id="should_copy"><code>def should_copy</code></h3>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(rel_path: <span class="bu">str</span>, include: <span class="bu">list</span>[<span class="bu">str</span>], exclude: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">bool</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L48-L82">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L49-L77">View
+Source on GitHub</a></p>
+<p>Determine if a file should be copied based on include/exclude
+patterns.</p>
+<p>Rules: - If file matches any include pattern → copy (wins over
+exclude) - If file matches any exclude pattern → don’t copy - If include
+is empty → copy everything not excluded - If include is non-empty but
+file doesn’t match → don’t copy</p>
+<h3 id="parameters">Parameters:</h3>
+<ul>
+<li><code>rel_path : str</code> relative path of the file (POSIX
+format)</li>
+<li><code>include : list[str]</code> glob patterns for files to include
+(empty means everything)</li>
+<li><code>exclude : list[str]</code> glob patterns for files to
+exclude</li>
+</ul>
+<h3 id="returns">Returns:</h3>
+<ul>
+<li><code>bool</code> True if the file should be copied</li>
+</ul>
+<h3 id="copy_content_files"><code>def copy_content_files</code></h3>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    content_dir: pathlib._local.Path,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    output_dir: pathlib._local.Path,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    include: <span class="bu">list</span>[<span class="bu">str</span>],</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    exclude: <span class="bu">list</span>[<span class="bu">str</span>],</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">int</span></span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L80-L116">View
+Source on GitHub</a></p>
+<p>Copy files from content_dir to output_dir based on include/exclude
+patterns.</p>
+<h3 id="parameters-1">Parameters:</h3>
+<ul>
+<li><code>content_dir : Path</code> source directory containing content
+files</li>
+<li><code>output_dir : Path</code> destination directory for output</li>
+<li><code>include : list[str]</code> glob patterns for files to include
+(empty means everything)</li>
+<li><code>exclude : list[str]</code> glob patterns for files to
+exclude</li>
+<li><code>verbose : bool</code> whether to print progress
+information</li>
+</ul>
+<h3 id="returns-1">Returns:</h3>
+<ul>
+<li><code>int</code> number of files copied</li>
+</ul>
+<h3 id="split_md"><code>def split_md</code></h3>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(content: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">str</span>, <span class="bu">str</span>, typing.Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]]</span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L119-L155">View
 Source on GitHub</a></p>
 <p>parse markdown into a tuple of frontmatter, body, and frontmatter
 format</p>
 <p>will use <code>FRONTMATTER_REGEX</code> to split the markdown content
 into frontmatter and body. the possible delimiters are defined in
 <code>FRONTMATTER_DELIMS</code>.</p>
-<h3 id="parameters">Parameters:</h3>
+<h3 id="parameters-2">Parameters:</h3>
 <ul>
 <li><code>content : str</code> markdown content to split</li>
 </ul>
-<h3 id="returns">Returns:</h3>
+<h3 id="returns-2">Returns:</h3>
 <ul>
-<li><code>Tuple[str, str, Format]</code> tuple of frontmatter, body, and
+<li><code>tuple[str, str, Format]</code> tuple of frontmatter, body, and
 frontmatter format (yaml, json, toml)</li>
 </ul>
 <h3 id="raises">Raises:</h3>
@@ -253,18 +793,18 @@ frontmatter format (yaml, json, toml)</li>
 <li><code>SplitMarkdownError</code> : if the regex does not match</li>
 </ul>
 <h3 id="render"><code>def render</code></h3>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L85-L131">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L158-L204">View
 Source on GitHub</a></p>
 <p>render content given context and jinja2 environment. raise
 RenderError if error occurs</p>
-<h3 id="parameters-1">Parameters:</h3>
+<h3 id="parameters-3">Parameters:</h3>
 <ul>
 <li><code>content : str</code> text content with jinja2 template
 syntax</li>
@@ -273,7 +813,7 @@ template</li>
 <li><code>jinja_env : Environment</code> jinja2 environment to use for
 rendering</li>
 </ul>
-<h3 id="returns-1">Returns:</h3>
+<h3 id="returns-3">Returns:</h3>
 <ul>
 <li><code>str</code> rendered content</li>
 </ul>
@@ -283,15 +823,15 @@ rendering</li>
 rendering the template</li>
 </ul>
 <h3 id="build_document_tree"><code>def build_document_tree</code></h3>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    content_dir: pathlib.Path,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    frontmatter_context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]]</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    content_dir: pathlib._local.Path,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    frontmatter_context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L134-L207">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L207-L280">View
 Source on GitHub</a></p>
 <p>given a dir of markdown files, return a dict of documents with
 rendered frontmatter</p>
@@ -307,7 +847,7 @@ document</li>
 including
 <code>"path", "path_html", "path_raw", "modified_time"</code></li>
 </ul>
-<h3 id="parameters-2">Parameters:</h3>
+<h3 id="parameters-4">Parameters:</h3>
 <ul>
 <li><code>content_dir : Path</code> path to glob for markdown files</li>
 <li><code>frontmatter_context : dict[str, Any]</code> context to use to
@@ -315,16 +855,26 @@ render the frontmatter <em>before</em> parsing it into a dict</li>
 <li><code>jinja_env : Environment</code> jinja2 environment to use for
 rendering</li>
 </ul>
-<h3 id="returns-2">Returns:</h3>
+<h3 id="returns-4">Returns:</h3>
 <ul>
-<li><code>dict[str, dict[str, Any]]</code> dict of documents with
-rendered frontmatter.</li>
+<li><p><code>dict[str, dict[str, Any]]</code> dict of documents with
+rendered frontmatter.</p></li>
+<li><p><code>BUILTIN_FILTERS: dict[str, str] = {'csv_code_table': 'pdj-csv-code-table', 'links_md2html': 'pdj-links-md2html', 'pdj_sitegen.filters.csv_code_table': 'pdj-csv-code-table', 'pdj_sitegen.filters.links_md2html': 'pdj-links-md2html'}</code></p></li>
 </ul>
-<h3 id="process_pandoc_args"><code>def process_pandoc_args</code></h3>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(pandoc_args: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]</span></code></pre></div>
+<h3 id="resolve_filter"><code>def resolve_filter</code></h3>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(filter_name: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L210-L241">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L294-L300">View
+Source on GitHub</a></p>
+<p>Resolve a filter name to an executable.</p>
+<p>Built-in filters are mapped to their entry points. External filters
+are passed through unchanged.</p>
+<h3 id="process_pandoc_args"><code>def process_pandoc_args</code></h3>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(pandoc_args: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]</span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L303-L338">View
 Source on GitHub</a></p>
 <p>given args to pass to pandoc, turn them into a list of strings we can
 actually pass</p>
@@ -340,68 +890,68 @@ and item to the list together.
 (i.e. <code>"filters": ["filter_a", "filter_b"]</code> -&gt;
 <code>["--filters", "filter_a", "--filters", "filter_b"]</code>)</li>
 </ul>
-<h3 id="parameters-3">Parameters:</h3>
+<h3 id="parameters-5">Parameters:</h3>
 <ul>
 <li><code>pandoc_args : dict[str, Any]</code></li>
 </ul>
-<h3 id="returns-3">Returns:</h3>
+<h3 id="returns-5">Returns:</h3>
 <ul>
 <li><code>list[str]</code></li>
 </ul>
 <h3 id="dump_intermediate"><code>def dump_intermediate</code></h3>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: Optional[pathlib.Path],</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    fmt: <span class="bu">str</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    path: <span class="bu">str</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    subdir: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: pathlib._local.Path <span class="op">|</span> <span class="va">None</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    fmt: <span class="bu">str</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    path: <span class="bu">str</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    subdir: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L244-L258">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L341-L355">View
 Source on GitHub</a></p>
 <p>Dump content to an intermediate file if intermediates_dir is
 specified</p>
 <h3
 id="convert_single_markdown_file"><code>def convert_single_markdown_file</code></h3>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    path: <span class="bu">str</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    output_root: pathlib.Path,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    doc: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    docs: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]],</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    config: pdj_sitegen.config.Config,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: Optional[pathlib.Path] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    path: <span class="bu">str</span>,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    output_root: pathlib._local.Path,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    doc: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    docs: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]],</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    config: pdj_sitegen.config.Config,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: pathlib._local.Path <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L261-L350">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L358-L450">View
 Source on GitHub</a></p>
 <h3
 id="convert_markdown_files"><code>def convert_markdown_files</code></h3>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    docs: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]],</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    config: pdj_sitegen.config.Config,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    output_root: pathlib.Path,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    smart_rebuild: <span class="bu">bool</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    rebuild_time: <span class="bu">float</span>,</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: Optional[pathlib.Path] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    docs: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]],</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    config: pdj_sitegen.config.Config,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    output_root: pathlib._local.Path,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    smart_rebuild: <span class="bu">bool</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    rebuild_time: <span class="bu">float</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: pathlib._local.Path <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L353-L402">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L453-L504">View
 Source on GitHub</a></p>
 <h3 id="pipeline"><code>def pipeline</code></h3>
-<div class="sourceCode" id="cb18"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib.Path,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    smart_rebuild: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib._local.Path,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    smart_rebuild: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L405-L488">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L507-L588">View
 Source on GitHub</a></p>
 <p>build the website</p>
 <h3 id="what-this-does">what this does:</h3>
@@ -415,15 +965,15 @@ directory</li>
 output directory</li>
 </ul>
 <h3 id="main"><code>def main</code></h3>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/build.py#L491-L512">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/build.py#L591-L621">View
 Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-2">Contents</h2>
 <p>define the config, and also provide CLI for printing template</p>
@@ -431,156 +981,135 @@ v0.0.2</p>
 <ul>
 <li><a
 href="#DEFAULT_CONFIG_YAML"><code>DEFAULT_CONFIG_YAML</code></a></li>
+<li><a
+href="#DEFAULT_CONFIG_TOML"><code>DEFAULT_CONFIG_TOML</code></a></li>
 <li><a href="#read_data_file"><code>read_data_file</code></a></li>
 <li><a href="#emit_data_file"><code>emit_data_file</code></a></li>
 <li><a href="#save_data_file"><code>save_data_file</code></a></li>
 <li><a href="#Config"><code>Config</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.config"><code>pdj_sitegen.config</code></h1>
 <p>define the config, and also provide CLI for printing template</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L0-L172">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L0-L168">View
 Source on GitHub</a></p>
 <ul>
-<li><code>DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative to</code>content_dir<code>\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to</code>templates_dir<code>\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with</code><strong>pandoc</strong><code>from the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'</code></li>
+<li><p><code>DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative to</code>templates_dir<code>\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: output\n# intermediate files directory -- if set, intermediate files will be saved there\n# intermediates_dir: intermediates\n\n# Content mirroring: files from content_dir are copied to output_dir\n# copy_include: glob patterns to include (empty list = everything)\n# copy_exclude: glob patterns to exclude\n# If a file matches BOTH include and exclude, include wins (explicit include overrides exclude)\ncopy_include: []\ncopy_exclude:\n  - "*.md"  # markdown files are processed into HTML, not copied raw\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented with</code><strong>pandoc</strong><code>from the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'</code></p></li>
+<li><p><code>DEFAULT_CONFIG_TOML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n\n# directory with markdown content files and resources, relative to cwd\ncontent_dir = "content"\n# templates directory, relative to cwd\ntemplates_dir = "templates"\n# default template file, relative to</code>templates_dir<code>\ndefault_template = "default.html.jinja2"\n# output directory, relative to cwd\noutput_dir = "output"\n# intermediate files directory -- if null, then no intermediate files will be saved\n# intermediates_dir = "intermediates"\n\n# Content mirroring: files from content_dir are copied to output_dir\n# copy_include: glob patterns to include (empty list = everything)\n# copy_exclude: glob patterns to exclude\n# If a file matches BOTH include and exclude, include wins (explicit include overrides exclude)\ncopy_include = []\ncopy_exclude = ["*.md"]  # markdown files are processed into HTML, not copied raw\n\n# whether to prettify with bs4\nprettify = false\n\n# pandoc formats\npandoc_fmt_from = "markdown+smart"\npandoc_fmt_to = "html"\n\n# extra kwargs to pass to pandoc (this will be augmented with</code><strong>pandoc</strong><code>from the frontmatter of a file)\n[__pandoc__]\nmathjax = true\n\n# kwargs to pass to the Jinja2 environment\n[jinja_env_kwargs]\n\n# extra globals to pass -- this can be anything\n[globals_]\npdjsg_url = "https://github.com/mivanit/pdj-sitegen"\n'</code></p></li>
 </ul>
 <h3 id="read_data_file"><code>def read_data_file</code></h3>
-<div class="sourceCode" id="cb20"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    file_path: pathlib.Path,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    file_path: pathlib._local.Path,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L35-L51">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L28-L49">View
 Source on GitHub</a></p>
 <p>read a file from any of json, yaml, or toml</p>
 <h3 id="emit_data_file"><code>def emit_data_file</code></h3>
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(data: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any], fmt: Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>(data: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any], fmt: Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L54-L64">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L52-L62">View
 Source on GitHub</a></p>
 <p>emit a file as json or yaml</p>
 <h3 id="save_data_file"><code>def save_data_file</code></h3>
-<div class="sourceCode" id="cb22"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    data: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    file_path: pathlib.Path,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    data: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any],</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    file_path: pathlib._local.Path,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L67-L76">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L65-L79">View
 Source on GitHub</a></p>
 <p>save a file as json or yaml</p>
-<h3
-id="Config"><code>class Config(muutils.json_serialize.serializable_dataclass.SerializableDataclass):</code></h3>
+<h3 id="Config"><code>class Config:</code></h3>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L79-L160">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L92-L157">View
 Source on GitHub</a></p>
 <p>configuration for the site generator</p>
 <h3 id="Config.__init__"><code>Config</code></h3>
-<div class="sourceCode" id="cb23"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    content_dir: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;content&#39;</span>),</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    resources_dir: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;resources&#39;</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    templates_dir: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;templates&#39;</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    default_template: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;default.html.jinja2&#39;</span>),</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: Optional[pathlib.Path] <span class="op">=</span> <span class="va">None</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    output_dir: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;output&#39;</span>),</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    build_time_fname: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;.build_time&#39;</span>),</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    jinja_env_kwargs: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    globals_: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    prettify: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    __pandoc__: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    pandoc_fmt_from: <span class="bu">str</span> <span class="op">=</span> <span class="st">&#39;markdown+smart&#39;</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    pandoc_fmt_to: <span class="bu">str</span> <span class="op">=</span> <span class="st">&#39;html&#39;</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    content_dir: pathlib._local.Path <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    templates_dir: pathlib._local.Path <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    default_template: pathlib._local.Path <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    intermediates_dir: pathlib._local.Path <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    output_dir: pathlib._local.Path <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    build_time_fname: pathlib._local.Path <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    jinja_env_kwargs: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    globals_: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    prettify: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    copy_include: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    copy_exclude: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    __pandoc__: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">=</span> <span class="op">&lt;</span>factory<span class="op">&gt;</span>,</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    pandoc_fmt_from: <span class="bu">str</span> <span class="op">=</span> <span class="st">&#39;markdown+smart&#39;</span>,</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>    pandoc_fmt_to: <span class="bu">str</span> <span class="op">=</span> <span class="st">&#39;html&#39;</span></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
-<li><p><code>content_dir: pathlib.Path = WindowsPath('content')</code></p></li>
-<li><p><code>resources_dir: pathlib.Path = WindowsPath('resources')</code></p></li>
-<li><p><code>templates_dir: pathlib.Path = WindowsPath('templates')</code></p></li>
-<li><p><code>default_template: pathlib.Path = WindowsPath('default.html.jinja2')</code></p></li>
-<li><p><code>intermediates_dir: Optional[pathlib.Path] = None</code></p></li>
-<li><p><code>output_dir: pathlib.Path = WindowsPath('output')</code></p></li>
-<li><p><code>build_time_fname: pathlib.Path = WindowsPath('.build_time')</code></p></li>
+<li><p><code>content_dir: pathlib._local.Path</code></p></li>
+<li><p><code>templates_dir: pathlib._local.Path</code></p></li>
+<li><p><code>default_template: pathlib._local.Path</code></p></li>
+<li><p><code>intermediates_dir: pathlib._local.Path | None = None</code></p></li>
+<li><p><code>output_dir: pathlib._local.Path</code></p></li>
+<li><p><code>build_time_fname: pathlib._local.Path</code></p></li>
 <li><p><code>jinja_env_kwargs: dict[str, typing.Any]</code></p></li>
 <li><p><code>globals_: dict[str, typing.Any]</code></p></li>
 <li><p><code>prettify: bool = False</code></p></li>
+<li><p><code>copy_include: list[str]</code></p></li>
+<li><p><code>copy_exclude: list[str]</code></p></li>
 <li><p><code>pandoc_fmt_from: str = 'markdown+smart'</code></p></li>
 <li><p><code>pandoc_fmt_to: str = 'html'</code></p></li>
 </ul>
-<h3 id="Config.read"><code>def read</code></h3>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    cls,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib.Path,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> pdj_sitegen.config.Config</span></code></pre></div>
+<h3 id="Config.load"><code>def load</code></h3>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>(cls, data: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]) <span class="op">-&gt;</span> pdj_sitegen.config.Config</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L149-L151">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L123-L134">View
+Source on GitHub</a></p>
+<p>Load Config from a dictionary.</p>
+<h3 id="Config.serialize"><code>def serialize</code></h3>
+<div class="sourceCode" id="cb54"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]</span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L136-L147">View
+Source on GitHub</a></p>
+<p>Serialize Config to a dictionary.</p>
+<h3 id="Config.read"><code>def read</code></h3>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    cls,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib._local.Path,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> pdj_sitegen.config.Config</span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L149-L151">View
 Source on GitHub</a></p>
 <h3 id="Config.as_str"><code>def as_str</code></h3>
-<div class="sourceCode" id="cb25"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="va">self</span>, fmt: Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>(<span class="va">self</span>, fmt: Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L153-L154">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L153-L154">View
 Source on GitHub</a></p>
 <h3 id="Config.save"><code>def save</code></h3>
-<div class="sourceCode" id="cb26"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib.Path,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="st">&#39;json&#39;</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    config_path: pathlib._local.Path,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    fmt: Optional[Literal[<span class="st">&#39;yaml&#39;</span>, <span class="st">&#39;json&#39;</span>, <span class="st">&#39;toml&#39;</span>]] <span class="op">=</span> <span class="st">&#39;json&#39;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L156-L157">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/config.py#L156-L157">View
 Source on GitHub</a></p>
-<h3 id="Config.serialize"><code>def serialize</code></h3>
-<div class="sourceCode" id="cb27"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]</span></code></pre></div>
-<p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L697-L753">View
-Source on GitHub</a></p>
-<p>returns the class as a dict, implemented by using
-<code>@serializable_dataclass</code> decorator</p>
-<h3 id="Config.load"><code>def load</code></h3>
-<div class="sourceCode" id="cb28"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(cls, data: Union[<span class="bu">dict</span>[<span class="bu">str</span>, Any], <span class="op">~</span>T]) <span class="op">-&gt;</span> Type[<span class="op">~</span>T]</span></code></pre></div>
-<p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L760-L824">View
-Source on GitHub</a></p>
-<p>takes in an appropriately structured dict and returns an instance of
-the class, implemented by using <code>@serializable_dataclass</code>
-decorator</p>
-<h3
-id="Config.validate_fields_types"><code>def validate_fields_types</code></h3>
-<div class="sourceCode" id="cb29"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>: muutils.json_serialize.serializable_dataclass.SerializableDataclass,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    on_typecheck_error: muutils.errormode.ErrorMode <span class="op">=</span> ErrorMode.Except</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">bool</span></span></code></pre></div>
-<p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/config.py#L303-L312">View
-Source on GitHub</a></p>
-<p>validate the types of all the fields on a
-<code>SerializableDataclass</code>. calls
-<code>SerializableDataclass__validate_field_type</code> for each
-field</p>
-<h3 id="inherited-members">Inherited Members</h3>
-<ul>
-<li><a
-href="#Config.validate_field_type"><code>validate_field_type</code></a></li>
-<li><a href="#Config.diff"><code>diff</code></a></li>
-<li><a
-href="#Config.update_from_nested_dict"><code>update_from_nested_dict</code></a></li>
-</ul>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-3">Contents</h2>
 <p>type definitions, format maps and parsers, and frontmatter regex</p>
@@ -594,24 +1123,24 @@ href="#FRONTMATTER_DELIMS"><code>FRONTMATTER_DELIMS</code></a></li>
 <li><a href="#FRONTMATTER_REGEX"><code>FRONTMATTER_REGEX</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/consts.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/consts.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.consts"><code>pdj_sitegen.consts</code></h1>
 <p>type definitions, format maps and parsers, and frontmatter regex</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/consts.py#L0-L49">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/consts.py#L0-L44">View
 Source on GitHub</a></p>
 <ul>
 <li><p><code>Format = typing.Literal['yaml', 'json', 'toml']</code></p></li>
 <li><p><code>FORMAT_MAP: dict[str, typing.Literal['yaml', 'json', 'toml']] = {'yaml': 'yaml', 'yml': 'yaml', 'YAML': 'yaml', 'YML': 'yaml', 'json': 'json', 'JSON': 'json', 'toml': 'toml', 'tml': 'toml', 'TOML': 'toml', 'TML': 'toml'}</code></p></li>
 <li><p><code>FORMAT_PARSERS: dict[typing.Literal['yaml', 'json', 'toml'], typing.Callable[[str], dict[str, typing.Any]]] = {'yaml': &lt;function safe_load&gt;, 'json': &lt;function loads&gt;, 'toml': &lt;function loads&gt;}</code></p></li>
 <li><p><code>FRONTMATTER_DELIMS: dict[str, typing.Literal['yaml', 'json', 'toml']] = {'---': 'yaml', ';;;': 'json', '+++': 'toml'}</code></p></li>
-<li><p><code>FRONTMATTER_REGEX: re.Pattern = re.compile('^(?P&lt;delimiter&gt;\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P&lt;frontmatter&gt;.*?)\\n(?P=delimiter)\\n(?P&lt;body&gt;.*)', re.DOTALL)</code></p></li>
+<li><p><code>FRONTMATTER_REGEX: re.Pattern[str] = re.compile('^(?P&lt;delimiter&gt;\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P&lt;frontmatter&gt;.*?)\\n(?P=delimiter)\\n(?P&lt;body&gt;.*)', re.DOTALL)</code></p></li>
 </ul>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-4">Contents</h2>
 <p><code>SplitMarkdownError</code> and <code>RenderError</code>
@@ -626,21 +1155,21 @@ href="#SplitMarkdownError"><code>SplitMarkdownError</code></a></li>
 href="#MultipleExceptions"><code>MultipleExceptions</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.exceptions"><code>pdj_sitegen.exceptions</code></h1>
 <p><code>SplitMarkdownError</code> and <code>RenderError</code>
 exceptions</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L0-L72">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L0-L73">View
 Source on GitHub</a></p>
 <h3
 id="SplitMarkdownError"><code>class SplitMarkdownError(builtins.Exception):</code></h3>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L8-L11">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L8-L11">View
 Source on GitHub</a></p>
 <p>error while splitting markdown</p>
-<h3 id="inherited-members-1">Inherited Members</h3>
+<h3 id="inherited-members">Inherited Members</h3>
 <ul>
 <li><p><a
 href="#SplitMarkdownError.__init__"><code>Exception</code></a></p></li>
@@ -653,10 +1182,10 @@ href="#SplitMarkdownError.add_note"><code>add_note</code></a></p></li>
 <h3
 id="ConversionError"><code>class ConversionError(builtins.Exception):</code></h3>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L14-L17">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L14-L17">View
 Source on GitHub</a></p>
 <p>error while converting markdown</p>
-<h3 id="inherited-members-2">Inherited Members</h3>
+<h3 id="inherited-members-1">Inherited Members</h3>
 <ul>
 <li><p><a
 href="#ConversionError.__init__"><code>Exception</code></a></p></li>
@@ -669,21 +1198,21 @@ href="#ConversionError.add_note"><code>add_note</code></a></p></li>
 <h3
 id="RenderError"><code>class RenderError(builtins.Exception):</code></h3>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L20-L60">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L20-L61">View
 Source on GitHub</a></p>
 <p>error while rendering template</p>
 <h3 id="RenderError.__init__"><code>RenderError</code></h3>
-<div class="sourceCode" id="cb30"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    message: <span class="bu">str</span>,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    kind: Literal[<span class="st">&#39;create_template&#39;</span>, <span class="st">&#39;render_template&#39;</span>],</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">|</span> <span class="va">None</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment <span class="op">|</span> <span class="va">None</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    template: jinja2.environment.Template <span class="op">|</span> <span class="va">None</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    message: <span class="bu">str</span>,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    kind: Literal[<span class="st">&#39;create_template&#39;</span>, <span class="st">&#39;render_template&#39;</span>],</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    context: <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">|</span> <span class="va">None</span>,</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    jinja_env: jinja2.environment.Environment <span class="op">|</span> <span class="va">None</span>,</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    template: jinja2.environment.Template <span class="op">|</span> <span class="va">None</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L23-L38">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L23-L38">View
 Source on GitHub</a></p>
 <ul>
 <li><p><code>message: str</code></p></li>
@@ -693,7 +1222,7 @@ Source on GitHub</a></p>
 <li><p><code>jinja_env: jinja2.environment.Environment | None</code></p></li>
 <li><p><code>template: jinja2.environment.Template | None</code></p></li>
 </ul>
-<h3 id="inherited-members-3">Inherited Members</h3>
+<h3 id="inherited-members-2">Inherited Members</h3>
 <ul>
 <li><a
 href="#RenderError.with_traceback"><code>with_traceback</code></a></li>
@@ -703,21 +1232,21 @@ href="#RenderError.with_traceback"><code>with_traceback</code></a></li>
 <h3
 id="MultipleExceptions"><code>class MultipleExceptions(builtins.Exception):</code></h3>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L63-L73">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L64-L74">View
 Source on GitHub</a></p>
 <p>Common base class for all non-exit exceptions.</p>
 <h3
 id="MultipleExceptions.__init__"><code>MultipleExceptions</code></h3>
-<div class="sourceCode" id="cb31"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(message: <span class="bu">str</span>, exceptions: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="pp">Exception</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(message: <span class="bu">str</span>, exceptions: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="pp">Exception</span>])</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/exceptions.py#L64-L67">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/exceptions.py#L65-L68">View
 Source on GitHub</a></p>
 <ul>
 <li><p><code>message: str</code></p></li>
 <li><p><code>exceptions: dict[str, Exception]</code></p></li>
 </ul>
-<h3 id="inherited-members-4">Inherited Members</h3>
+<h3 id="inherited-members-3">Inherited Members</h3>
 <ul>
 <li><a
 href="#MultipleExceptions.with_traceback"><code>with_traceback</code></a></li>
@@ -728,7 +1257,7 @@ href="#MultipleExceptions.add_note"><code>add_note</code></a></li>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="submodules-1">Submodules</h2>
 <ul>
@@ -736,13 +1265,16 @@ v0.0.2</p>
 <li><a href="#links_md2html"><code>links_md2html</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/__init__.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/__init__.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.filters"><code>pdj_sitegen.filters</code></h1>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/__init__.py#L0-L0">View
+Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-5">Contents</h2>
 <p>python pandoc filter replicating <a
@@ -762,9 +1294,10 @@ href="#table_cell_factory"><code>table_cell_factory</code></a></li>
 <li><a href="#keyvals_process"><code>keyvals_process</code></a></li>
 <li><a href="#codeblock_process"><code>codeblock_process</code></a></li>
 <li><a href="#test_filter"><code>test_filter</code></a></li>
+<li><a href="#main"><code>main</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py">View
 Source on GitHub</a></p>
 <h1
 id="pdj_sitegen.filters.csv_code_table"><code>pdj_sitegen.filters.csv_code_table</code></h1>
@@ -773,133 +1306,187 @@ href="https://hackage.haskell.org/package/pandoc-csv2table">pandoc-csv2table</a>
 <p>By <a href="mivanit.github.io"><span class="citation"
 data-cites="mivanit">@mivanit</span></a></p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L0-L163">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L0-L195">View
 Source on GitHub</a></p>
 <ul>
 <li><code>ALIGN_MAP: dict[str, str] = {'L': 'AlignLeft', 'C': 'AlignCenter', 'R': 'AlignRight', 'D': 'AlignDefault'}</code></li>
 </ul>
 <h3 id="emptyblock"><code>def emptyblock</code></h3>
-<div class="sourceCode" id="cb32"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="bu">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="bu">list</span>[typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L22-L23">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L23-L24">View
 Source on GitHub</a></p>
 <h3 id="Plain_factory"><code>def Plain_factory</code></h3>
-<div class="sourceCode" id="cb33"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(val: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>(val: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L26-L33">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L27-L34">View
 Source on GitHub</a></p>
 <h3 id="table_cell_factory"><code>def table_cell_factory</code></h3>
-<div class="sourceCode" id="cb34"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(val: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>(val: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L36-L43">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L37-L44">View
 Source on GitHub</a></p>
 <h3 id="table_row_factory"><code>def table_row_factory</code></h3>
-<div class="sourceCode" id="cb35"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(lst_vals: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(lst_vals: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">list</span>[typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L46-L47">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L47-L48">View
 Source on GitHub</a></p>
 <h3 id="header_factory"><code>def header_factory</code></h3>
-<div class="sourceCode" id="cb36"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(lst_vals: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>(lst_vals: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">list</span>[typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L50-L54">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L51-L55">View
 Source on GitHub</a></p>
 <h3 id="body_factory"><code>def body_factory</code></h3>
-<div class="sourceCode" id="cb37"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(table_vals: <span class="bu">list</span>) <span class="op">-&gt;</span> <span class="bu">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>(table_vals: <span class="bu">list</span>[<span class="bu">list</span>[<span class="bu">str</span>]]) <span class="op">-&gt;</span> <span class="bu">list</span>[typing.Any]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L57-L65">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L58-L66">View
 Source on GitHub</a></p>
 <h3 id="keyvals_process"><code>def keyvals_process</code></h3>
-<div class="sourceCode" id="cb38"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>(keyvals: <span class="bu">list</span>[<span class="bu">tuple</span>[<span class="bu">str</span>, <span class="bu">str</span>]]) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>(keyvals: <span class="bu">list</span>[<span class="bu">tuple</span>[<span class="bu">str</span>, <span class="bu">str</span>]]) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]</span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L68-L69">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L69-L70">View
 Source on GitHub</a></p>
 <h3 id="codeblock_process"><code>def codeblock_process</code></h3>
-<div class="sourceCode" id="cb39"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(key, value, format_, _)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    key: <span class="bu">str</span>,</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    value: Any,</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    format_: <span class="bu">str</span>,</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    _: Any</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, typing.Any] <span class="op">|</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L72-L148">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L73-L175">View
 Source on GitHub</a></p>
 <h3 id="test_filter"><code>def test_filter</code></h3>
-<div class="sourceCode" id="cb40"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>()</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/csv_code_table.py#L151-L159">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L178-L187">View
+Source on GitHub</a></p>
+<h3 id="main"><code>def main</code></h3>
+<div class="sourceCode" id="cb69"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/csv_code_table.py#L190-L191">View
 Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="api-documentation-5">API Documentation</h2>
 <ul>
 <li><a href="#links_md2html"><code>links_md2html</code></a></li>
+<li><a href="#main"><code>main</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py">View
 Source on GitHub</a></p>
 <h1
 id="pdj_sitegen.filters.links_md2html"><code>pdj_sitegen.filters.links_md2html</code></h1>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L0-L24">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L0-L27">View
 Source on GitHub</a></p>
 <h3 id="links_md2html"><code>def links_md2html</code></h3>
-<div class="sourceCode" id="cb41"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(key, value, <span class="bu">format</span>, meta) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>(key: <span class="bu">str</span>, value: Any, <span class="bu">format</span>: <span class="bu">str</span>, meta: Any) <span class="op">-&gt;</span> typing.Any <span class="op">|</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L4-L21">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L6-L20">View
 Source on GitHub</a></p>
-<p>convert dendron links to markdown links</p>
+<p>convert .md links to .html links</p>
+<h3 id="main"><code>def main</code></h3>
+<div class="sourceCode" id="cb71"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L23-L24">View
+Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-6">Contents</h2>
 <p>install pandoc using pypandoc</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/install_pandoc.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/install_pandoc.py">View
 Source on GitHub</a></p>
 <h1
 id="pdj_sitegen.install_pandoc"><code>pdj_sitegen.install_pandoc</code></h1>
 <p>install pandoc using pypandoc</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/install_pandoc.py#L0-L5">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/install_pandoc.py#L0-L5">View
 Source on GitHub</a></p>
 <blockquote>
 <p>docs for <a
 href="https://github.com/mivanit/pdj-sitegen"><code>pdj_sitegen</code></a>
-v0.0.2</p>
+v0.0.3</p>
 </blockquote>
 <h2 id="contents-7">Contents</h2>
-<p>cli for setting up a site</p>
+<p>CLI for scaffolding a new pdj-sitegen site.</p>
+<p>Creates default configuration, templates, and content files to get
+started quickly. Run with
+<code>python -m pdj_sitegen.setup_site [directory]</code> to scaffold a
+new site.</p>
 <h2 id="api-documentation-6">API Documentation</h2>
 <ul>
 <li><a href="#DEFAULT_CONFIG"><code>DEFAULT_CONFIG</code></a></li>
+<li><a href="#RESOURCES_DIR"><code>RESOURCES_DIR</code></a></li>
 <li><a href="#FILE_LOCATIONS"><code>FILE_LOCATIONS</code></a></li>
 <li><a href="#setup_site"><code>setup_site</code></a></li>
+<li><a href="#main"><code>main</code></a></li>
 </ul>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/setup_site.py">View
 Source on GitHub</a></p>
 <h1 id="pdj_sitegen.setup_site"><code>pdj_sitegen.setup_site</code></h1>
-<p>cli for setting up a site</p>
+<p>CLI for scaffolding a new pdj-sitegen site.</p>
+<p>Creates default configuration, templates, and content files to get
+started quickly. Run with
+<code>python -m &lt;a href=""&gt;pdj_sitegen.setup_site&lt;/a&gt; [directory]</code>
+to scaffold a new site.</p>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py#L0-L46">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/setup_site.py#L0-L86">View
 Source on GitHub</a></p>
 <ul>
-<li><p><code>DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, prettify=False, __pandoc__={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')</code></p></li>
-<li><p><code>FILE_LOCATIONS: dict[str, pathlib.Path] = {'config.yml': WindowsPath('config.yml'), 'default.html.jinja2': WindowsPath('templates/default.html.jinja2'), 'index.md': WindowsPath('content/index.md'), 'style.css': WindowsPath('content/resources/style.css'), 'syntax.css': WindowsPath('content/resources/syntax.css')}</code></p></li>
+<li><p><code>DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=PosixPath('content'), templates_dir=PosixPath('templates'), default_template=PosixPath('default.html.jinja2'), intermediates_dir=None, output_dir=PosixPath('output'), build_time_fname=PosixPath('.build_time'), jinja_env_kwargs={}, globals_={}, prettify=False, copy_include=[], copy_exclude=['*.md'], __pandoc__={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')</code></p></li>
+<li><p><code>RESOURCES_DIR: pathlib._local.Path = PosixPath('resources')</code></p></li>
+<li><p><code>FILE_LOCATIONS: dict[str, pathlib._local.Path] = {'config.yml': PosixPath('config.yml'), 'default.html.jinja2': PosixPath('templates/default.html.jinja2'), 'index.md': PosixPath('content/index.md'), 'style.css': PosixPath('content/resources/style.css'), 'syntax.css': PosixPath('content/resources/syntax.css')}</code></p></li>
 </ul>
 <h3 id="setup_site"><code>def setup_site</code></h3>
-<div class="sourceCode" id="cb42"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(root: pathlib.Path <span class="op">=</span> WindowsPath(<span class="st">&#39;.&#39;</span>)) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>(root: pathlib._local.Path <span class="op">=</span> PosixPath(<span class="st">&#39;.&#39;</span>)) <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
 <p><a
-href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/setup_site.py#L24-L33">View
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/setup_site.py#L30-L58">View
 Source on GitHub</a></p>
+<p>Scaffold a new pdj-sitegen site with default files.</p>
+<p>Copies bundled template files from the package to the specified root
+directory, creating the necessary directory structure.</p>
+<h3 id="parameters-6">Parameters:</h3>
+<ul>
+<li><code>root : Path</code> Root directory to create site files in.
+Defaults to current directory.</li>
+</ul>
+<h3 id="creates">Creates:</h3>
+<ul>
+<li><code>config.yml</code> - default site configuration</li>
+<li><code>templates/default.html.jinja2</code> - default HTML
+template</li>
+<li><code>content/index.md</code> - sample index page</li>
+<li><code>content/resources/style.css</code> - basic stylesheet</li>
+<li><code>content/resources/syntax.css</code> - code syntax
+highlighting</li>
+</ul>
+<h3 id="main"><code>def main</code></h3>
+<div class="sourceCode" id="cb73"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>() <span class="op">-&gt;</span> <span class="va">None</span></span></code></pre></div>
+<p><a
+href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/setup_site.py#L61-L83">View
+Source on GitHub</a></p>
+<p>CLI entry point for setup_site.</p>

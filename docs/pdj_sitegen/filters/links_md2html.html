@@ -46,7 +46,7 @@
 </script></head>
 <body>
 <div class="package-version">
-    docs for <a href="https://github.com/mivanit/pdj-sitegen">pdj_sitegen</a> v0.0.2<br>
+    docs for <a href="https://github.com/mivanit/pdj-sitegen">pdj_sitegen</a> v0.0.3<br>
 </div>
     <nav class="pdoc">
         <label id="navtoggle" for="togglestate" class="pdoc-button">
@@ -68,6 +68,9 @@
             <li>
                     <a class="function" href="#links_md2html">links_md2html</a>
             </li>
+            <li>
+                    <a class="function" href="#main">main</a>
+            </li>
     </ul>
 
 
@@ -80,7 +83,7 @@
     </nav>
     <main class="pdoc">
             <section class="module-info">
-                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py">View Source on GitHub</a>
+                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py">View Source on GitHub</a>
                     <h1 class="modulename">
 <a href="./../../pdj_sitegen.html">pdj_sitegen</a><wbr>.<a href="./../filters.html">filters</a><wbr>.links_md2html    </h1>
 
@@ -90,38 +93,41 @@
                         <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="mod-links_md2html-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L0-L24" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L0-L27" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
         </div>
 
                 <br/>
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">pandocfilters</span> <span class="kn">import</span> <span class="n">Link</span><span class="p">,</span> <span class="n">toJSONFilter</span>  <span class="c1"># type: ignore[import-untyped]</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="k">def</span> <span class="nf">links_md2html</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;convert dendron links to markdown links&quot;&quot;&quot;</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>		<span class="n">link_txt</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>		<span class="n">link_tgt</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;md&quot;</span><span class="p">):</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>				<span class="p">[</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>					<span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">link_tgt</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s1">&#39;md&#39;</span><span class="p">)</span><span class="si">}{</span><span class="s1">&#39;html&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>					<span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>				<span class="p">],</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>			<span class="p">)</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>		<span class="k">else</span><span class="p">:</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>			<span class="k">return</span> <span class="kc">None</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>	<span class="k">else</span><span class="p">:</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>		<span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">pandocfilters</span> <span class="kn">import</span> <span class="n">Link</span><span class="p">,</span> <span class="n">toJSONFilter</span>  <span class="c1"># type: ignore[import-untyped]</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">def</span> <span class="nf">links_md2html</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;convert .md links to .html links&quot;&quot;&quot;</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>		<span class="k">try</span><span class="p">:</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>			<span class="n">link_tgt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>		<span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>			<span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Malformed link structure, skip</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">):</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>				<span class="p">[</span><span class="n">link_tgt</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>			<span class="p">)</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>	<span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>	<span class="n">toJSONFilter</span><span class="p">(</span><span class="n">links_md2html</span><span class="p">)</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>	<span class="n">toJSONFilter</span><span class="p">(</span><span class="n">links_md2html</span><span class="p">)</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>	<span class="n">main</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -132,12 +138,12 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">links_md2html</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">key</span>, </span><span class="param"><span class="n">value</span>, </span><span class="param"><span class="nb">format</span>, </span><span class="param"><span class="n">meta</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+        <span class="name">links_md2html</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">key</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span>, </span><span class="param"><span class="nb">format</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">) -> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
 
                 <div class="source-button-container">
             <label class="pdoc-button view-source-button" for="links_md2html-view-source"><span>View Source</span></label>
             <div class="github-button-wrapper">
-                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.2/filters/links_md2html.py#L4-L21" target="_blank">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L6-L20" target="_blank">
                     <span>View on GitHub</span>
                 </a>
             </div>
@@ -145,30 +151,53 @@
 
     </div>
     <a class="headerlink" href="#links_md2html"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="links_md2html-5"><a href="#links_md2html-5"><span class="linenos"> 5</span></a><span class="k">def</span> <span class="nf">links_md2html</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="links_md2html-6"><a href="#links_md2html-6"><span class="linenos"> 6</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;convert dendron links to markdown links&quot;&quot;&quot;</span>
-</span><span id="links_md2html-7"><a href="#links_md2html-7"><span class="linenos"> 7</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
-</span><span id="links_md2html-8"><a href="#links_md2html-8"><span class="linenos"> 8</span></a>		<span class="n">link_txt</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="links_md2html-9"><a href="#links_md2html-9"><span class="linenos"> 9</span></a>		<span class="n">link_tgt</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="links_md2html-10"><a href="#links_md2html-10"><span class="linenos">10</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;md&quot;</span><span class="p">):</span>
-</span><span id="links_md2html-11"><a href="#links_md2html-11"><span class="linenos">11</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
-</span><span id="links_md2html-12"><a href="#links_md2html-12"><span class="linenos">12</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
-</span><span id="links_md2html-13"><a href="#links_md2html-13"><span class="linenos">13</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
-</span><span id="links_md2html-14"><a href="#links_md2html-14"><span class="linenos">14</span></a>				<span class="p">[</span>
-</span><span id="links_md2html-15"><a href="#links_md2html-15"><span class="linenos">15</span></a>					<span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">link_tgt</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s1">&#39;md&#39;</span><span class="p">)</span><span class="si">}{</span><span class="s1">&#39;html&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="links_md2html-16"><a href="#links_md2html-16"><span class="linenos">16</span></a>					<span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="links_md2html-17"><a href="#links_md2html-17"><span class="linenos">17</span></a>				<span class="p">],</span>
-</span><span id="links_md2html-18"><a href="#links_md2html-18"><span class="linenos">18</span></a>			<span class="p">)</span>
-</span><span id="links_md2html-19"><a href="#links_md2html-19"><span class="linenos">19</span></a>		<span class="k">else</span><span class="p">:</span>
-</span><span id="links_md2html-20"><a href="#links_md2html-20"><span class="linenos">20</span></a>			<span class="k">return</span> <span class="kc">None</span>
-</span><span id="links_md2html-21"><a href="#links_md2html-21"><span class="linenos">21</span></a>	<span class="k">else</span><span class="p">:</span>
-</span><span id="links_md2html-22"><a href="#links_md2html-22"><span class="linenos">22</span></a>		<span class="k">return</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="links_md2html-7"><a href="#links_md2html-7"><span class="linenos"> 7</span></a><span class="k">def</span> <span class="nf">links_md2html</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="links_md2html-8"><a href="#links_md2html-8"><span class="linenos"> 8</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;convert .md links to .html links&quot;&quot;&quot;</span>
+</span><span id="links_md2html-9"><a href="#links_md2html-9"><span class="linenos"> 9</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
+</span><span id="links_md2html-10"><a href="#links_md2html-10"><span class="linenos">10</span></a>		<span class="k">try</span><span class="p">:</span>
+</span><span id="links_md2html-11"><a href="#links_md2html-11"><span class="linenos">11</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="links_md2html-12"><a href="#links_md2html-12"><span class="linenos">12</span></a>			<span class="n">link_tgt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="links_md2html-13"><a href="#links_md2html-13"><span class="linenos">13</span></a>		<span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+</span><span id="links_md2html-14"><a href="#links_md2html-14"><span class="linenos">14</span></a>			<span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Malformed link structure, skip</span>
+</span><span id="links_md2html-15"><a href="#links_md2html-15"><span class="linenos">15</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">):</span>
+</span><span id="links_md2html-16"><a href="#links_md2html-16"><span class="linenos">16</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
+</span><span id="links_md2html-17"><a href="#links_md2html-17"><span class="linenos">17</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
+</span><span id="links_md2html-18"><a href="#links_md2html-18"><span class="linenos">18</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
+</span><span id="links_md2html-19"><a href="#links_md2html-19"><span class="linenos">19</span></a>				<span class="p">[</span><span class="n">link_tgt</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+</span><span id="links_md2html-20"><a href="#links_md2html-20"><span class="linenos">20</span></a>			<span class="p">)</span>
+</span><span id="links_md2html-21"><a href="#links_md2html-21"><span class="linenos">21</span></a>	<span class="k">return</span> <span class="kc">None</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>convert dendron links to markdown links</p>
+            <div class="docstring"><p>convert .md links to .html links</p>
 </div>
 
+
+                </section>
+                <section id="main">
+                            <input id="main-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">main</span><span class="signature pdoc-code condensed">(<span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <div class="source-button-container">
+            <label class="pdoc-button view-source-button" for="main-view-source"><span>View Source</span></label>
+            <div class="github-button-wrapper">
+                <a class="pdoc-button github-link-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.3/filters/links_md2html.py#L23-L24" target="_blank">
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <a class="headerlink" href="#main"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="main-24"><a href="#main-24"><span class="linenos">24</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="main-25"><a href="#main-25"><span class="linenos">25</span></a>	<span class="n">toJSONFilter</span><span class="p">(</span><span class="n">links_md2html</span><span class="p">)</span>
+</span></pre></div>
+
+
+    
 
                 </section>
     </main>

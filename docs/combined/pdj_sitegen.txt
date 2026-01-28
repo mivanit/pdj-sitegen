@@ -1,4 +1,4 @@
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -29,6 +29,20 @@ which will install pandoc using pypandoc
 
 Usage
 
+Quick Start
+
+Scaffold a new site with all default files:
+
+    python -m pdj_sitegen.setup_site [directory]
+
+This creates: - config.yml - default configuration -
+templates/default.html.jinja2 - default HTML template -
+content/index.md - sample index page - content/resources/style.css -
+basic stylesheet - content/resources/syntax.css - code syntax
+highlighting
+
+Manual Setup
+
 1.  create a config file. For an example, see
     pdj_sitegen.config.DEFAULT_CONFIG_YAML, or print a copy of it via
 
@@ -37,24 +51,240 @@ Usage
 2.  adjust the config file to your needs. most importantly:
 
     # directory with markdown content files and resources, relative to cwd
-    content_dir: content/
-    # directory with resources, relative to `content_dir`
-    resources_dir: resources/
+    content_dir: content
     # templates directory, relative to cwd
-    templates_dir: templates/
+    templates_dir: templates
     # default template file, relative to `templates_dir`
     default_template: default.html.jinja2
     # output directory, relative to cwd
-    output_dir: docs/
+    output_dir: docs
 
-3.  populate the content directory with markdown files, populate
-    content/resources/ with resources (images, css, etc.), and adjust
-    templates in the templates directory. See the demo site for usage
-    examples.
+3.  populate the content directory with markdown files and resources
+    (images, css, etc.), and adjust templates in the templates
+    directory. See the demo site for usage examples.
 
 4.  run the generator
 
     python -m pdj_sitegen your_config.yaml
+
+CLI Arguments
+
+    python -m pdj_sitegen your_config.yaml [-q] [-s]
+
+-   -q, --quiet: Disable verbose output
+-   -s, --smart-rebuild: Only rebuild files modified since last build
+    (compares file modification times against .build_time)
+
+Configuration
+
+Config File Formats
+
+pdj-sitegen supports multiple configuration file formats:
+
+-   YAML (.yml, .yaml) - recommended, human-friendly
+-   TOML (.toml) - also supported
+-   JSON (.json) - for programmatic generation
+
+    python -m pdj_sitegen config.yml   # YAML
+    python -m pdj_sitegen config.toml  # TOML
+    python -m pdj_sitegen config.json  # JSON
+
+Content Mirroring
+
+Files from content_dir are automatically copied to output_dir, excluding
+markdown files (which are processed into HTML). Control this with
+copy_include and copy_exclude:
+
+    # Default: copy everything except .md files
+    copy_include: []
+    copy_exclude:
+      - "*.md"
+
+    # Also exclude temp files and .git
+    copy_exclude:
+      - "*.md"
+      - "*.tmp"
+      - ".git*"
+
+    # Copy only specific file types
+    copy_include:
+      - "*.css"
+      - "*.js"
+      - "*.png"
+      - "*.jpg"
+    copy_exclude: []
+
+    # Force copy .md files too (include wins over exclude)
+    copy_include:
+      - "*.md"
+    copy_exclude:
+      - "*.md"
+
+Additional Options
+
+    # Global template variables accessible in all templates
+    globals_:
+      site_name: "My Site"
+      author: "Your Name"
+
+    # Directory to save intermediate processing files (for debugging)
+    intermediates_dir: null  # or "_intermediates"
+
+    # Prettify HTML output (uses BeautifulSoup)
+    prettify: false
+
+    # Pandoc format settings
+    pandoc_fmt_from: "markdown+smart"
+    pandoc_fmt_to: "html"
+
+    # Global Pandoc options (can be overridden per-file in frontmatter)
+    __pandoc__:
+      mathjax: true
+
+Content Organization
+
+pdj-sitegen supports both flat and nested content structures:
+
+Flat structure (using dot notation):
+
+    content/
+      index.md
+      blog.md
+      blog.post-1.md
+      blog.post-2.md
+
+Outputs: index.html, blog.html, blog.post-1.html, blog.post-2.html
+
+Nested structure (using directories):
+
+    content/
+      index.md
+      blog/
+        index.md
+        post-1.md
+        post-2.md
+
+Outputs: index.html, blog/index.html, blog/post-1.html, blog/post-2.html
+
+Both approaches work with child_docs in templates for hierarchical
+navigation.
+
+Pandoc Filters
+
+pdj-sitegen includes two built-in pandoc filters:
+
+links_md2html
+
+Converts links ending in .md to .html during conversion. Enable in
+frontmatter or global config:
+
+    __pandoc__:
+      filter: links_md2html
+
+csv_code_table
+
+Converts fenced code blocks with class csv_table to HTML tables.
+
+In your markdown, use a fenced code block with the csv_table class and
+options:
+
+      ```{.csv_table header=1 aligns=LCR caption="My Table"}
+      Name,Count,Status
+      Alice,42,Active
+      Bob,17,Pending
+      ```
+
+Options: - header: Number of header rows (default: 1) - source: Path to
+external CSV file - aligns: Column alignments (L=left, C=center,
+R=right, D=default) - caption: Table caption
+
+Template Variables
+
+The following variables are available in templates:
+
+  ----------------------------------------------------------------------------------------
+  Variable                      Description                       Example
+  ----------------------------- --------------------------------- ------------------------
+  frontmatter                   Full frontmatter dict from the    {"title": "My Page"}
+                                current document                  
+
+  file_meta.path                Relative path without extension   blog/post-1
+
+  file_meta.path_html           HTML output path                  blog/post-1.html
+
+  file_meta.path_raw            Original file path                content/blog/post-1.md
+
+  file_meta.modified_time       Unix timestamp of last            1706380800.0
+                                modification                      
+
+  file_meta.modified_time_str   Human-readable modification time  2024-01-27 12:00:00
+
+  config                        Serialized site configuration     {"output_dir": "docs"}
+
+  docs                          Dictionary of all documents in    {"index": {...}}
+                                the site                          
+
+  child_docs                    Documents that are children of    {"blog/post-1": {...}}
+                                the current path                  
+
+  content                       Rendered HTML content (in final   <p>Hello</p>
+                                template only)                    
+  ----------------------------------------------------------------------------------------
+
+All frontmatter fields are also available directly (e.g., {{ title }}).
+
+Frontmatter Formats
+
+Frontmatter can be written in YAML, JSON, or TOML:
+
+YAML (recommended):
+
+    ---
+    title: My Page
+    tags: [foo, bar]
+    ---
+
+JSON:
+
+    ;;;
+    {"title": "My Page", "tags": ["foo", "bar"]}
+    ;;;
+
+TOML:
+
+    +++
+    title = "My Page"
+    tags = ["foo", "bar"]
+    +++
+
+Per-file Overrides
+
+Override global settings in frontmatter:
+
+    ---
+    title: My Page
+    __template__: custom.html.jinja2  # Use different template
+    __pandoc__:
+      toc: true                        # Override pandoc options
+      number-sections: true
+    ---
+
+similar tools/resources
+
+This project is a descendant of my old project pandoc-sitegen, which was
+very similar but used mustache templates instead of jinja2.
+
+Some other similar projects:
+
+-   https://github.com/brianbuccola/brianbuccola.github.io
+-   https://runningcrocodile.fi/pandoc_static_site/
+-   http://pdsite.org/installing/
+-   https://github.com/locua/pandoc-python-static-site-gen
+-   https://github.com/lukasschwab/pandoc-blog
+-   https://github.com/fcanas/bake
+
+if you end up using this script for your site and would me to list it
+here, email me or submit a PR :)
 
 Submodules
 
@@ -97,6 +327,20 @@ which will install pandoc using pypandoc
 
 Usage
 
+Quick Start
+
+Scaffold a new site with all default files:
+
+    python -m <a href="pdj_sitegen/setup_site.html">pdj_sitegen.setup_site</a> [directory]
+
+This creates: - config.yml - default configuration -
+templates/default.html.jinja2 - default HTML template -
+content/index.md - sample index page - content/resources/style.css -
+basic stylesheet - content/resources/syntax.css - code syntax
+highlighting
+
+Manual Setup
+
 1.  create a config file. For an example, see
     <a href="pdj_sitegen/config.html#DEFAULT_CONFIG_YAML">pdj_sitegen.config.DEFAULT_CONFIG_YAML</a>,
     or print a copy of it via
@@ -106,28 +350,244 @@ Usage
 2.  adjust the config file to your needs. most importantly:
 
     ### directory with markdown content files and resources, relative to cwd
-    content_dir: content/
-    ### directory with resources, relative to `content_dir`
-    resources_dir: resources/
+    content_dir: content
     ### templates directory, relative to cwd
-    templates_dir: templates/
+    templates_dir: templates
     ### default template file, relative to `templates_dir`
     default_template: default.html.jinja2
     ### output directory, relative to cwd
-    output_dir: docs/
+    output_dir: docs
 
-3.  populate the content directory with markdown files, populate
-    content/resources/ with resources (images, css, etc.), and adjust
-    templates in the templates directory. See the demo site for usage
-    examples.
+3.  populate the content directory with markdown files and resources
+    (images, css, etc.), and adjust templates in the templates
+    directory. See the demo site for usage examples.
 
 4.  run the generator
 
     python -m pdj_sitegen your_config.yaml
 
+CLI Arguments
+
+    python -m pdj_sitegen your_config.yaml [-q] [-s]
+
+-   -q, --quiet: Disable verbose output
+-   -s, --smart-rebuild: Only rebuild files modified since last build
+    (compares file modification times against .build_time)
+
+Configuration
+
+Config File Formats
+
+pdj-sitegen supports multiple configuration file formats:
+
+-   YAML (.yml, .yaml) - recommended, human-friendly
+-   TOML (.toml) - also supported
+-   JSON (.json) - for programmatic generation
+
+    python -m pdj_sitegen config.yml   # YAML
+    python -m pdj_sitegen config.toml  # TOML
+    python -m pdj_sitegen config.json  # JSON
+
+Content Mirroring
+
+Files from content_dir are automatically copied to output_dir, excluding
+markdown files (which are processed into HTML). Control this with
+copy_include and copy_exclude:
+
+    ### Default: copy everything except .md files
+    copy_include: []
+    copy_exclude:
+      - "*.md"
+
+    ### Also exclude temp files and .git
+    copy_exclude:
+      - "*.md"
+      - "*.tmp"
+      - ".git*"
+
+    ### Copy only specific file types
+    copy_include:
+      - "*.css"
+      - "*.js"
+      - "*.png"
+      - "*.jpg"
+    copy_exclude: []
+
+    ### Force copy .md files too (include wins over exclude)
+    copy_include:
+      - "*.md"
+    copy_exclude:
+      - "*.md"
+
+Additional Options
+
+    ### Global template variables accessible in all templates
+    globals_:
+      site_name: "My Site"
+      author: "Your Name"
+
+    ### Directory to save intermediate processing files (for debugging)
+    intermediates_dir: null  # or "_intermediates"
+
+    ### Prettify HTML output (uses BeautifulSoup)
+    prettify: false
+
+    ### Pandoc format settings
+    pandoc_fmt_from: "markdown+smart"
+    pandoc_fmt_to: "html"
+
+    ### Global Pandoc options (can be overridden per-file in frontmatter)
+    __pandoc__:
+      mathjax: true
+
+Content Organization
+
+pdj-sitegen supports both flat and nested content structures:
+
+Flat structure (using dot notation):
+
+    content/
+      index.md
+      blog.md
+      blog.post-1.md
+      blog.post-2.md
+
+Outputs: index.html, blog.html, blog.post-1.html, blog.post-2.html
+
+Nested structure (using directories):
+
+    content/
+      index.md
+      blog/
+        index.md
+        post-1.md
+        post-2.md
+
+Outputs: index.html, blog/index.html, blog/post-1.html, blog/post-2.html
+
+Both approaches work with child_docs in templates for hierarchical
+navigation.
+
+Pandoc Filters
+
+pdj-sitegen includes two built-in pandoc filters:
+
+links_md2html
+
+Converts links ending in .md to .html during conversion. Enable in
+frontmatter or global config:
+
+    __pandoc__:
+      filter: links_md2html
+
+csv_code_table
+
+Converts fenced code blocks with class csv_table to HTML tables.
+
+In your markdown, use a fenced code block with the csv_table class and
+options:
+
+      ```{.csv_table header=1 aligns=LCR caption="My Table"}
+      Name,Count,Status
+      Alice,42,Active
+      Bob,17,Pending
+      ```
+
+Options: - header: Number of header rows (default: 1) - source: Path to
+external CSV file - aligns: Column alignments (L=left, C=center,
+R=right, D=default) - caption: Table caption
+
+Template Variables
+
+The following variables are available in templates:
+
+  ----------------------------------------------------------------------------------------
+  Variable                      Description                       Example
+  ----------------------------- --------------------------------- ------------------------
+  frontmatter                   Full frontmatter dict from the    {"title": "My Page"}
+                                current document                  
+
+  file_meta.path                Relative path without extension   blog/post-1
+
+  file_meta.path_html           HTML output path                  blog/post-1.html
+
+  file_meta.path_raw            Original file path                content/blog/post-1.md
+
+  file_meta.modified_time       Unix timestamp of last            1706380800.0
+                                modification                      
+
+  file_meta.modified_time_str   Human-readable modification time  2024-01-27 12:00:00
+
+  config                        Serialized site configuration     {"output_dir": "docs"}
+
+  docs                          Dictionary of all documents in    {"index": {...}}
+                                the site                          
+
+  child_docs                    Documents that are children of    {"blog/post-1": {...}}
+                                the current path                  
+
+  content                       Rendered HTML content (in final   <p>Hello</p>
+                                template only)                    
+  ----------------------------------------------------------------------------------------
+
+All frontmatter fields are also available directly (e.g., {{ title }}).
+
+Frontmatter Formats
+
+Frontmatter can be written in YAML, JSON, or TOML:
+
+YAML (recommended):
+
+    ---
+    title: My Page
+    tags: [foo, bar]
+    ---
+
+JSON:
+
+    ;;;
+    {"title": "My Page", "tags": ["foo", "bar"]}
+    ;;;
+
+TOML:
+
+    +++
+    title = "My Page"
+    tags = ["foo", "bar"]
+    +++
+
+Per-file Overrides
+
+Override global settings in frontmatter:
+
+    ---
+    title: My Page
+    __template__: custom.html.jinja2  # Use different template
+    __pandoc__:
+      toc: true                        # Override pandoc options
+      number-sections: true
+    ---
+
+similar tools/resources
+
+This project is a descendant of my old project pandoc-sitegen, which was
+very similar but used mustache templates instead of jinja2.
+
+Some other similar projects:
+
+-   https://github.com/brianbuccola/brianbuccola.github.io
+-   https://runningcrocodile.fi/pandoc_static_site/
+-   http://pdsite.org/installing/
+-   https://github.com/locua/pandoc-python-static-site-gen
+-   https://github.com/lukasschwab/pandoc-blog
+-   https://github.com/fcanas/bake
+
+if you end up using this script for your site and would me to list it
+here, email me or submit a PR :)
+
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -144,13 +604,18 @@ Pipeline:
     HTML using Pandoc - Execute a template on the specified or default
     template with the HTML content, frontmatter, globals_ and file
     metadata as context
--   Copy the resources directory to the output directory
+-   Copy content files to output directory (based on
+    copy_include/copy_exclude patterns)
 
 API Documentation
 
+-   should_copy
+-   copy_content_files
 -   split_md
 -   render
 -   build_document_tree
+-   BUILTIN_FILTERS
+-   resolve_filter
 -   process_pandoc_args
 -   dump_intermediate
 -   convert_single_markdown_file
@@ -175,13 +640,66 @@ Pipeline:
     HTML using Pandoc - Execute a template on the specified or default
     template with the HTML content, frontmatter, globals_ and file
     metadata as context
--   Copy the resources directory to the output directory
+-   Copy content files to output directory (based on
+    copy_include/copy_exclude patterns)
 
 View Source on GitHub
 
+def should_copy
+
+    (rel_path: str, include: list[str], exclude: list[str]) -> bool
+
+View Source on GitHub
+
+Determine if a file should be copied based on include/exclude patterns.
+
+Rules: - If file matches any include pattern → copy (wins over
+exclude) - If file matches any exclude pattern → don’t copy - If include
+is empty → copy everything not excluded - If include is non-empty but
+file doesn’t match → don’t copy
+
+Parameters:
+
+-   rel_path : str relative path of the file (POSIX format)
+-   include : list[str] glob patterns for files to include (empty means
+    everything)
+-   exclude : list[str] glob patterns for files to exclude
+
+Returns:
+
+-   bool True if the file should be copied
+
+def copy_content_files
+
+    (
+        content_dir: pathlib._local.Path,
+        output_dir: pathlib._local.Path,
+        include: list[str],
+        exclude: list[str],
+        verbose: bool = True
+    ) -> int
+
+View Source on GitHub
+
+Copy files from content_dir to output_dir based on include/exclude
+patterns.
+
+Parameters:
+
+-   content_dir : Path source directory containing content files
+-   output_dir : Path destination directory for output
+-   include : list[str] glob patterns for files to include (empty means
+    everything)
+-   exclude : list[str] glob patterns for files to exclude
+-   verbose : bool whether to print progress information
+
+Returns:
+
+-   int number of files copied
+
 def split_md
 
-    (content: str) -> Tuple[str, str, Literal['yaml', 'json', 'toml']]
+    (content: str) -> tuple[str, str, typing.Literal['yaml', 'json', 'toml']]
 
 View Source on GitHub
 
@@ -197,7 +715,7 @@ Parameters:
 
 Returns:
 
--   Tuple[str, str, Format] tuple of frontmatter, body, and frontmatter
+-   tuple[str, str, Format] tuple of frontmatter, body, and frontmatter
     format (yaml, json, toml)
 
 Raises:
@@ -235,7 +753,7 @@ Raises:
 def build_document_tree
 
     (
-        content_dir: pathlib.Path,
+        content_dir: pathlib._local.Path,
         frontmatter_context: dict[str, typing.Any],
         jinja_env: jinja2.environment.Environment,
         verbose: bool = True
@@ -266,6 +784,19 @@ Returns:
 
 -   dict[str, dict[str, Any]] dict of documents with rendered
     frontmatter.
+
+-   BUILTIN_FILTERS: dict[str, str] = {'csv_code_table': 'pdj-csv-code-table', 'links_md2html': 'pdj-links-md2html', 'pdj_sitegen.filters.csv_code_table': 'pdj-csv-code-table', 'pdj_sitegen.filters.links_md2html': 'pdj-links-md2html'}
+
+def resolve_filter
+
+    (filter_name: str) -> str
+
+View Source on GitHub
+
+Resolve a filter name to an executable.
+
+Built-in filters are mapped to their entry points. External filters are
+passed through unchanged.
 
 def process_pandoc_args
 
@@ -299,7 +830,7 @@ def dump_intermediate
 
     (
         content: str,
-        intermediates_dir: Optional[pathlib.Path],
+        intermediates_dir: pathlib._local.Path | None,
         fmt: str,
         path: str,
         subdir: str | None = None
@@ -313,12 +844,12 @@ def convert_single_markdown_file
 
     (
         path: str,
-        output_root: pathlib.Path,
+        output_root: pathlib._local.Path,
         doc: dict[str, typing.Any],
         docs: dict[str, dict[str, typing.Any]],
         jinja_env: jinja2.environment.Environment,
         config: pdj_sitegen.config.Config,
-        intermediates_dir: Optional[pathlib.Path] = None
+        intermediates_dir: pathlib._local.Path | None = None
     ) -> None
 
 View Source on GitHub
@@ -329,11 +860,11 @@ def convert_markdown_files
         docs: dict[str, dict[str, typing.Any]],
         jinja_env: jinja2.environment.Environment,
         config: pdj_sitegen.config.Config,
-        output_root: pathlib.Path,
+        output_root: pathlib._local.Path,
         smart_rebuild: bool,
         rebuild_time: float,
         verbose: bool = True,
-        intermediates_dir: Optional[pathlib.Path] = None
+        intermediates_dir: pathlib._local.Path | None = None
     ) -> None
 
 View Source on GitHub
@@ -341,7 +872,7 @@ View Source on GitHub
 def pipeline
 
     (
-        config_path: pathlib.Path,
+        config_path: pathlib._local.Path,
         verbose: bool = True,
         smart_rebuild: bool = False
     ) -> None
@@ -366,7 +897,7 @@ def main
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -375,6 +906,7 @@ define the config, and also provide CLI for printing template
 API Documentation
 
 -   DEFAULT_CONFIG_YAML
+-   DEFAULT_CONFIG_TOML
 -   read_data_file
 -   emit_data_file
 -   save_data_file
@@ -388,12 +920,14 @@ define the config, and also provide CLI for printing template
 
 View Source on GitHub
 
--   DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# directory with resources, relative tocontent_dir\nresources_dir: resources\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative totemplates_dir\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: docs\n# intermediate files directory -- if null, then no intermediate files will be saved\nintermediates_dir: null\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented withpandocfrom the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'
+-   DEFAULT_CONFIG_YAML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n# directory with markdown content files and resources, relative to cwd\ncontent_dir: content\n# templates directory, relative to cwd\ntemplates_dir: templates\n# default template file, relative totemplates_dir\ndefault_template: default.html.jinja2\n# output directory, relative to cwd\noutput_dir: output\n# intermediate files directory -- if set, intermediate files will be saved there\n# intermediates_dir: intermediates\n\n# Content mirroring: files from content_dir are copied to output_dir\n# copy_include: glob patterns to include (empty list = everything)\n# copy_exclude: glob patterns to exclude\n# If a file matches BOTH include and exclude, include wins (explicit include overrides exclude)\ncopy_include: []\ncopy_exclude:\n  - "*.md"  # markdown files are processed into HTML, not copied raw\n# kwargs to pass to the Jinja2 environment\njinja_env_kwargs: {}\n# whether to prettify with bs4\nprettify: false\n# pandoc formats\npandoc_fmt_from: markdown+smart\npandoc_fmt_to: html\n# extra kwargs to pass to pandoc (this will be augmented withpandocfrom the frontmatter of a file)\n__pandoc__:\n  mathjax: true\n# extra globals to pass -- this can be anything\nglobals_:\n  pdjsg_url: https://github.com/mivanit/pdj-sitegen'
+
+-   DEFAULT_CONFIG_TOML: str = '# NOTE: the current working directory (cwd) will be set to the location of this file!\n\n# directory with markdown content files and resources, relative to cwd\ncontent_dir = "content"\n# templates directory, relative to cwd\ntemplates_dir = "templates"\n# default template file, relative totemplates_dir\ndefault_template = "default.html.jinja2"\n# output directory, relative to cwd\noutput_dir = "output"\n# intermediate files directory -- if null, then no intermediate files will be saved\n# intermediates_dir = "intermediates"\n\n# Content mirroring: files from content_dir are copied to output_dir\n# copy_include: glob patterns to include (empty list = everything)\n# copy_exclude: glob patterns to exclude\n# If a file matches BOTH include and exclude, include wins (explicit include overrides exclude)\ncopy_include = []\ncopy_exclude = ["*.md"]  # markdown files are processed into HTML, not copied raw\n\n# whether to prettify with bs4\nprettify = false\n\n# pandoc formats\npandoc_fmt_from = "markdown+smart"\npandoc_fmt_to = "html"\n\n# extra kwargs to pass to pandoc (this will be augmented withpandocfrom the frontmatter of a file)\n[__pandoc__]\nmathjax = true\n\n# kwargs to pass to the Jinja2 environment\n[jinja_env_kwargs]\n\n# extra globals to pass -- this can be anything\n[globals_]\npdjsg_url = "https://github.com/mivanit/pdj-sitegen"\n'
 
 def read_data_file
 
     (
-        file_path: pathlib.Path,
+        file_path: pathlib._local.Path,
         fmt: Optional[Literal['yaml', 'json', 'toml']] = None
     ) -> dict[str, typing.Any]
 
@@ -413,7 +947,7 @@ def save_data_file
 
     (
         data: dict[str, typing.Any],
-        file_path: pathlib.Path,
+        file_path: pathlib._local.Path,
         fmt: Optional[Literal['yaml', 'json', 'toml']] = None
     ) -> None
 
@@ -421,7 +955,7 @@ View Source on GitHub
 
 save a file as json or yaml
 
-class Config(muutils.json_serialize.serializable_dataclass.SerializableDataclass):
+class Config:
 
 View Source on GitHub
 
@@ -430,34 +964,33 @@ configuration for the site generator
 Config
 
     (
-        content_dir: pathlib.Path = WindowsPath('content'),
-        resources_dir: pathlib.Path = WindowsPath('resources'),
-        templates_dir: pathlib.Path = WindowsPath('templates'),
-        default_template: pathlib.Path = WindowsPath('default.html.jinja2'),
-        intermediates_dir: Optional[pathlib.Path] = None,
-        output_dir: pathlib.Path = WindowsPath('output'),
-        build_time_fname: pathlib.Path = WindowsPath('.build_time'),
+        content_dir: pathlib._local.Path = <factory>,
+        templates_dir: pathlib._local.Path = <factory>,
+        default_template: pathlib._local.Path = <factory>,
+        intermediates_dir: pathlib._local.Path | None = None,
+        output_dir: pathlib._local.Path = <factory>,
+        build_time_fname: pathlib._local.Path = <factory>,
         jinja_env_kwargs: dict[str, typing.Any] = <factory>,
         globals_: dict[str, typing.Any] = <factory>,
         prettify: bool = False,
+        copy_include: list[str] = <factory>,
+        copy_exclude: list[str] = <factory>,
         __pandoc__: dict[str, typing.Any] = <factory>,
         pandoc_fmt_from: str = 'markdown+smart',
         pandoc_fmt_to: str = 'html'
     )
 
--   content_dir: pathlib.Path = WindowsPath('content')
+-   content_dir: pathlib._local.Path
 
--   resources_dir: pathlib.Path = WindowsPath('resources')
+-   templates_dir: pathlib._local.Path
 
--   templates_dir: pathlib.Path = WindowsPath('templates')
+-   default_template: pathlib._local.Path
 
--   default_template: pathlib.Path = WindowsPath('default.html.jinja2')
+-   intermediates_dir: pathlib._local.Path | None = None
 
--   intermediates_dir: Optional[pathlib.Path] = None
+-   output_dir: pathlib._local.Path
 
--   output_dir: pathlib.Path = WindowsPath('output')
-
--   build_time_fname: pathlib.Path = WindowsPath('.build_time')
+-   build_time_fname: pathlib._local.Path
 
 -   jinja_env_kwargs: dict[str, typing.Any]
 
@@ -465,15 +998,35 @@ Config
 
 -   prettify: bool = False
 
+-   copy_include: list[str]
+
+-   copy_exclude: list[str]
+
 -   pandoc_fmt_from: str = 'markdown+smart'
 
 -   pandoc_fmt_to: str = 'html'
+
+def load
+
+    (cls, data: dict[str, typing.Any]) -> pdj_sitegen.config.Config
+
+View Source on GitHub
+
+Load Config from a dictionary.
+
+def serialize
+
+    (self) -> dict[str, typing.Any]
+
+View Source on GitHub
+
+Serialize Config to a dictionary.
 
 def read
 
     (
         cls,
-        config_path: pathlib.Path,
+        config_path: pathlib._local.Path,
         fmt: Optional[Literal['yaml', 'json', 'toml']] = None
     ) -> pdj_sitegen.config.Config
 
@@ -489,49 +1042,13 @@ def save
 
     (
         self,
-        config_path: pathlib.Path,
+        config_path: pathlib._local.Path,
         fmt: Optional[Literal['yaml', 'json', 'toml']] = 'json'
     ) -> None
 
 View Source on GitHub
 
-def serialize
-
-    (self) -> dict[str, typing.Any]
-
-View Source on GitHub
-
-returns the class as a dict, implemented by using
-@serializable_dataclass decorator
-
-def load
-
-    (cls, data: Union[dict[str, Any], ~T]) -> Type[~T]
-
-View Source on GitHub
-
-takes in an appropriately structured dict and returns an instance of the
-class, implemented by using @serializable_dataclass decorator
-
-def validate_fields_types
-
-    (
-        self: muutils.json_serialize.serializable_dataclass.SerializableDataclass,
-        on_typecheck_error: muutils.errormode.ErrorMode = ErrorMode.Except
-    ) -> bool
-
-View Source on GitHub
-
-validate the types of all the fields on a SerializableDataclass. calls
-SerializableDataclass__validate_field_type for each field
-
-Inherited Members
-
--   validate_field_type
--   diff
--   update_from_nested_dict
-
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -561,9 +1078,9 @@ View Source on GitHub
 
 -   FRONTMATTER_DELIMS: dict[str, typing.Literal['yaml', 'json', 'toml']] = {'---': 'yaml', ';;;': 'json', '+++': 'toml'}
 
--   FRONTMATTER_REGEX: re.Pattern = re.compile('^(?P<delimiter>\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P<frontmatter>.*?)\\n(?P=delimiter)\\n(?P<body>.*)', re.DOTALL)
+-   FRONTMATTER_REGEX: re.Pattern[str] = re.compile('^(?P<delimiter>\\-\\-\\-|;;;|\\+\\+\\+)\\n(?P<frontmatter>.*?)\\n(?P=delimiter)\\n(?P<body>.*)', re.DOTALL)
 
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -675,7 +1192,7 @@ Inherited Members
 -   add_note
 -   args
 
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Submodules
 
@@ -686,7 +1203,9 @@ View Source on GitHub
 
 pdj_sitegen.filters
 
-  docs for pdj_sitegen v0.0.2
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -706,6 +1225,7 @@ API Documentation
 -   keyvals_process
 -   codeblock_process
 -   test_filter
+-   main
 
 View Source on GitHub
 
@@ -721,37 +1241,37 @@ View Source on GitHub
 
 def emptyblock
 
-    () -> list
+    () -> list[typing.Any]
 
 View Source on GitHub
 
 def Plain_factory
 
-    (val: str) -> dict
+    (val: str) -> dict[str, typing.Any]
 
 View Source on GitHub
 
 def table_cell_factory
 
-    (val: str) -> list
+    (val: str) -> list[typing.Any]
 
 View Source on GitHub
 
 def table_row_factory
 
-    (lst_vals: list) -> list
+    (lst_vals: list[str]) -> list[typing.Any]
 
 View Source on GitHub
 
 def header_factory
 
-    (lst_vals: list) -> list
+    (lst_vals: list[str]) -> list[typing.Any]
 
 View Source on GitHub
 
 def body_factory
 
-    (table_vals: list) -> list
+    (table_vals: list[list[str]]) -> list[typing.Any]
 
 View Source on GitHub
 
@@ -763,21 +1283,33 @@ View Source on GitHub
 
 def codeblock_process
 
-    (key, value, format_, _)
+    (
+        key: str,
+        value: Any,
+        format_: str,
+        _: Any
+    ) -> dict[str, typing.Any] | None
 
 View Source on GitHub
 
 def test_filter
 
-    ()
+    () -> None
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.2
+def main
+
+    () -> None
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.3
 
 API Documentation
 
 -   links_md2html
+-   main
 
 View Source on GitHub
 
@@ -787,13 +1319,19 @@ View Source on GitHub
 
 def links_md2html
 
-    (key, value, format, meta) -> None
+    (key: str, value: Any, format: str, meta: Any) -> typing.Any | None
 
 View Source on GitHub
 
-convert dendron links to markdown links
+convert .md links to .html links
 
-  docs for pdj_sitegen v0.0.2
+def main
+
+    () -> None
+
+View Source on GitHub
+
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
@@ -807,32 +1345,71 @@ install pandoc using pypandoc
 
 View Source on GitHub
 
-  docs for pdj_sitegen v0.0.2
+  docs for pdj_sitegen v0.0.3
 
 Contents
 
-cli for setting up a site
+CLI for scaffolding a new pdj-sitegen site.
+
+Creates default configuration, templates, and content files to get
+started quickly. Run with python -m pdj_sitegen.setup_site [directory]
+to scaffold a new site.
 
 API Documentation
 
 -   DEFAULT_CONFIG
+-   RESOURCES_DIR
 -   FILE_LOCATIONS
 -   setup_site
+-   main
 
 View Source on GitHub
 
 pdj_sitegen.setup_site
 
-cli for setting up a site
+CLI for scaffolding a new pdj-sitegen site.
+
+Creates default configuration, templates, and content files to get
+started quickly. Run with
+python -m <a href="">pdj_sitegen.setup_site</a> [directory] to scaffold
+a new site.
 
 View Source on GitHub
 
--   DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=WindowsPath('content'), resources_dir=WindowsPath('resources'), templates_dir=WindowsPath('templates'), default_template=WindowsPath('default.html.jinja2'), intermediates_dir=None, output_dir=WindowsPath('output'), build_time_fname=WindowsPath('.build_time'), jinja_env_kwargs={}, globals_={}, prettify=False, __pandoc__={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')
+-   DEFAULT_CONFIG: pdj_sitegen.config.Config = Config(content_dir=PosixPath('content'), templates_dir=PosixPath('templates'), default_template=PosixPath('default.html.jinja2'), intermediates_dir=None, output_dir=PosixPath('output'), build_time_fname=PosixPath('.build_time'), jinja_env_kwargs={}, globals_={}, prettify=False, copy_include=[], copy_exclude=['*.md'], __pandoc__={'mathjax': True}, pandoc_fmt_from='markdown+smart', pandoc_fmt_to='html')
 
--   FILE_LOCATIONS: dict[str, pathlib.Path] = {'config.yml': WindowsPath('config.yml'), 'default.html.jinja2': WindowsPath('templates/default.html.jinja2'), 'index.md': WindowsPath('content/index.md'), 'style.css': WindowsPath('content/resources/style.css'), 'syntax.css': WindowsPath('content/resources/syntax.css')}
+-   RESOURCES_DIR: pathlib._local.Path = PosixPath('resources')
+
+-   FILE_LOCATIONS: dict[str, pathlib._local.Path] = {'config.yml': PosixPath('config.yml'), 'default.html.jinja2': PosixPath('templates/default.html.jinja2'), 'index.md': PosixPath('content/index.md'), 'style.css': PosixPath('content/resources/style.css'), 'syntax.css': PosixPath('content/resources/syntax.css')}
 
 def setup_site
 
-    (root: pathlib.Path = WindowsPath('.')) -> None
+    (root: pathlib._local.Path = PosixPath('.')) -> None
 
 View Source on GitHub
+
+Scaffold a new pdj-sitegen site with default files.
+
+Copies bundled template files from the package to the specified root
+directory, creating the necessary directory structure.
+
+Parameters:
+
+-   root : Path Root directory to create site files in. Defaults to
+    current directory.
+
+Creates:
+
+-   config.yml - default site configuration
+-   templates/default.html.jinja2 - default HTML template
+-   content/index.md - sample index page
+-   content/resources/style.css - basic stylesheet
+-   content/resources/syntax.css - code syntax highlighting
+
+def main
+
+    () -> None
+
+View Source on GitHub
+
+CLI entry point for setup_site.
