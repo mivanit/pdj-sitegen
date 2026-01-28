@@ -70,7 +70,9 @@ def keyvals_process(keyvals: list[tuple[str, str]]) -> dict[str, str]:
 	return {key: val for key, val in keyvals}
 
 
-def codeblock_process(key: str, value: Any, format_: str, _: Any) -> dict[str, Any] | None:
+def codeblock_process(
+	key: str, value: Any, format_: str, _: Any
+) -> dict[str, Any] | None:
 	# figure out whether this block should be processed
 	if not (key == "CodeBlock"):
 		return None
