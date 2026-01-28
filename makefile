@@ -1933,7 +1933,7 @@ publish: gen-commit-log check build verify-git version gen-version-info
 	@echo "Enter the new version number if you want to upload to pypi and create a new tag"
 	@echo "Now would also be the time to edit $(COMMIT_LOG_FILE), as that will be used as the tag description"
 	@read -p "Confirm: " NEW_VERSION; \
-	if [ "$$NEW_VERSION" = $(PROJ_VERSION) ]; then \
+	if [ "$$NEW_VERSION" = "$(PROJ_VERSION)" ]; then \
 		echo "!!! ERROR !!!"; \
 		echo "Version confirmed. Proceeding with publish."; \
 	else \
