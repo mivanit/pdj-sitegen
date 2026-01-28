@@ -33,6 +33,22 @@ which will install `pandoc` using [`pypandoc`](https://github.com/JessicaTegner/
 
 # Usage
 
+## Quick Start
+
+Scaffold a new site with all default files:
+```bash
+python -m pdj_sitegen.setup_site [directory]
+```
+
+This creates:
+- `config.yml` - default configuration
+- `templates/default.html.jinja2` - default HTML template
+- `content/index.md` - sample index page
+- `content/resources/style.css` - basic stylesheet
+- `content/resources/syntax.css` - code syntax highlighting
+
+## Manual Setup
+
 1. create a config file. For an example, see `pdj_sitegen.config.DEFAULT_CONFIG_YAML`, or print a copy of it via
 ```bash
 python -m pdj_sitegen.config
