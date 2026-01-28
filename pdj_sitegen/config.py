@@ -28,10 +28,10 @@ def read_data_file(file_path: Path, fmt: Format | None = None) -> dict[str, Any]
 
 	match fmt:
 		case "yaml":
-			with open(file_path, "r") as f:
+			with open(file_path, "r", encoding="utf-8") as f:
 				return yaml.safe_load(f)
 		case "json":
-			with open(file_path, "r") as f:
+			with open(file_path, "r", encoding="utf-8") as f:
 				return json.load(f)
 		case "toml":
 			with open(file_path, "rb") as f:
@@ -61,7 +61,7 @@ def save_data_file(
 		fmt = FORMAT_MAP[file_path.suffix.lstrip(".")]
 
 	emitted_data: str = emit_data_file(data, fmt)
-	with open(file_path, "w") as f:
+	with open(file_path, "w", encoding="utf-8") as f:
 		f.write(emitted_data)
 
 
