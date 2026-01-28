@@ -10,11 +10,12 @@ Pipeline:
 	- Execute a template on the content with frontmatter, globals_, file metadata, and all other docs as context
 	- Convert the content to HTML using Pandoc
 	- Execute a template on the specified or default template with the HTML content, frontmatter, globals_ and file metadata as context
-- Copy the resources directory to the output directory
+- Copy content files to output directory (based on copy_include/copy_exclude patterns)
 """
 
 import argparse
 import datetime
+import fnmatch
 import functools
 import json
 import os
@@ -43,6 +44,76 @@ from pdj_sitegen.exceptions import (
 	RenderError,
 	SplitMarkdownError,
 )
+
+
+def should_copy(rel_path: str, include: list[str], exclude: list[str]) -> bool:
+	"""Determine if a file should be copied based on include/exclude patterns.
+
+	Rules:
+	- If file matches any include pattern → copy (wins over exclude)
+	- If file matches any exclude pattern → don't copy
+	- If include is empty → copy everything not excluded
+	- If include is non-empty but file doesn't match → don't copy
+
+	# Parameters:
+	 - `rel_path : str`
+	   relative path of the file (POSIX format)
+	 - `include : list[str]`
+	   glob patterns for files to include (empty means everything)
+	 - `exclude : list[str]`
+	   glob patterns for files to exclude
+
+	# Returns:
+	 - `bool`
+	   True if the file should be copied
+	"""
+	matches_include = any(fnmatch.fnmatch(rel_path, p) for p in include)
+	matches_exclude = any(fnmatch.fnmatch(rel_path, p) for p in exclude)
+
+	if matches_include:
+		return True  # Explicit include wins over exclude
+	if matches_exclude:
+		return False
+	return not include  # Empty include = copy everything not excluded
+
+
+def copy_content_files(
+	content_dir: Path,
+	output_dir: Path,
+	include: list[str],
+	exclude: list[str],
+	verbose: bool = True,
+) -> int:
+	"""Copy files from content_dir to output_dir based on include/exclude patterns.
+
+	# Parameters:
+	 - `content_dir : Path`
+	   source directory containing content files
+	 - `output_dir : Path`
+	   destination directory for output
+	 - `include : list[str]`
+	   glob patterns for files to include (empty means everything)
+	 - `exclude : list[str]`
+	   glob patterns for files to exclude
+	 - `verbose : bool`
+	   whether to print progress information
+
+	# Returns:
+	 - `int`
+	   number of files copied
+	"""
+	copied_count = 0
+	for file_path in content_dir.rglob("*"):
+		if file_path.is_file():
+			rel_path = file_path.relative_to(content_dir).as_posix()
+			if should_copy(rel_path, include, exclude):
+				dest = output_dir / rel_path
+				dest.parent.mkdir(parents=True, exist_ok=True)
+				shutil.copy2(file_path, dest)
+				copied_count += 1
+	if verbose:
+		print(f"Copied {copied_count} resource files")
+	return copied_count
 
 
 def split_md(
@@ -501,14 +572,14 @@ def pipeline(
 		),
 	)
 
-	# copy resources dir to output dir
-	with sp_class(message="Copying resources directory..."):  # type: ignore[call-arg]
-		src_abs: Path = root_dir_absolute / config.content_dir / config.resources_dir
-		out_abs: Path = root_dir_absolute / config.output_dir / config.resources_dir
-		shutil.copytree(
-			src=src_abs,
-			dst=out_abs,
-			dirs_exist_ok=True,
+	# copy content files to output dir (excluding .md by default)
+	with sp_class(message="Copying content files..."):  # type: ignore[call-arg]
+		copy_content_files(
+			content_dir=root_dir_absolute / config.content_dir,
+			output_dir=root_dir_absolute / config.output_dir,
+			include=config.copy_include,
+			exclude=config.copy_exclude,
+			verbose=verbose,
 		)
 
 

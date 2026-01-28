@@ -96,6 +96,13 @@ class Config:
 	# whether to prettify html with bs4
 	prettify: bool = False
 
+	# content mirroring settings
+	# copy_include: patterns to include (empty = everything)
+	# copy_exclude: patterns to exclude (*.md excluded by default)
+	# if a file matches both, include wins
+	copy_include: list[str] = field(default_factory=list)
+	copy_exclude: list[str] = field(default_factory=lambda: ["*.md"])
+
 	# pandoc settings
 	__pandoc__: dict[str, Any] = field(default_factory=lambda: {"mathjax": True})
 	pandoc_fmt_from: str = "markdown+smart"
