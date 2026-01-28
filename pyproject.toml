@@ -1,6 +1,6 @@
 [project]
 name = "pdj_sitegen"
-version = "0.0.2"
+version = "0.0.3"
 description = "static site generator built on pandoc + jinja2"
 authors = [
 	{ name = "Michael Ivanitskiy", email = "mivanits@umich.edu" }
