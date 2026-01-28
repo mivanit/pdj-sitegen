@@ -1,3 +1,4 @@
+# pyright: reportMissingParameterType=false
 import os
 
 import pytest

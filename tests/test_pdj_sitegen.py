@@ -1,8 +1,9 @@
+# pyright: reportMissingParameterType=false
 import os
 from pathlib import Path
 
 import pytest
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment
 
 from pdj_sitegen.config import Config
 

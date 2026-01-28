@@ -1,3 +1,4 @@
+# pyright: reportMissingParameterType=false
 import json
 import os
 from pathlib import Path
@@ -44,6 +45,8 @@ def test_config_custom_values():
 		"pandoc_fmt_to": "html5",
 		"intermediates_dir": None,
 		"prettify": False,
+		"copy_include": [],
+		"copy_exclude": ["*.md"],
 	}
 	config = Config.load(custom_config)
 
@@ -168,7 +171,7 @@ def test_emit_data_file_toml():
 
 def test_emit_data_file_invalid_format():
 	with pytest.raises(ValueError):
-		pdjsg_config.emit_data_file({}, "invalid")  # type: ignore[arg-type]
+		pdjsg_config.emit_data_file({}, "invalid")  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 
 
 @pytest.mark.parametrize("fmt", ["yaml", "json"])
