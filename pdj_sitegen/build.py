@@ -419,8 +419,8 @@ def pipeline(
 	"""
 
 	# set up spinner context manager, depending on verbosity
-	sp_class: type[ContextManager[Any]] = (
-		functools.partial(SpinnerContext, update_interval=0.01)  # type: ignore[assignment]
+	sp_class: Callable[..., ContextManager[Any]] = (
+		functools.partial(SpinnerContext, update_interval=0.01)
 		if verbose
 		else NoOpContextManager
 	)

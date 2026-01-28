@@ -21,7 +21,7 @@ classifiers = [
 
 dependencies = [
 	# basic utils
-	"muutils>=0.6.15",
+	"muutils>=0.8.12",
 	# templating
 	"Jinja2>=3.1.4",
 	# yaml
@@ -86,14 +86,14 @@ skip-magic-trailing-comma = false
 
 [tool.basedpyright]
 include = ["pdj_sitegen", "tests"]
-exclude = ["__pycache__", ".venv"]
+exclude = ["__pycache__", ".venv", "docs"]
 reportConstantRedefinition = false
 reportDeprecated = false
 reportUnsupportedDunderAll = false
 reportExplicitAny = false
 
 [tool.ty.src]
-exclude = ["__pycache__/", ".venv/"]
+exclude = ["__pycache__/", ".venv/", "docs/"]
 
 [tool.ty.rules]
 unused-ignore-comment = "ignore"
