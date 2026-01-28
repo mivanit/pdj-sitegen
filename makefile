@@ -1816,10 +1816,13 @@ cov:
 	$(PYTHON) -m coverage html --directory=$(COVERAGE_REPORTS_DIR)/html/
 	rm -rf $(COVERAGE_REPORTS_DIR)/html/.gitignore
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# removed some targets we dont need
 # runs the coverage report, then the docs, then the combined docs
 .PHONY: docs
-docs: cov docs-html docs-combined todo lmcat
+docs: cov docs-html
 	@echo "generate all documentation and coverage reports"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # remove generated documentation files, but preserve resources
 # - removes all docs except those in DOCS_RESOURCES_DIR
