@@ -10,17 +10,17 @@ tags:
 
 <select id="tagFilter" onchange="filterPosts()">
 <option value="">Select a tag</option>
-{% set unique_tags = [] %}
-{% for key, post in docs.items() %}
-    {% for tag in post.frontmatter.tags %}
-    {% if tag not in unique_tags %}
-    {% set unique_tags = unique_tags.append(tag) %}
-    {% endif %}
-    {% endfor %}
-{% endfor %}
-{% for tag in unique_tags %}
+{%- set unique_tags = [] -%}
+{%- for key, post in docs.items() -%}
+{%- for tag in post.frontmatter.tags -%}
+{%- if tag not in unique_tags -%}
+{%- set unique_tags = unique_tags.append(tag) -%}
+{%- endif -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- for tag in unique_tags %}
 <option value="{{ tag }}">{{ tag }}</option>
-{% endfor %}
+{%- endfor %}
 </select>
 
 <ul id="postList">
