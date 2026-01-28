@@ -1591,9 +1591,9 @@ write-proj-version:
 .PHONY: gen-version-info
 gen-version-info: write-proj-version
 	@mkdir -p $(LOCAL_DIR)
-	$(eval PROJ_VERSION := $(shell cat $(VERSION_FILE)) )
-	$(eval LAST_VERSION := $(shell [ -f $(LAST_VERSION_FILE) ] && cat $(LAST_VERSION_FILE) || echo NULL) )
-	$(eval PYTHON_VERSION := $(shell $(PYTHON) -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')") )
+	$(eval PROJ_VERSION := $(shell cat $(VERSION_FILE)))
+	$(eval LAST_VERSION := $(shell [ -f $(LAST_VERSION_FILE) ] && cat $(LAST_VERSION_FILE) || echo NULL))
+	$(eval PYTHON_VERSION := $(shell $(PYTHON) -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')"))
 
 # getting commit log since the tag specified in $(LAST_VERSION_FILE)
 # will write to $(COMMIT_LOG_FILE)
