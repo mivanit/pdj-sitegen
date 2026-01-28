@@ -439,9 +439,9 @@ def convert_single_markdown_file(
 	template: Template = jinja_env.get_template(template_name)
 	final_html: str = template.render({"__content__": html_content, **context})
 	if config.prettify:
-		final_html = str(BeautifulSoup(final_html, "html.parser").prettify(
-			formatter="minimal"
-		))
+		final_html = str(
+			BeautifulSoup(final_html, "html.parser").prettify(formatter="minimal")
+		)
 
 	# Output HTML file
 	output_path: Path = output_root / config.output_dir / file_meta["path_html"]

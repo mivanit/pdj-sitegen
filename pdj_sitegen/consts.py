@@ -42,4 +42,3 @@ FRONTMATTER_REGEX: re.Pattern[str] = re.compile(
 	),
 	re.DOTALL,
 )
-

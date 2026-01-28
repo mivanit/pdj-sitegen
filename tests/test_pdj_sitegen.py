@@ -12,322 +12,322 @@ os.makedirs("tests/_temp", exist_ok=True)
 
 # Tests for render function
 class TestRender:
-    """Tests for the render function."""
+	"""Tests for the render function."""
 
-    def test_render_simple_template(self):
-        """Test rendering a simple template."""
-        from pdj_sitegen.build import render
+	def test_render_simple_template(self):
+		"""Test rendering a simple template."""
+		from pdj_sitegen.build import render
 
-        jinja_env = Environment()
-        content = "Hello, {{ name }}!"
-        context = {"name": "World"}
-        result = render(content, context, jinja_env)
-        assert result == "Hello, World!"
+		jinja_env = Environment()
+		content = "Hello, {{ name }}!"
+		context = {"name": "World"}
+		result = render(content, context, jinja_env)
+		assert result == "Hello, World!"
 
-    def test_render_with_conditionals(self):
-        """Test rendering with conditionals."""
-        from pdj_sitegen.build import render
+	def test_render_with_conditionals(self):
+		"""Test rendering with conditionals."""
+		from pdj_sitegen.build import render
 
-        jinja_env = Environment()
-        content = "{% if show %}Visible{% endif %}"
-        result = render(content, {"show": True}, jinja_env)
-        assert result == "Visible"
-        result = render(content, {"show": False}, jinja_env)
-        assert result == ""
+		jinja_env = Environment()
+		content = "{% if show %}Visible{% endif %}"
+		result = render(content, {"show": True}, jinja_env)
+		assert result == "Visible"
+		result = render(content, {"show": False}, jinja_env)
+		assert result == ""
 
-    def test_render_with_loops(self):
-        """Test rendering with loops."""
-        from pdj_sitegen.build import render
+	def test_render_with_loops(self):
+		"""Test rendering with loops."""
+		from pdj_sitegen.build import render
 
-        jinja_env = Environment()
-        content = "{% for item in items %}{{ item }},{% endfor %}"
-        result = render(content, {"items": ["a", "b", "c"]}, jinja_env)
-        assert result == "a,b,c,"
+		jinja_env = Environment()
+		content = "{% for item in items %}{{ item }},{% endfor %}"
+		result = render(content, {"items": ["a", "b", "c"]}, jinja_env)
+		assert result == "a,b,c,"
 
-    def test_render_error_invalid_template(self):
-        """Test that invalid template syntax raises RenderError."""
-        from pdj_sitegen.build import render
-        from pdj_sitegen.exceptions import RenderError
+	def test_render_error_invalid_template(self):
+		"""Test that invalid template syntax raises RenderError."""
+		from pdj_sitegen.build import render
+		from pdj_sitegen.exceptions import RenderError
 
-        jinja_env = Environment()
-        content = "{{ unclosed"
-        with pytest.raises(RenderError) as exc_info:
-            render(content, {}, jinja_env)
-        assert exc_info.value.kind == "create_template"
+		jinja_env = Environment()
+		content = "{{ unclosed"
+		with pytest.raises(RenderError) as exc_info:
+			render(content, {}, jinja_env)
+		assert exc_info.value.kind == "create_template"
 
-    def test_render_error_undefined_variable_method(self):
-        """Test that calling method on undefined variable raises RenderError."""
-        from pdj_sitegen.build import render
-        from pdj_sitegen.exceptions import RenderError
+	def test_render_error_undefined_variable_method(self):
+		"""Test that calling method on undefined variable raises RenderError."""
+		from pdj_sitegen.build import render
+		from pdj_sitegen.exceptions import RenderError
 
-        jinja_env = Environment()
-        content = "{{ undefined_var.method() }}"
-        with pytest.raises(RenderError) as exc_info:
-            render(content, {}, jinja_env)
-        assert exc_info.value.kind == "render_template"
+		jinja_env = Environment()
+		content = "{{ undefined_var.method() }}"
+		with pytest.raises(RenderError) as exc_info:
+			render(content, {}, jinja_env)
+		assert exc_info.value.kind == "render_template"
 
 
 # Tests for build_document_tree function
 class TestBuildDocumentTree:
-    """Tests for the build_document_tree function."""
+	"""Tests for the build_document_tree function."""
 
-    def test_empty_directory(self, tmp_path):
-        """Test with no markdown files."""
-        from pdj_sitegen.build import build_document_tree
+	def test_empty_directory(self, tmp_path):
+		"""Test with no markdown files."""
+		from pdj_sitegen.build import build_document_tree
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
-        assert result == {}
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
+		assert result == {}
 
-    def test_single_markdown_file(self, tmp_path):
-        """Test with one markdown file."""
-        from pdj_sitegen.build import build_document_tree
+	def test_single_markdown_file(self, tmp_path):
+		"""Test with one markdown file."""
+		from pdj_sitegen.build import build_document_tree
 
-        md_file = tmp_path / "test.md"
-        md_file.write_text("---\ntitle: Test\n---\nBody content")
+		md_file = tmp_path / "test.md"
+		md_file.write_text("---\ntitle: Test\n---\nBody content")
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert "test" in result
-        assert result["test"]["frontmatter"]["title"] == "Test"
-        assert result["test"]["body"] == "Body content"
-        assert "file_meta" in result["test"]
+		assert "test" in result
+		assert result["test"]["frontmatter"]["title"] == "Test"
+		assert result["test"]["body"] == "Body content"
+		assert "file_meta" in result["test"]
 
-    def test_nested_markdown_files(self, tmp_path):
-        """Test with nested directory structure."""
-        from pdj_sitegen.build import build_document_tree
+	def test_nested_markdown_files(self, tmp_path):
+		"""Test with nested directory structure."""
+		from pdj_sitegen.build import build_document_tree
 
-        subdir = tmp_path / "subdir"
-        subdir.mkdir()
-        (tmp_path / "root.md").write_text("---\ntitle: Root\n---\nRoot body")
-        (subdir / "nested.md").write_text("---\ntitle: Nested\n---\nNested body")
+		subdir = tmp_path / "subdir"
+		subdir.mkdir()
+		(tmp_path / "root.md").write_text("---\ntitle: Root\n---\nRoot body")
+		(subdir / "nested.md").write_text("---\ntitle: Nested\n---\nNested body")
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert "root" in result
-        assert "subdir/nested" in result
+		assert "root" in result
+		assert "subdir/nested" in result
 
-    def test_file_meta_structure(self, tmp_path):
-        """Test that file_meta contains expected keys."""
-        from pdj_sitegen.build import build_document_tree
+	def test_file_meta_structure(self, tmp_path):
+		"""Test that file_meta contains expected keys."""
+		from pdj_sitegen.build import build_document_tree
 
-        md_file = tmp_path / "test.md"
-        md_file.write_text("---\ntitle: Test\n---\nBody")
+		md_file = tmp_path / "test.md"
+		md_file.write_text("---\ntitle: Test\n---\nBody")
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        file_meta = result["test"]["file_meta"]
-        assert "path" in file_meta
-        assert "path_html" in file_meta
-        assert "path_raw" in file_meta
-        assert "modified_time" in file_meta
-        assert "modified_time_str" in file_meta
-        assert file_meta["path"] == "test"
-        assert file_meta["path_html"] == "test.html"
+		file_meta = result["test"]["file_meta"]
+		assert "path" in file_meta
+		assert "path_html" in file_meta
+		assert "path_raw" in file_meta
+		assert "modified_time" in file_meta
+		assert "modified_time_str" in file_meta
+		assert file_meta["path"] == "test"
+		assert file_meta["path_html"] == "test.html"
 
-    def test_frontmatter_with_jinja_templates(self, tmp_path):
-        """Test frontmatter rendering with Jinja2."""
-        from pdj_sitegen.build import build_document_tree
+	def test_frontmatter_with_jinja_templates(self, tmp_path):
+		"""Test frontmatter rendering with Jinja2."""
+		from pdj_sitegen.build import build_document_tree
 
-        md_file = tmp_path / "test.md"
-        md_file.write_text("---\ntitle: {{ config.name }}\n---\nBody")
+		md_file = tmp_path / "test.md"
+		md_file.write_text("---\ntitle: {{ config.name }}\n---\nBody")
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={"config": {"name": "MySite"}},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={"config": {"name": "MySite"}},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert result["test"]["frontmatter"]["title"] == "MySite"
+		assert result["test"]["frontmatter"]["title"] == "MySite"
 
-    def test_json_frontmatter(self, tmp_path):
-        """Test JSON frontmatter format."""
-        from pdj_sitegen.build import build_document_tree
+	def test_json_frontmatter(self, tmp_path):
+		"""Test JSON frontmatter format."""
+		from pdj_sitegen.build import build_document_tree
 
-        md_file = tmp_path / "test.md"
-        md_file.write_text(';;;\n{"title": "JSON Test"}\n;;;\nBody')
+		md_file = tmp_path / "test.md"
+		md_file.write_text(';;;\n{"title": "JSON Test"}\n;;;\nBody')
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert result["test"]["frontmatter"]["title"] == "JSON Test"
+		assert result["test"]["frontmatter"]["title"] == "JSON Test"
 
-    def test_toml_frontmatter(self, tmp_path):
-        """Test TOML frontmatter format."""
-        from pdj_sitegen.build import build_document_tree
+	def test_toml_frontmatter(self, tmp_path):
+		"""Test TOML frontmatter format."""
+		from pdj_sitegen.build import build_document_tree
 
-        md_file = tmp_path / "test.md"
-        md_file.write_text('+++\ntitle = "TOML Test"\n+++\nBody')
+		md_file = tmp_path / "test.md"
+		md_file.write_text('+++\ntitle = "TOML Test"\n+++\nBody')
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert result["test"]["frontmatter"]["title"] == "TOML Test"
+		assert result["test"]["frontmatter"]["title"] == "TOML Test"
 
-    def test_multiple_files_same_level(self, tmp_path):
-        """Test multiple markdown files at the same level."""
-        from pdj_sitegen.build import build_document_tree
+	def test_multiple_files_same_level(self, tmp_path):
+		"""Test multiple markdown files at the same level."""
+		from pdj_sitegen.build import build_document_tree
 
-        (tmp_path / "a.md").write_text("---\ntitle: A\n---\nBody A")
-        (tmp_path / "b.md").write_text("---\ntitle: B\n---\nBody B")
-        (tmp_path / "c.md").write_text("---\ntitle: C\n---\nBody C")
+		(tmp_path / "a.md").write_text("---\ntitle: A\n---\nBody A")
+		(tmp_path / "b.md").write_text("---\ntitle: B\n---\nBody B")
+		(tmp_path / "c.md").write_text("---\ntitle: C\n---\nBody C")
 
-        jinja_env = Environment()
-        result = build_document_tree(
-            content_dir=tmp_path,
-            frontmatter_context={},
-            jinja_env=jinja_env,
-            verbose=False,
-        )
+		jinja_env = Environment()
+		result = build_document_tree(
+			content_dir=tmp_path,
+			frontmatter_context={},
+			jinja_env=jinja_env,
+			verbose=False,
+		)
 
-        assert len(result) == 3
-        assert result["a"]["frontmatter"]["title"] == "A"
-        assert result["b"]["frontmatter"]["title"] == "B"
-        assert result["c"]["frontmatter"]["title"] == "C"
+		assert len(result) == 3
+		assert result["a"]["frontmatter"]["title"] == "A"
+		assert result["b"]["frontmatter"]["title"] == "B"
+		assert result["c"]["frontmatter"]["title"] == "C"
 
 
 # Tests for dump_intermediate function
 class TestDumpIntermediate:
-    """Tests for the dump_intermediate function."""
+	"""Tests for the dump_intermediate function."""
 
-    def test_no_dump_when_dir_is_none(self, tmp_path):
-        """Test that nothing is written when intermediates_dir is None."""
-        from pdj_sitegen.build import dump_intermediate
+	def test_no_dump_when_dir_is_none(self, tmp_path):
+		"""Test that nothing is written when intermediates_dir is None."""
+		from pdj_sitegen.build import dump_intermediate
 
-        dump_intermediate(
-            content="test content",
-            intermediates_dir=None,
-            fmt="md",
-            path="test",
-        )
-        # Should not raise, should just do nothing
-        # Verify no files were created anywhere
-        assert not any(tmp_path.iterdir())
+		dump_intermediate(
+			content="test content",
+			intermediates_dir=None,
+			fmt="md",
+			path="test",
+		)
+		# Should not raise, should just do nothing
+		# Verify no files were created anywhere
+		assert not any(tmp_path.iterdir())
 
-    def test_dump_creates_file(self, tmp_path):
-        """Test that intermediate file is created."""
-        from pdj_sitegen.build import dump_intermediate
+	def test_dump_creates_file(self, tmp_path):
+		"""Test that intermediate file is created."""
+		from pdj_sitegen.build import dump_intermediate
 
-        dump_intermediate(
-            content="test content",
-            intermediates_dir=tmp_path,
-            fmt="md",
-            path="test",
-        )
+		dump_intermediate(
+			content="test content",
+			intermediates_dir=tmp_path,
+			fmt="md",
+			path="test",
+		)
 
-        output_file = tmp_path / "md" / "test.md"
-        assert output_file.exists()
-        assert output_file.read_text() == "test content"
+		output_file = tmp_path / "md" / "test.md"
+		assert output_file.exists()
+		assert output_file.read_text() == "test content"
 
-    def test_dump_nested_path(self, tmp_path):
-        """Test dump with nested path creates parent directories."""
-        from pdj_sitegen.build import dump_intermediate
+	def test_dump_nested_path(self, tmp_path):
+		"""Test dump with nested path creates parent directories."""
+		from pdj_sitegen.build import dump_intermediate
 
-        dump_intermediate(
-            content="nested content",
-            intermediates_dir=tmp_path,
-            fmt="html",
-            path="subdir/nested",
-        )
+		dump_intermediate(
+			content="nested content",
+			intermediates_dir=tmp_path,
+			fmt="html",
+			path="subdir/nested",
+		)
 
-        output_file = tmp_path / "html" / "subdir" / "nested.html"
-        assert output_file.exists()
-        assert output_file.read_text() == "nested content"
+		output_file = tmp_path / "html" / "subdir" / "nested.html"
+		assert output_file.exists()
+		assert output_file.read_text() == "nested content"
 
-    def test_dump_different_formats(self, tmp_path):
-        """Test dumping different file formats."""
-        from pdj_sitegen.build import dump_intermediate
+	def test_dump_different_formats(self, tmp_path):
+		"""Test dumping different file formats."""
+		from pdj_sitegen.build import dump_intermediate
 
-        formats = ["md", "html", "txt", "json"]
-        for fmt in formats:
-            dump_intermediate(
-                content=f"content for {fmt}",
-                intermediates_dir=tmp_path,
-                fmt=fmt,
-                path="test",
-            )
-            output_file = tmp_path / fmt / f"test.{fmt}"
-            assert output_file.exists()
-            assert output_file.read_text() == f"content for {fmt}"
+		formats = ["md", "html", "txt", "json"]
+		for fmt in formats:
+			dump_intermediate(
+				content=f"content for {fmt}",
+				intermediates_dir=tmp_path,
+				fmt=fmt,
+				path="test",
+			)
+			output_file = tmp_path / fmt / f"test.{fmt}"
+			assert output_file.exists()
+			assert output_file.read_text() == f"content for {fmt}"
 
 
 # Tests for process_pandoc_args edge cases
 class TestProcessPandocArgsEdgeCases:
-    """Additional edge case tests for process_pandoc_args."""
+	"""Additional edge case tests for process_pandoc_args."""
 
-    def test_bool_false_excluded(self):
-        """Test that False boolean values are excluded."""
-        from pdj_sitegen.build import process_pandoc_args
+	def test_bool_false_excluded(self):
+		"""Test that False boolean values are excluded."""
+		from pdj_sitegen.build import process_pandoc_args
 
-        args = {"toc": False, "mathjax": True}
-        result = process_pandoc_args(args)
-        assert "--toc" not in result
-        assert "--mathjax" in result
+		args = {"toc": False, "mathjax": True}
+		result = process_pandoc_args(args)
+		assert "--toc" not in result
+		assert "--mathjax" in result
 
-    def test_empty_dict(self):
-        """Test with empty dict."""
-        from pdj_sitegen.build import process_pandoc_args
+	def test_empty_dict(self):
+		"""Test with empty dict."""
+		from pdj_sitegen.build import process_pandoc_args
 
-        result = process_pandoc_args({})
-        assert result == []
+		result = process_pandoc_args({})
+		assert result == []
 
-    def test_invalid_type_raises(self):
-        """Test that invalid types raise ValueError."""
-        from pdj_sitegen.build import process_pandoc_args
+	def test_invalid_type_raises(self):
+		"""Test that invalid types raise ValueError."""
+		from pdj_sitegen.build import process_pandoc_args
 
-        with pytest.raises(ValueError, match="Invalid type"):
-            process_pandoc_args({"invalid": 42})
+		with pytest.raises(ValueError, match="Invalid type"):
+			process_pandoc_args({"invalid": 42})
 
-    def test_single_filter_string(self):
-        """Test single filter as string."""
-        from pdj_sitegen.build import process_pandoc_args
+	def test_single_filter_string(self):
+		"""Test single filter as string."""
+		from pdj_sitegen.build import process_pandoc_args
 
-        args = {"filter": "my_filter"}
-        result = process_pandoc_args(args)
-        assert result == ["--filter", "my_filter"]
+		args = {"filter": "my_filter"}
+		result = process_pandoc_args(args)
+		assert result == ["--filter", "my_filter"]
 
-    def test_builtin_filter_single_string(self):
-        """Test builtin filter resolution with single string."""
-        from pdj_sitegen.build import process_pandoc_args
+	def test_builtin_filter_single_string(self):
+		"""Test builtin filter resolution with single string."""
+		from pdj_sitegen.build import process_pandoc_args
 
-        args = {"filter": "csv_code_table"}
-        result = process_pandoc_args(args)
-        assert result == ["--filter", "pdj-csv-code-table"]
+		args = {"filter": "csv_code_table"}
+		result = process_pandoc_args(args)
+		assert result == ["--filter", "pdj-csv-code-table"]
 
 
 # Tests for should_copy function
@@ -419,7 +419,7 @@ def test_copy_content_files(tmp_path):
 def test_config_read_toml(tmp_path):
 	"""Test reading config from TOML file."""
 	config_toml = tmp_path / "config.toml"
-	config_toml.write_text('''
+	config_toml.write_text("""
 content_dir = "my_content"
 output_dir = "my_output"
 templates_dir = "my_templates"
@@ -433,7 +433,7 @@ site_name = "Test Site"
 [__pandoc__]
 mathjax = true
 toc = true
-''')
+""")
 
 	loaded_config = Config.read(config_toml)
 	assert loaded_config.content_dir == Path("my_content")
