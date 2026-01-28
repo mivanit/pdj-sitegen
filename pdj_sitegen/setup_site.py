@@ -45,11 +45,14 @@ def setup_site(root: Path = Path(".")) -> None:
 	 - `content/resources/syntax.css` - code syntax highlighting
 	"""
 	for file, path_rel in FILE_LOCATIONS.items():
+		path: Path = root / path_rel
+		if path.exists():
+			print(f"Skipping existing file: {path}")
+			continue
+
 		contents: str = (
 			importlib.resources.files(pdj_sitegen).joinpath("data", file).read_text()
 		)
-
-		path: Path = root / path_rel
 		path.parent.mkdir(parents=True, exist_ok=True)
 		with open(path, "w", encoding="utf-8") as f:
 			f.write(contents)

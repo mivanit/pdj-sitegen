@@ -97,15 +97,19 @@ class TestSetupSite:
             content = full_path.read_text()
             assert len(content) > 0, f"{file_name} should not be empty"
 
-    def test_setup_overwrites_existing_files(self, tmp_path):
-        """Test that setup_site overwrites existing files."""
+    def test_setup_skips_existing_files(self, tmp_path):
+        """Test that setup_site skips existing files without overwriting."""
         config_path = tmp_path / "config.yml"
         config_path.write_text("old content")
 
         setup_site(tmp_path)
 
+        # Existing file should be preserved (not overwritten)
         new_content = config_path.read_text()
-        assert new_content != "old content"
+        assert new_content == "old content"
+
+        # But new files should still be created
+        assert (tmp_path / "templates" / "default.html.jinja2").exists()
 
     def test_setup_with_nested_path(self, tmp_path):
         """Test setup_site with nested root path."""

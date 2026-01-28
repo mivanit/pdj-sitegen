@@ -108,3 +108,55 @@ class TestLinksMd2Html:
             ]
             result = links_md2html("Link", value, "html", {})
             assert result is None, f"Should not convert {target}"
+
+    def test_words_ending_in_md_not_converted(self):
+        """Test that words ending in 'md' but not '.md' are not converted"""
+        # These should NOT be converted - they don't have the .md extension
+        non_md_targets = ["readme", "cmd", "ammad", "amd"]
+        for target in non_md_targets:
+            value = [
+                ["", [], []],
+                [{"t": "Str", "c": "Link"}],
+                [target, ""],
+            ]
+            result = links_md2html("Link", value, "html", {})
+            assert result is None, f"Should not convert '{target}' - it doesn't end with .md"
+
+    def test_malformed_link_empty_value(self):
+        """Test that malformed links with empty value don't crash"""
+        result = links_md2html("Link", [], "html", {})
+        assert result is None
+
+    def test_malformed_link_missing_indices(self):
+        """Test that malformed links with missing indices don't crash"""
+        # Missing value[1] and value[2]
+        result = links_md2html("Link", [["", [], []]], "html", {})
+        assert result is None
+
+        # value[1] exists but value[2] is missing
+        result = links_md2html("Link", [["", [], []], []], "html", {})
+        assert result is None
+
+    def test_malformed_link_empty_nested_lists(self):
+        """Test that malformed links with empty nested lists don't crash"""
+        # value[1] and value[2] exist but are empty
+        value = [
+            ["", [], []],
+            [],  # Empty link text list
+            [],  # Empty target list
+        ]
+        result = links_md2html("Link", value, "html", {})
+        assert result is None
+
+    def test_malformed_link_none_value(self):
+        """Test that None value doesn't crash"""
+        result = links_md2html("Link", None, "html", {})
+        assert result is None
+
+    def test_malformed_link_non_indexable(self):
+        """Test that non-indexable value doesn't crash"""
+        result = links_md2html("Link", "not a list", "html", {})
+        assert result is None
+
+        result = links_md2html("Link", 123, "html", {})
+        assert result is None

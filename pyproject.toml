@@ -110,6 +110,8 @@ reportImplicitOverride = false
 reportCallInDefaultInitializer = false
 # Suppress warnings for unreachable match fallback cases (defensive coding)
 reportUnnecessaryComparison = false
+# Suppress warnings for defensive isinstance checks
+reportUnnecessaryIsInstance = false
 reportUnreachable = false
 # Suppress warnings for unused parameters/variables (common in callbacks)
 reportUnusedParameter = false
