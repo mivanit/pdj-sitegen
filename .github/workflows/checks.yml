@@ -10,85 +10,47 @@ on:
       - main
 
 jobs:
-  dep-check:
-    name: Check dependencies
+  checks:
+    name: Checks (Python ${{ matrix.python }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        versions:
-          - python: "3.11"
-          - python: "3.12"
-          - python: "3.13"
+        python: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # whole history for making version
-      
+          fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.versions.python }}
+          python-version: ${{ matrix.python }}
 
-      - name: set up uv
+      - name: Set up uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
-      - name: print python version
-        run: python --version
-
-      - name: check version
-        run: make version
-
-      - name: check deps
-        run: make dep-check
-      
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: install
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          make setup
-
-      - name: format-check
-        run: make format-check
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        versions:
-          - python: "3.11"
-          - python: "3.12"
-          - python: "3.13"
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.versions.python }}
-
-      - name: install
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          make setup
       - name: Install pandoc
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: pandoc
           version: '3.3'
 
-      - name: tests
+      - name: Setup project
+        run: make setup
+
+      - name: Check version
+        run: make version
+
+      - name: Check deps
+        run: make dep-check
+
+      - name: Format check
+        run: make format-check
+
+      - name: Run tests
         run: make test
 
-      - name: test building example site
+      - name: Build example site
         run: make site
-        
-      - name: typing checks
+
+      - name: Type checking
         run: make typing
