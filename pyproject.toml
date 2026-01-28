@@ -1,6 +1,6 @@
 [project]
 name = "pdj_sitegen"
-version = "0.0.3"
+version = "0.0.4"
 description = "static site generator built on pandoc + jinja2"
 authors = [
 	{ name = "Michael Ivanitskiy", email = "mivanits@umich.edu" }
@@ -76,9 +76,6 @@ packages = ["pdj_sitegen"]
 include = [
     "/pdj_sitegen",
 ]
-
-[tool.hatch.build.targets.wheel.force-include]
-"pdj_sitegen/data" = "pdj_sitegen/data"
 
 # ruff config
 [tool.ruff]
