@@ -1,7 +1,7 @@
 # custom
 
 tests/_temp/**
-.github/local/**
+.meta/local/**
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
