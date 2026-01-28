@@ -143,9 +143,11 @@ def split_md(
 		# if the regex matches, extract the frontmatter, body, and format
 		delimiter: str = match.group("delimiter")
 		frontmatter = match.group("frontmatter")
-		assert isinstance(frontmatter, str)
+		if not isinstance(frontmatter, str):
+			raise TypeError(f"Expected frontmatter to be str, got {type(frontmatter)}")
 		body = match.group("body")
-		assert isinstance(body, str)
+		if not isinstance(body, str):
+			raise TypeError(f"Expected body to be str, got {type(body)}")
 		fmt = FRONTMATTER_DELIMS[delimiter]
 	else:
 		raise SplitMarkdownError(f"No frontmatter found in content\n{content = }")
@@ -363,11 +365,14 @@ def convert_single_markdown_file(
 	intermediates_dir: Path | None = None,
 ) -> None:
 	frontmatter: dict[str, Any] = doc.get("frontmatter", {})
-	assert isinstance(frontmatter, dict)
+	if not isinstance(frontmatter, dict):
+		raise TypeError(f"Expected frontmatter to be dict, got {type(frontmatter)}")
 	body: str = doc.get("body", "")
-	assert isinstance(body, str)
+	if not isinstance(body, str):
+		raise TypeError(f"Expected body to be str, got {type(body)}")
 	file_meta: dict[str, Any] = doc.get("file_meta", {})
-	assert isinstance(file_meta, dict)
+	if not isinstance(file_meta, dict):
+		raise TypeError(f"Expected file_meta to be dict, got {type(file_meta)}")
 	context: dict[str, Any] = {
 		**frontmatter,
 		"frontmatter": frontmatter,
@@ -481,6 +486,8 @@ def convert_markdown_files(
 					intermediates_dir=intermediates_dir,
 				)
 			except Exception as e:
+				if isinstance(e, (KeyboardInterrupt, SystemExit)):
+					raise
 				exceptions[path_raw] = e
 				if verbose:
 					print(f"\t  Error converting '{path_raw}'!!!")

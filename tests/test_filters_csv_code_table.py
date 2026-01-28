@@ -249,7 +249,7 @@ class TestCodeblockProcess:
         """Test error for non-rectangular CSV data."""
         csv_content = "A,B,C\n1,2"  # Missing one cell
         value = [["", ["csv_table"], []], csv_content]
-        with pytest.raises(AssertionError, match="not rectangular"):
+        with pytest.raises(ValueError, match="not rectangular"):
             codeblock_process("CodeBlock", value, "html", {})
 
     def test_csv_table_aligns_length_mismatch(self):
@@ -263,7 +263,7 @@ class TestCodeblockProcess:
         """Test error when header=0 (not supported)."""
         csv_content = "1,2,3\n4,5,6"
         value = [["", ["csv_table"], [("header", "0")]], csv_content]
-        with pytest.raises(Exception, match="lack of header not supported"):
+        with pytest.raises(NotImplementedError, match="Tables without headers"):
             codeblock_process("CodeBlock", value, "html", {})
 
     def test_csv_table_header_rows(self):

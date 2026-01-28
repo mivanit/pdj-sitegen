@@ -77,7 +77,12 @@ def codeblock_process(
 	if not (key == "CodeBlock"):
 		return None
 
-	[[ident, classes, lst_keyvals], code] = value
+	try:
+		[[ident, classes, lst_keyvals], code] = value
+	except (ValueError, TypeError) as e:
+		raise ValueError(
+			f"Unexpected CodeBlock structure. Expected [[ident, classes, keyvals], code], got: {value!r}"
+		) from e
 	# ident: str, classes: list[str], lst_keyvals: list[tuple[str, str]], code: str
 
 	if "csv_table" not in classes:
@@ -85,7 +90,18 @@ def codeblock_process(
 
 	# read the keyvals
 	keyvals: dict[str, str] = keyvals_process(lst_keyvals)
-	header: bool = bool(int(keyvals.get("header", 1)))
+	header_val: str = keyvals.get("header", "1")
+	try:
+		header: bool = bool(int(header_val))
+	except ValueError:
+		if header_val.lower() in ("true", "yes", "1"):
+			header = True
+		elif header_val.lower() in ("false", "no", "0"):
+			header = False
+		else:
+			raise ValueError(
+				f"Invalid header value: {header_val!r}. Use 0/1, true/false, or yes/no."
+			)
 	source: str | None = keyvals.get("source")
 	aligns: list[str] | None = (
 		list(keyvals.get("aligns", "")) if "aligns" in keyvals else None
@@ -98,14 +114,17 @@ def codeblock_process(
 		table_data = list(csv.reader(io.StringIO(code)))
 	else:
 		if os.path.isfile(source):
-			with open(source, "r") as f:
+			with open(source, "r", encoding="utf-8") as f:
 				table_data = list(csv.reader(f))
 		else:
-			raise Exception(f"csv source file not found: {source}")
+			raise FileNotFoundError(f"csv source file not found: {source}")
 
 	# validate the csv table
+	if not table_data:
+		raise ValueError("CSV data is empty")
 	n_cols: int = len(table_data[0])
-	assert all(len(row) == n_cols for row in table_data), "csv table is not rectangular"
+	if not all(len(row) == n_cols for row in table_data):
+		raise ValueError("CSV table is not rectangular")
 
 	if aligns is None:
 		aligns = ["D" for _ in range(n_cols)]
@@ -115,7 +134,9 @@ def codeblock_process(
 		elif len(aligns) == n_cols:
 			aligns = [aln.upper() for aln in aligns]
 		else:
-			raise Exception(f"aligns length mismatch: {aligns}")
+			raise ValueError(
+				f"aligns length mismatch: expected {n_cols}, got {len(aligns)}: {aligns}"
+			)
 
 	row_header: list[str]
 	table_rows: list[list[str]]
@@ -123,9 +144,7 @@ def codeblock_process(
 		row_header = table_data[0]
 		table_rows = table_data[1:]
 	else:
-		raise Exception("lack of header not supported")
-		row_header = []
-		table_rows = table_data
+		raise NotImplementedError("Tables without headers are not yet supported")
 
 	# write the table
 	return {
@@ -157,7 +176,10 @@ def codeblock_process(
 
 
 def test_filter() -> None:
-	with open(sys.argv[1]) as f:
+	if len(sys.argv) < 2:
+		print("Usage: python csv_code_table.py <json_file>", file=sys.stderr)
+		sys.exit(1)
+	with open(sys.argv[1], encoding="utf-8") as f:
 		data: Any = json.load(f)
 	key: str = data["blocks"][0]["t"]
 	value: Any = data["blocks"][0]["c"]

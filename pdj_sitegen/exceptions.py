@@ -41,22 +41,23 @@ class RenderError(Exception):
 		if self.kind == "create_template":
 			return (
 				f"Error creating template: {self.message}\n"
-				# f"{self.content = }\n"
-				# f"{self.jinja_env = }"
+				f"{self.content = }\n"
+				f"{self.jinja_env = }"
 			)
 		elif self.kind == "render_template":
 			return (
 				f"Error rendering template: {self.message}\n"
-				# f"{self.template = }\n"
-				# f"{self.context = }"
+				f"{self.template = }\n"
+				f"{self.context = }"
 			)
 		else:
 			return (
-				f"Error: {self.message}\n" f"{self.kind = } (unknown)\n"
-				# f"{self.content = }\n"
-				# f"{self.context = }\n"
-				# f"{self.jinja_env = }\n"
-				# f"{self.template = }"
+				f"Error: {self.message}\n"
+				f"{self.kind = } (unknown)\n"
+				f"{self.content = }\n"
+				f"{self.context = }\n"
+				f"{self.jinja_env = }\n"
+				f"{self.template = }"
 			)
 
 
