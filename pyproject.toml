@@ -59,6 +59,8 @@ Documentation = "https://miv.name/pdj-sitegen/"
 
 [project.scripts]
 pdj-sitegen = "pdj_sitegen.build:main"
+pdj-csv-code-table = "pdj_sitegen.filters.csv_code_table:main"
+pdj-links-md2html = "pdj_sitegen.filters.links_md2html:main"
 
 # build system
 [build-system]
@@ -91,6 +93,29 @@ reportConstantRedefinition = false
 reportDeprecated = false
 reportUnsupportedDunderAll = false
 reportExplicitAny = false
+# Suppress warnings for untyped libraries (pypandoc, bs4, pandocfilters)
+reportMissingTypeStubs = false
+# Suppress warnings for Any types from untyped libs
+reportAny = false
+# Suppress warnings for unused call results (f.write(), add_argument(), etc.)
+reportUnusedCallResult = false
+# Suppress warnings for unknown types from untyped libs
+reportUnknownMemberType = false
+reportUnknownParameterType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+# Don't require @override decorators
+reportImplicitOverride = false
+# Allow function calls in default parameter values
+reportCallInDefaultInitializer = false
+# Suppress warnings for unreachable match fallback cases (defensive coding)
+reportUnnecessaryComparison = false
+reportUnreachable = false
+# Suppress warnings for unused parameters/variables (common in callbacks)
+reportUnusedParameter = false
+reportUnusedVariable = false
+# Allow importing re-exported symbols
+reportPrivateLocalImportUsage = false
 
 [tool.ty.src]
 exclude = ["__pycache__/", ".venv/", "docs/"]

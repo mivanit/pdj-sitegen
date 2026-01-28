@@ -165,6 +165,10 @@ def test_filter() -> None:
 	print(json.dumps(newdata, indent=2))
 
 
-if __name__ == "__main__":
+def main() -> None:
 	toJSONFilter(codeblock_process)
+
+
+if __name__ == "__main__":
+	main()
 	# test_filter()

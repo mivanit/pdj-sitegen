@@ -21,7 +21,7 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Any, Callable, ContextManager, Iterable
+from typing import Any, Callable, Iterable
 
 import pypandoc  # type: ignore[import-untyped]
 import tqdm  # type: ignore[import-untyped]
@@ -207,6 +207,26 @@ def build_document_tree(
 	return docs
 
 
+# Mapping of user-friendly names to entry point executables
+BUILTIN_FILTERS: dict[str, str] = {
+	# Simple names
+	"csv_code_table": "pdj-csv-code-table",
+	"links_md2html": "pdj-links-md2html",
+	# Full module paths (backwards compatibility)
+	"pdj_sitegen.filters.csv_code_table": "pdj-csv-code-table",
+	"pdj_sitegen.filters.links_md2html": "pdj-links-md2html",
+}
+
+
+def resolve_filter(filter_name: str) -> str:
+	"""Resolve a filter name to an executable.
+
+	Built-in filters are mapped to their entry points.
+	External filters are passed through unchanged.
+	"""
+	return BUILTIN_FILTERS.get(filter_name, filter_name)
+
+
 def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 	"""given args to pass to pandoc, turn them into a list of strings we can actually pass
 
@@ -231,10 +251,14 @@ def process_pandoc_args(pandoc_args: dict[str, Any]) -> list[str]:
 			if v:
 				args.append(f"--{k}")
 		elif isinstance(v, str):
+			if k == "filter":
+				v = resolve_filter(v)
 			args.extend([f"--{k}", v])
 		elif isinstance(v, Iterable):
 			for x in v:
-				args.extend([f"--{k}", x])
+				if k == "filter":
+					x = resolve_filter(str(x))
+				args.extend([f"--{k}", str(x)])
 		else:
 			raise ValueError(f"Invalid type for pandoc arg: {type(v) = } {v = }")
 
@@ -339,9 +363,9 @@ def convert_single_markdown_file(
 	template: Template = jinja_env.get_template(template_name)
 	final_html: str = template.render({"__content__": html_content, **context})
 	if config.prettify:
-		final_html = BeautifulSoup(final_html, "html.parser").prettify(
+		final_html = str(BeautifulSoup(final_html, "html.parser").prettify(
 			formatter="minimal"
-		)
+		))
 
 	# Output HTML file
 	output_path: Path = output_root / config.output_dir / file_meta["path_html"]
@@ -419,7 +443,7 @@ def pipeline(
 	"""
 
 	# set up spinner context manager, depending on verbosity
-	sp_class: Callable[..., ContextManager[Any]] = (
+	sp_class: Any = (
 		functools.partial(SpinnerContext, update_interval=0.01)
 		if verbose
 		else NoOpContextManager

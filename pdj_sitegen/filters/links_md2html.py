@@ -23,5 +23,9 @@ def links_md2html(key: str, value: Any, format: str, meta: Any) -> Any | None:
 		return None
 
 
-if __name__ == "__main__":
+def main() -> None:
 	toJSONFilter(links_md2html)
+
+
+if __name__ == "__main__":
+	main()
