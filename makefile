@@ -1719,11 +1719,15 @@ format-check:
 	@echo "check if the source code is formatted correctly"
 	$(PYTHON) -m ruff check --config $(PYPROJECT) .
 
-# runs type checks with mypy
+# runs type checks with mypy, basedpyright, and ty
 .PHONY: typing
 typing: clean
 	@echo "running type checks"
-	$(PYTHON) -m mypy --config-file $(PYPROJECT) $(TYPECHECK_ARGS) .
+	@FAIL=0; \
+	$(PYTHON) -m mypy --config-file $(PYPROJECT) $(TYPECHECK_ARGS) . || FAIL=1; \
+	$(PYTHON) -m basedpyright . || FAIL=1; \
+	$(PYTHON) -m ty check . || FAIL=1; \
+	exit $$FAIL
 
 # generate summary report of type check errors grouped by file
 # outputs TOML format showing error count per file
