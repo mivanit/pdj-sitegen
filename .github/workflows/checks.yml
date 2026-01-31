@@ -37,9 +37,6 @@ jobs:
       - name: Setup project
         run: make setup
 
-      - name: Check version
-        run: make version
-
       - name: Check deps
         run: make dep-check
 
