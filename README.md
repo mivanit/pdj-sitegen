@@ -13,7 +13,7 @@
 
 # `pdj_sitegen`
 
-**_P_**an**_d_**oc and **_J_**inja **_Site_** **_Gen_**erator
+**P**an**d**oc and **J**inja **Site** **Gen**erator
 
 - docs: [`miv.name/pdj_sitegen/`](https://miv.name/pdj-sitegen/)
 - demo site: [`miv.name/pdj_sitegen/demo_site/`](https://miv.name/pdj-sitegen/demo_site/)
