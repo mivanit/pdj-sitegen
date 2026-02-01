@@ -1,6 +1,5 @@
 # pyright: reportMissingParameterType=false
 import json
-import os
 from pathlib import Path
 
 import pytest
@@ -9,8 +8,6 @@ import yaml  # type: ignore[import-untyped]
 import pdj_sitegen.config as pdjsg_config
 import pdj_sitegen.consts as consts
 from pdj_sitegen.config import Config
-
-os.makedirs("tests/_temp", exist_ok=True)
 
 
 # Tests for Config class

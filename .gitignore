@@ -1,7 +1,8 @@
 # custom
 
-tests/_temp/**
+tests/.temp/**
 .meta/local/**
+.pdj-sitegen/**
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

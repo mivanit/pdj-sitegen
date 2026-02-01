@@ -1,6 +1,4 @@
 # pyright: reportMissingParameterType=false
-import os
-
 import pytest
 import yaml  # type: ignore[import-untyped]
 import yaml.scanner  # type: ignore[import-untyped]
@@ -11,8 +9,6 @@ from pdj_sitegen.consts import (
 	FRONTMATTER_DELIMS,
 	FRONTMATTER_REGEX,
 )
-
-os.makedirs("tests/_temp", exist_ok=True)
 
 
 # Tests for FORMAT_MAP

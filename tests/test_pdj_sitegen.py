@@ -1,13 +1,11 @@
 # pyright: reportMissingParameterType=false
-import os
 from pathlib import Path
 
 import pytest
 from jinja2 import Environment
 
+from conftest import TEST_TEMP_DIR
 from pdj_sitegen.config import Config
-
-os.makedirs("tests/_temp", exist_ok=True)
 
 
 # Tests for render function
@@ -602,7 +600,7 @@ This is a test."""
 def test_main(monkeypatch):
 	from pdj_sitegen.build import main
 
-	tmp_path = Path("tests/_temp/test_main/")
+	tmp_path = TEST_TEMP_DIR / "test_main"
 	# Setup test environment
 	config_path = tmp_path / "config.yaml"
 	content_dir = tmp_path / "content"

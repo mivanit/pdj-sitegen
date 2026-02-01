@@ -14,7 +14,16 @@ class SplitMarkdownError(Exception):
 class ConversionError(Exception):
 	"error while converting markdown"
 
-	pass
+	def __init__(
+		self,
+		message: str,
+		n_failed: int = 1,
+		n_total: int = 1,
+	) -> None:
+		super().__init__(message)
+		self.message: str = message
+		self.n_failed: int = n_failed
+		self.n_total: int = n_total
 
 
 class RenderError(Exception):
@@ -62,10 +71,17 @@ class RenderError(Exception):
 
 
 class MultipleExceptions(Exception):
-	def __init__(self, message: str, exceptions: dict[str, Exception]):
+	def __init__(
+		self,
+		message: str,
+		exceptions: dict[str, Exception],
+		n_total: int = 0,
+	) -> None:
 		super().__init__(message)
 		self.message: str = message
 		self.exceptions: dict[str, Exception] = exceptions
+		self.n_failed: int = len(exceptions)
+		self.n_total: int = n_total if n_total > 0 else len(exceptions)
 
 	def __str__(self) -> str:
 		return (

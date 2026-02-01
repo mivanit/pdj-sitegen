@@ -1,12 +1,16 @@
 # pyright: reportMissingParameterType=false
 """Shared pytest fixtures for pdj-sitegen tests."""
 
-import pytest
+import os
 from pathlib import Path
 
+import pytest
 from jinja2 import Environment, FileSystemLoader
 
 from pdj_sitegen.config import Config
+
+TEST_TEMP_DIR: Path = Path("tests/.temp")
+os.makedirs(TEST_TEMP_DIR, exist_ok=True)
 
 
 @pytest.fixture

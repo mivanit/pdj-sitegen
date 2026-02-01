@@ -10,7 +10,7 @@ from pdj_sitegen.setup_site import (
 	setup_site,
 )
 
-TEMP_DIR: Path = Path("tests/_temp")
+from conftest import TEST_TEMP_DIR
 
 
 class TestFileLocations:
@@ -129,7 +129,7 @@ class TestSetupSite:
 
 # Original tests (kept for backwards compatibility)
 def test_setup():
-	root: Path = TEMP_DIR / "test_setup"
+	root: Path = TEST_TEMP_DIR / "test_setup"
 	root.mkdir(parents=True, exist_ok=True)
 	pdj_sitegen.setup_site.setup_site(root)
 
@@ -139,7 +139,7 @@ def test_setup():
 
 
 def test_setup_and_pipeline():
-	root: Path = TEMP_DIR / "test_setup_and_pipeline"
+	root: Path = TEST_TEMP_DIR / "test_setup_and_pipeline"
 	root.mkdir(parents=True, exist_ok=True)
 	pdj_sitegen.setup_site.setup_site(root)
 

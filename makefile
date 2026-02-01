@@ -41,7 +41,7 @@ DOCS_DIR := docs
 TESTS_DIR := tests
 
 # tests temp directory to clean up. will remove this in `make clean`
-TESTS_TEMP_DIR := $(TESTS_DIR)/_temp/
+TESTS_TEMP_DIR := $(TESTS_DIR)/.temp/
 
 # probably don't change these:
 # --------------------------------------------------

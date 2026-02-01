@@ -21,6 +21,7 @@ import json
 import os
 import re
 import shutil
+import sys
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
@@ -237,6 +238,7 @@ def build_document_tree(
 		print(f"Found {len(md_files)} markdown files in '{content_dir}'")
 
 	docs: dict[str, dict[str, Any]] = {}
+	errors: dict[str, Exception] = {}
 
 	for file_path in tqdm.tqdm(
 		md_files,
@@ -249,34 +251,54 @@ def build_document_tree(
 		)
 		with open(file_path, "r", encoding="utf-8") as f:
 			content: str = f.read()
-		frontmatter_raw: str
-		body: str
-		fmt: Format
-		frontmatter_raw, body, fmt = split_md(content)
 
-		last_modified_time: float = file_path.stat().st_mtime
-		file_meta: dict[str, Any] = {
-			"path": file_path_str,
-			"path_html": f"{file_path_str}.html",
-			"path_raw": file_path.as_posix(),
-			"modified_time": last_modified_time,
-			"modified_time_str": datetime.datetime.fromtimestamp(
-				last_modified_time
-			).strftime("%Y-%m-%d %H:%M:%S"),
-		}
+		try:
+			frontmatter_raw: str
+			body: str
+			fmt: Format
+			frontmatter_raw, body, fmt = split_md(content)
 
-		frontmatter_rendered: str = render(
-			content=frontmatter_raw,
-			context={**frontmatter_context, "file_meta": file_meta},
-			jinja_env=jinja_env,
+			last_modified_time: float = file_path.stat().st_mtime
+			file_meta: dict[str, Any] = {
+				"path": file_path_str,
+				"path_html": f"{file_path_str}.html",
+				"path_raw": file_path.as_posix(),
+				"path_to_root": "/".join([".."] * file_path_str.count("/")) or ".",
+				"modified_time": last_modified_time,
+				"modified_time_str": datetime.datetime.fromtimestamp(
+					last_modified_time
+				).strftime("%Y-%m-%d %H:%M:%S"),
+			}
+
+			frontmatter_rendered: str = render(
+				content=frontmatter_raw,
+				context={**frontmatter_context, "file_meta": file_meta},
+				jinja_env=jinja_env,
+			)
+			frontmatter: dict[str, Any] = FORMAT_PARSERS[fmt](frontmatter_rendered)
+
+			docs[file_path_str] = {
+				"frontmatter": frontmatter,
+				"body": body,
+				"file_meta": file_meta,
+			}
+		except SplitMarkdownError as e:
+			errors[file_path.as_posix()] = e
+			continue
+
+	if errors:
+		print(
+			f"\nMissing frontmatter in {len(errors)} file(s):",
+			file=sys.stderr,
 		)
-		frontmatter: dict[str, Any] = FORMAT_PARSERS[fmt](frontmatter_rendered)
+		for filepath in errors:
+			print(f"  - {filepath}", file=sys.stderr)
+		raise MultipleExceptions(
+			f"Missing frontmatter in {len(errors)}/{len(md_files)} files",
+			exceptions=errors,
+			n_total=len(md_files),
+		)
 
-		docs[file_path_str] = {
-			"frontmatter": frontmatter,
-			"body": body,
-			"file_meta": file_meta,
-		}
 	return docs
 
 
@@ -373,15 +395,35 @@ def convert_single_markdown_file(
 	file_meta: dict[str, Any] = doc.get("file_meta", {})
 	if not isinstance(file_meta, dict):
 		raise TypeError(f"Expected file_meta to be dict, got {type(file_meta)}")
+
+	# Get directory info for new template variables
+	file_dir: Path = Path(file_meta["path_raw"]).parent
+	file_dir_rel: str = str(Path(file_meta["path"]).parent)
+
 	context: dict[str, Any] = {
 		**frontmatter,
 		"frontmatter": frontmatter,
 		"file_meta": file_meta,
 		"config": config.serialize(),
 		"docs": docs,
-		"child_docs": {
+		# Docs matching by path prefix (original child_docs behavior)
+		"child_docs_dotlist": {
 			k: v for k, v in docs.items() if (k.startswith(path) and k != path)
 		},
+		# Docs in same folder (excluding current file)
+		"child_docs_folder": {
+			k: v
+			for k, v in docs.items()
+			if (str(Path(k).parent) == file_dir_rel and k != path)
+		},
+		# All files in the directory (filenames only)
+		"dir_files": [f.name for f in file_dir.iterdir() if f.is_file()],
+		# All subdirectories in the directory (names only)
+		"dir_subdirs": [d.name for d in file_dir.iterdir() if d.is_dir()],
+		# All files recursively (relative paths from dir)
+		"dir_contents_recursive": [
+			str(f.relative_to(file_dir)) for f in file_dir.rglob("*") if f.is_file()
+		],
 	}
 
 	dump_intermediate_partial: Callable[..., None] = functools.partial(
@@ -490,17 +532,20 @@ def convert_markdown_files(
 					raise
 				exceptions[path_raw] = e
 				if verbose:
-					print(f"\t  Error converting '{path_raw}'!!!")
+					print(f"\t\t\033[91mERROR: could not convert '{path_raw}'\033[0m")
 	if exceptions:
 		first_key: str = next(iter(exceptions.keys()))
 		if len(exceptions) == 1:
 			raise ConversionError(
-				f"error converting file '{first_key}'\n{exceptions[first_key]}"
+				f"error converting file '{first_key}'",
+				n_failed=1,
+				n_total=n_files,
 			) from exceptions[first_key]
 		else:
 			raise MultipleExceptions(
 				f"failed to convert {len(exceptions)}/{n_files} files",
 				exceptions,
+				n_total=n_files,
 			) from exceptions[first_key]
 
 

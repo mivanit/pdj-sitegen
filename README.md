@@ -177,7 +177,7 @@ content/
 ```
 Outputs: `index.html`, `blog/index.html`, `blog/post-1.html`, `blog/post-2.html`
 
-Both approaches work with `child_docs` in templates for hierarchical navigation.
+Both approaches work with `child_docs_dotlist` (path prefix matching) and `child_docs_folder` (same directory) in templates for hierarchical navigation.
 
 ## Pandoc Filters
 
@@ -198,15 +198,19 @@ Converts fenced code blocks with class `csv_table` to HTML tables.
 
 In your markdown, use a fenced code block with the `csv_table` class and options:
 
-``````
-  ```{.csv_table header=1 aligns=LCR caption="My Table"}
-  Name,Count,Status
-  Alice,42,Active
-  Bob,17,Pending
-  ```
-``````
+```
+'''{.csv_table header=1 aligns=LCR caption="My Table"}
+Name,Count,Status
+Alice,42,Active
+Bob,17,Pending
+'''
+```
+
+> NOTE: in the above, use backticks (`) instead of single quotes (') for the fenced code block; single quotes are used here to avoid rendering issues.
+
 
 Options:
+
 - `header`: Number of header rows (default: 1)
 - `source`: Path to external CSV file
 - `aligns`: Column alignments (L=left, C=center, R=right, D=default)
@@ -216,18 +220,23 @@ Options:
 
 The following variables are available in templates:
 
-| Variable                      | Description                                     | Example                  |
-| ----------------------------- | ----------------------------------------------- | ------------------------ |
-| `frontmatter`                 | Full frontmatter dict from the current document | `{"title": "My Page"}`   |
-| `file_meta.path`              | Relative path without extension                 | `blog/post-1`            |
-| `file_meta.path_html`         | HTML output path                                | `blog/post-1.html`       |
-| `file_meta.path_raw`          | Original file path                              | `content/blog/post-1.md` |
-| `file_meta.modified_time`     | Unix timestamp of last modification             | `1706380800.0`           |
-| `file_meta.modified_time_str` | Human-readable modification time                | `2024-01-27 12:00:00`    |
-| `config`                      | Serialized site configuration                   | `{"output_dir": "docs"}` |
-| `docs`                        | Dictionary of all documents in the site         | `{"index": {...}}`       |
-| `child_docs`                  | Documents that are children of the current path | `{"blog/post-1": {...}}` |
-| `content`                     | Rendered HTML content (in final template only)  | `<p>Hello</p>`           |
+| Variable                      | Description                                           | Example                    |
+| ----------------------------- | ----------------------------------------------------- | -------------------------- |
+| `frontmatter`                 | Full frontmatter dict from the current document       | `{"title": "My Page"}`     |
+| `file_meta.path`              | Relative path without extension                       | `blog/post-1`              |
+| `file_meta.path_html`         | HTML output path                                      | `blog/post-1.html`         |
+| `file_meta.path_raw`          | Original file path                                    | `content/blog/post-1.md`   |
+| `file_meta.path_to_root`      | Relative path prefix to site root (no trailing slash) | `.` or `..` or `../..`     |
+| `file_meta.modified_time`     | Unix timestamp of last modification                   | `1706380800.0`             |
+| `file_meta.modified_time_str` | Human-readable modification time                      | `2024-01-27 12:00:00`      |
+| `config`                      | Serialized site configuration                         | `{"output_dir": "docs"}`   |
+| `docs`                        | Dictionary of all documents in the site               | `{"index": {...}}`         |
+| `child_docs_dotlist`          | Documents matching by path prefix                     | `{"blog.post-1": {...}}`   |
+| `child_docs_folder`           | Documents in the same directory                       | `{"about": {...}}`         |
+| `dir_files`                   | List of all filenames in the directory                | `["index.md", "about.md"]` |
+| `dir_subdirs`                 | List of subdirectory names                            | `["images", "posts"]`      |
+| `dir_contents_recursive`      | List of all files recursively (relative paths)        | `["images/logo.png"]`      |
+| `content`                     | Rendered HTML content (in final template only)        | `<p>Hello</p>`             |
 
 All frontmatter fields are also available directly (e.g., `{{ title }}`).
 
