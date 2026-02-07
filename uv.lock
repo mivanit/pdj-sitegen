@@ -823,7 +823,7 @@ wheels = [
 
 [[package]]
 name = "pdj-sitegen"
-version = "0.0.5"
+version = "0.0.6"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },
