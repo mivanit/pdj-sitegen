@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 import pytest
-import yaml  # type: ignore[import-untyped]
+import yaml
 
 import pdj_sitegen.config as pdjsg_config
 import pdj_sitegen.consts as consts

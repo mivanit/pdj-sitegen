@@ -1,7 +1,7 @@
 # pyright: reportMissingParameterType=false
 import pytest
-import yaml  # type: ignore[import-untyped]
-import yaml.scanner  # type: ignore[import-untyped]
+import yaml
+import yaml.scanner
 
 from pdj_sitegen.consts import (
 	FORMAT_MAP,

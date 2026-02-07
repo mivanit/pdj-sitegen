@@ -14,7 +14,7 @@ import re
 import tomllib
 from typing import Any, Callable, Literal
 
-import yaml  # type: ignore[import-untyped]
+import yaml
 
 Format = Literal["yaml", "json", "toml"]
 """Type alias for supported data formats."""

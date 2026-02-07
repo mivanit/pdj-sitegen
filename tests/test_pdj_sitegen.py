@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from jinja2 import Environment
 
-from conftest import TEST_TEMP_DIR  # type: ignore[import-untyped]
+from conftest import TEST_TEMP_DIR
 from pdj_sitegen.config import Config
 
 

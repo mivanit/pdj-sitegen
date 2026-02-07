@@ -10,7 +10,7 @@ from pdj_sitegen.setup_site import (
 	setup_site,
 )
 
-from conftest import TEST_TEMP_DIR  # type: ignore[import-untyped]
+from conftest import TEST_TEMP_DIR
 
 
 class TestFileLocations:

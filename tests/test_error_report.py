@@ -114,7 +114,7 @@ class TestExtractLineNumber:
 			# The root cause has line info only in traceback (no lineno attr, no "line X" msg)
 			root = e.__cause__
 			assert root is not None
-			assert not hasattr(root, "lineno") or root.lineno is None  # type: ignore[union-attr]  # pyright: ignore[reportAttributeAccessIssue]
+			assert not hasattr(root, "lineno") or root.lineno is None  # pyright: ignore[reportAttributeAccessIssue]
 			assert "line" not in str(root).lower() or "line 2" not in str(root)
 			# extract_line_number should still find it via traceback fallback
 			assert extract_line_number(root) == 2

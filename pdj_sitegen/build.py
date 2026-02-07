@@ -26,11 +26,11 @@ from pathlib import Path
 from typing import Any, Callable, Iterable
 
 import pypandoc  # type: ignore[import-untyped]
-import tqdm  # type: ignore[import-untyped]
+import tqdm
 from jinja2 import Environment, FileSystemLoader, Template
 from muutils.json_serialize import json_serialize
 from muutils.spinner import NoOpContextManager, SpinnerContext
-from bs4 import BeautifulSoup  # type: ignore[import-untyped]
+from bs4 import BeautifulSoup
 
 from pdj_sitegen.config import Config
 from pdj_sitegen.consts import (
@@ -654,7 +654,7 @@ def pipeline(
 	root_dir_absolute: Path = root_dir.absolute()
 
 	# read config and set up Jinja environment
-	with sp_class(message="read config and set up jinja environment..."):  # type: ignore[call-arg]
+	with sp_class(message="read config and set up jinja environment..."):
 		# Read the config file
 		config: Config = Config.read(root_dir_absolute / config_path.name)
 
@@ -701,7 +701,7 @@ def pipeline(
 	)
 
 	# copy content files to output dir (excluding .md by default)
-	with sp_class(message="Copying content files..."):  # type: ignore[call-arg]
+	with sp_class(message="Copying content files..."):
 		copy_content_files(
 			content_dir=root_dir_absolute / config.content_dir,
 			output_dir=root_dir_absolute / config.output_dir,
