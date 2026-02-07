@@ -79,8 +79,26 @@ python -m pdj_sitegen your_config.yaml
 python -m pdj_sitegen your_config.yaml [-q] [-s]
 ```
 
-- `-q, --quiet`: Disable verbose output
-- `-s, --smart-rebuild`: Only rebuild files modified since last build (compares file modification times against `.build_time`)
+- `-q, --quiet`: Disable verbose output (suppress progress messages)
+- `-s, --smart-rebuild`: Only rebuild files modified since last build
+
+### Smart Rebuild
+
+The smart rebuild feature (`-s` flag) enables incremental builds by tracking file modification times:
+
+1. A `.build_time` file in your project root stores the timestamp of the last successful build
+2. Source files are compared against this timestamp; only newer files are rebuilt
+3. Ideal for large sites during development - significantly speeds up iteration
+
+```bash
+# Full rebuild (always safe)
+python -m pdj_sitegen config.yml
+
+# Smart rebuild (faster, for content-only changes)
+python -m pdj_sitegen config.yml -s
+```
+
+**When to use full rebuild**: After modifying templates or config, since these changes affect all pages. The `.build_time` file is automatically created and updated.
 
 # Configuration
 
@@ -97,6 +115,95 @@ python -m pdj_sitegen config.yml   # YAML
 python -m pdj_sitegen config.toml  # TOML
 python -m pdj_sitegen config.json  # JSON
 ```
+
+### Complete Configuration Examples
+
+<details>
+<summary><strong>YAML Configuration</strong></summary>
+
+```yaml
+content_dir: content
+templates_dir: templates
+default_template: default.html.jinja2
+output_dir: docs
+
+copy_include: []
+copy_exclude:
+  - "*.md"
+
+prettify: false
+pandoc_fmt_from: markdown+smart
+pandoc_fmt_to: html
+
+__pandoc__:
+  mathjax: true
+  toc: true
+
+jinja_env_kwargs: {}
+
+globals_:
+  site_name: "My Site"
+  author: "Your Name"
+```
+
+</details>
+
+<details>
+<summary><strong>TOML Configuration</strong></summary>
+
+```toml
+content_dir = "content"
+templates_dir = "templates"
+default_template = "default.html.jinja2"
+output_dir = "docs"
+
+copy_include = []
+copy_exclude = ["*.md"]
+
+prettify = false
+pandoc_fmt_from = "markdown+smart"
+pandoc_fmt_to = "html"
+
+[__pandoc__]
+mathjax = true
+toc = true
+
+[jinja_env_kwargs]
+
+[globals_]
+site_name = "My Site"
+author = "Your Name"
+```
+
+</details>
+
+<details>
+<summary><strong>JSON Configuration</strong></summary>
+
+```json
+{
+  "content_dir": "content",
+  "templates_dir": "templates",
+  "default_template": "default.html.jinja2",
+  "output_dir": "docs",
+  "copy_include": [],
+  "copy_exclude": ["*.md"],
+  "prettify": false,
+  "pandoc_fmt_from": "markdown+smart",
+  "pandoc_fmt_to": "html",
+  "__pandoc__": {
+    "mathjax": true,
+    "toc": true
+  },
+  "jinja_env_kwargs": {},
+  "globals_": {
+    "site_name": "My Site",
+    "author": "Your Name"
+  }
+}
+```
+
+</details>
 
 ## Content Mirroring
 
@@ -150,6 +257,91 @@ pandoc_fmt_to: "html"
 # Global Pandoc options (can be overridden per-file in frontmatter)
 __pandoc__:
   mathjax: true
+
+# Jinja2 environment customization
+jinja_env_kwargs: {}
+```
+
+### Debugging with Intermediates
+
+Setting `intermediates_dir` saves intermediate processing stages for debugging template and Pandoc issues:
+
+```yaml
+intermediates_dir: _intermediates
+```
+
+This creates the following structure:
+```
+_intermediates/
+  frontmatter_txt/    # Raw frontmatter as parsed
+  frontmatter_json/   # Frontmatter as JSON (for inspection)
+  md/                 # Rendered Markdown (after Jinja2, before Pandoc)
+  html/               # Pandoc output (before template wrapping)
+```
+
+Useful for debugging Jinja2 template rendering in content, inspecting what Pandoc receives vs. outputs, and understanding frontmatter parsing issues.
+
+### HTML Prettification
+
+When `prettify: true` is set, the final HTML output is reformatted using BeautifulSoup for readable, indented HTML:
+
+```yaml
+prettify: true
+```
+
+**Considerations**: Increases build time and output file size slightly. Useful for debugging or when HTML readability matters. For production, `false` (default) produces more compact output.
+
+### Jinja2 Environment Customization
+
+The `jinja_env_kwargs` option allows you to customize the Jinja2 environment:
+
+```yaml
+jinja_env_kwargs:
+  # Trim whitespace around blocks
+  trim_blocks: true
+  lstrip_blocks: true
+
+  # Change template delimiters (useful if content conflicts with {{ }})
+  variable_start_string: "[["
+  variable_end_string: "]]"
+```
+
+For the full list of options, see the [Jinja2 Environment documentation](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment).
+
+## Error Reporting
+
+pdj-sitegen provides detailed error handling with actionable error messages:
+
+### Terminal Output
+
+When a build error occurs, you'll see a terse, actionable error message showing:
+- The file path and line number where the error occurred
+- The problematic source line (when available)
+- The root cause of the error
+
+Example output:
+```
+on content/blog/post.md:6:
+  {{ undefined_variable }}
+UndefinedError: 'undefined_variable' is undefined
+
+1/15 files failed to convert
+  Full details: .pdj-sitegen/2024-01-27_14-30-45/
+```
+
+### Detailed Error Dumps
+
+For debugging complex errors, full context is saved to `.pdj-sitegen/<timestamp>/`:
+
+- `traceback_<file>.txt` - Full Python stack trace
+- `context_<file>.json` - Template context (all variables available)
+- `template_<file>.txt` - The template content that failed
+
+This directory is created automatically when build errors occur. Add `.pdj-sitegen/` to your `.gitignore`:
+
+```gitignore
+# pdj-sitegen error dumps
+.pdj-sitegen/
 ```
 
 ## Content Organization

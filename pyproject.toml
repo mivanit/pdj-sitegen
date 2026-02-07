@@ -91,6 +91,8 @@ exclude = ["__pycache__", ".venv", "docs"]
 reportConstantRedefinition = false
 reportDeprecated = false
 reportUnsupportedDunderAll = false
+# Allow pytest-style conftest imports in test files
+reportImplicitRelativeImport = false
 reportExplicitAny = false
 # Suppress warnings for untyped libraries (pypandoc, bs4, pandocfilters)
 reportMissingTypeStubs = false
