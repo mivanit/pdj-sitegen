@@ -1,4 +1,28 @@
-"""python pandoc filter replicating [pandoc-csv2table](https://hackage.haskell.org/package/pandoc-csv2table)
+"""Pandoc filter to convert CSV code blocks to HTML tables.
+
+Replicates functionality of [pandoc-csv2table](https://hackage.haskell.org/package/pandoc-csv2table).
+
+This filter processes fenced code blocks with the `csv_table` class and converts
+them to pandoc Table elements. CSV data can be inline or loaded from an external file.
+
+Usage in markdown:
+
+    ```{.csv_table header=1}
+    Name,Age,City
+    Alice,30,Boston
+    Bob,25,Seattle
+    ```
+
+Or with external source:
+
+    ```{.csv_table source="data.csv" header=1 aligns="LCR"}
+    ```
+
+Supported options:
+- `header`: 1 (default) or 0 - whether first row is header
+- `source`: path to external CSV file
+- `aligns`: column alignments (L=left, C=center, R=right, D=default)
+- `caption`: table caption
 
 By [@mivanit](mivanit.github.io)
 """
@@ -21,10 +45,23 @@ ALIGN_MAP: dict[str, str] = {
 
 
 def emptyblock() -> list[Any]:
+	"""Create an empty pandoc AST attribute block.
+
+	Returns the standard empty attribute structure: ["", [], []]
+	representing (identifier, classes, key-value pairs).
+	"""
 	return ["", [], []]
 
 
 def Plain_factory(val: str) -> dict[str, Any]:
+	"""Create a pandoc Plain block containing a single Str element.
+
+	# Parameters:
+	 - `val : str` - text content (will be stripped of whitespace)
+
+	# Returns:
+	 - `dict[str, Any]` - pandoc AST Plain block structure
+	"""
 	return {
 		"t": "Plain",
 		"c": [
@@ -35,6 +72,14 @@ def Plain_factory(val: str) -> dict[str, Any]:
 
 
 def table_cell_factory(val: str) -> list[Any]:
+	"""Create a pandoc table cell with default alignment.
+
+	# Parameters:
+	 - `val : str` - cell text content
+
+	# Returns:
+	 - `list[Any]` - pandoc AST table cell structure
+	"""
 	return [
 		emptyblock(),
 		{"t": "AlignDefault"},
@@ -45,10 +90,26 @@ def table_cell_factory(val: str) -> list[Any]:
 
 
 def table_row_factory(lst_vals: list[str]) -> list[Any]:
+	"""Create a pandoc table row from a list of cell values.
+
+	# Parameters:
+	 - `lst_vals : list[str]` - list of cell text values
+
+	# Returns:
+	 - `list[Any]` - pandoc AST table row structure
+	"""
 	return [emptyblock(), [table_cell_factory(val) for val in lst_vals]]
 
 
 def header_factory(lst_vals: list[str]) -> list[Any]:
+	"""Create a pandoc table header from a list of column headers.
+
+	# Parameters:
+	 - `lst_vals : list[str]` - list of header text values
+
+	# Returns:
+	 - `list[Any]` - pandoc AST table header structure
+	"""
 	return [
 		emptyblock(),
 		[table_row_factory(lst_vals)],
@@ -56,6 +117,14 @@ def header_factory(lst_vals: list[str]) -> list[Any]:
 
 
 def body_factory(table_vals: list[list[str]]) -> list[Any]:
+	"""Create a pandoc table body from a 2D list of cell values.
+
+	# Parameters:
+	 - `table_vals : list[list[str]]` - list of rows, each row is a list of cell values
+
+	# Returns:
+	 - `list[Any]` - pandoc AST table body structure
+	"""
 	return [
 		[
 			emptyblock(),
@@ -67,12 +136,40 @@ def body_factory(table_vals: list[list[str]]) -> list[Any]:
 
 
 def keyvals_process(keyvals: list[tuple[str, str]]) -> dict[str, str]:
+	"""Convert a list of key-value tuples to a dictionary.
+
+	# Parameters:
+	 - `keyvals : list[tuple[str, str]]` - list of (key, value) tuples from pandoc attributes
+
+	# Returns:
+	 - `dict[str, str]` - dictionary mapping keys to values
+	"""
 	return {key: val for key, val in keyvals}
 
 
 def codeblock_process(
 	key: str, value: Any, format_: str, _: Any
 ) -> dict[str, Any] | None:
+	"""Process a CodeBlock and convert csv_table blocks to Table elements.
+
+	This is the main pandoc filter function. It checks if a CodeBlock has the
+	'csv_table' class and, if so, parses the CSV content (either inline or from
+	a source file) and returns a pandoc Table AST element.
+
+	# Parameters:
+	 - `key : str` - pandoc AST element type (only 'CodeBlock' is processed)
+	 - `value : Any` - pandoc AST element content
+	 - `format_ : str` - output format (unused)
+	 - `_ : Any` - document metadata (unused)
+
+	# Returns:
+	 - `dict[str, Any] | None` - pandoc Table element if processed, None otherwise
+
+	# Raises:
+	 - `ValueError` : if CSV data is empty, not rectangular, or has invalid options
+	 - `FileNotFoundError` : if source CSV file does not exist
+	 - `NotImplementedError` : if header=0 (tables without headers not yet supported)
+	"""
 	# figure out whether this block should be processed
 	if not (key == "CodeBlock"):
 		return None
@@ -176,6 +273,11 @@ def codeblock_process(
 
 
 def test_filter() -> None:
+	"""Debug helper to test the filter on a JSON file.
+
+	Reads a pandoc JSON file from command line args, processes the first block,
+	and prints the result. For development/debugging only.
+	"""
 	if len(sys.argv) < 2:
 		print("Usage: python csv_code_table.py <json_file>", file=sys.stderr)
 		sys.exit(1)
@@ -188,6 +290,10 @@ def test_filter() -> None:
 
 
 def main() -> None:
+	"""Entry point for the pdj-csv-code-table filter.
+
+	Runs the codeblock_process filter on stdin/stdout using pandocfilters.
+	"""
 	toJSONFilter(codeblock_process)
 
 

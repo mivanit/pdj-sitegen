@@ -42,6 +42,7 @@ def test_config_custom_values():
 		"prettify": False,
 		"copy_include": [],
 		"copy_exclude": ["*.md"],
+		"normalize_index_names": True,
 	}
 	config = Config.load(custom_config)
 

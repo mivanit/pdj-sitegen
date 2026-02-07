@@ -3,6 +3,7 @@
 import json
 import shutil
 from pathlib import Path
+from typing import Any
 
 import pytest
 from jinja2 import Environment, UndefinedError
@@ -41,7 +42,7 @@ def temp_test_dir():
 
 
 @pytest.fixture
-def test_site_dir(temp_test_dir, request):
+def test_site_dir(temp_test_dir: Path, request: pytest.FixtureRequest) -> Path:
 	"""Create a test site directory structure.
 
 	Uses the test name as subdirectory to keep outputs separate.
@@ -71,6 +72,7 @@ class TestExtractLineFromTraceback:
 		except RenderError as e:
 			# The root cause should have the traceback
 			root = e.__cause__
+			assert root is not None
 			line = extract_line_from_traceback(root)
 			assert line == 2  # Error is on line 2 of template
 
@@ -89,7 +91,7 @@ class TestExtractLineNumber:
 		"""Should extract from lineno attribute if present."""
 
 		class FakeError(Exception):
-			lineno = 42
+			lineno: int = 42
 
 		assert extract_line_number(FakeError()) == 42
 
@@ -112,7 +114,7 @@ class TestExtractLineNumber:
 			# The root cause has line info only in traceback (no lineno attr, no "line X" msg)
 			root = e.__cause__
 			assert root is not None
-			assert not hasattr(root, "lineno") or root.lineno is None  # type: ignore[union-attr]
+			assert not hasattr(root, "lineno") or root.lineno is None  # type: ignore[union-attr]  # pyright: ignore[reportAttributeAccessIssue]
 			assert "line" not in str(root).lower() or "line 2" not in str(root)
 			# extract_line_number should still find it via traceback fallback
 			assert extract_line_number(root) == 2
@@ -174,7 +176,7 @@ class TestGetSourceInfo:
 	def test_walks_exception_chain(self):
 		"""Should find file/line info from exception chain."""
 		root_cause = UndefinedError("'foo' is undefined")
-		root_cause.lineno = 5  # type: ignore[attr-defined]
+		root_cause.lineno = 5  # type: ignore[attr-defined]  # pyright: ignore[reportAttributeAccessIssue]
 
 		middle = RenderError(
 			message="render failed",
@@ -210,7 +212,7 @@ class TestGetSourceInfo:
 		"""Should find line in wrapper and file in root cause."""
 
 		class FakeErrorWithLine(Exception):
-			lineno = 10
+			lineno: int = 10
 
 		# Root has file info via ConversionError message
 		root = ConversionError("error converting file '/root/file.md'")
@@ -290,7 +292,7 @@ class TestSanitizeFilename:
 class TestCreateDumpDir:
 	"""Tests for create_dump_dir function."""
 
-	def test_creates_timestamped_directory(self, temp_test_dir):
+	def test_creates_timestamped_directory(self, temp_test_dir: Path) -> None:
 		"""Should create .pdj-sitegen/<timestamp>/ directory."""
 		dump_dir = create_dump_dir(temp_test_dir)
 
@@ -305,7 +307,7 @@ class TestCreateDumpDir:
 class TestDumpErrorContext:
 	"""Tests for dump_error_context function."""
 
-	def test_dumps_traceback(self, test_site_dir):
+	def test_dumps_traceback(self, test_site_dir: Path) -> None:
 		"""Should create traceback.txt file."""
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
@@ -320,7 +322,7 @@ class TestDumpErrorContext:
 		assert "ValueError" in content
 		assert "test error" in content
 
-	def test_dumps_context_for_render_error(self, test_site_dir):
+	def test_dumps_context_for_render_error(self, test_site_dir: Path) -> None:
 		"""Should create context.json for RenderError."""
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
@@ -342,7 +344,7 @@ class TestDumpErrorContext:
 		assert ctx["key"] == "value"
 		assert ctx["nested"]["a"] == 1
 
-	def test_dumps_template_content(self, test_site_dir):
+	def test_dumps_template_content(self, test_site_dir: Path) -> None:
 		"""Should create template.txt for RenderError with content."""
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
@@ -362,7 +364,7 @@ class TestDumpErrorContext:
 		assert tpl_path.exists()
 		assert tpl_path.read_text() == "{{ my_template }}"
 
-	def test_uses_file_hint_as_suffix(self, test_site_dir):
+	def test_uses_file_hint_as_suffix(self, test_site_dir: Path) -> None:
 		"""Should append sanitized file_hint to dump filenames."""
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
@@ -376,17 +378,18 @@ class TestDumpErrorContext:
 		assert tb_path.name == "traceback_path_to_file.md.txt"
 		assert tb_path.exists()
 
-	def test_handles_non_serializable_context(self, test_site_dir):
+	def test_handles_non_serializable_context(self, test_site_dir: Path) -> None:
 		"""Should handle non-JSON-serializable context gracefully."""
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
 
 		# Lambda is not JSON serializable, but default=str handles it
+		non_serializable_func: Any = lambda x: x  # pyright: ignore[reportUnknownLambdaType]
 		exc = RenderError(
 			message="test",
 			kind="render_template",
 			content="",
-			context={"func": lambda x: x, "normal": "value"},
+			context={"func": non_serializable_func, "normal": "value"},
 			jinja_env=None,
 			template=None,
 		)
@@ -442,7 +445,7 @@ class TestFormatMultipleErrors:
 class TestHandleBuildError:
 	"""Tests for handle_build_error function."""
 
-	def test_creates_dump_directory(self, test_site_dir, capsys):
+	def test_creates_dump_directory(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Should create .pdj-sitegen dump directory."""
 		exc = ValueError("test error")
 
@@ -454,7 +457,7 @@ class TestHandleBuildError:
 		subdirs = list(pdj_dir.iterdir())
 		assert len(subdirs) >= 1
 
-	def test_prints_terse_message(self, test_site_dir, capsys):
+	def test_prints_terse_message(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Should print terse summary to stderr."""
 		exc = ValueError("test error message")
 
@@ -464,7 +467,7 @@ class TestHandleBuildError:
 		assert "1/1 files failed" in captured.err
 		assert "Full details:" in captured.err
 
-	def test_handles_multiple_exceptions(self, test_site_dir, capsys):
+	def test_handles_multiple_exceptions(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Should handle MultipleExceptions properly."""
 		exceptions = {
 			"/file1.md": ValueError("error 1"),
@@ -483,7 +486,7 @@ class TestHandleBuildError:
 		dump_files = list(dump_dir.iterdir())
 		assert len(dump_files) >= 2  # At least 2 traceback files
 
-	def test_handles_conversion_error(self, test_site_dir, capsys):
+	def test_handles_conversion_error(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Should handle ConversionError with n_failed/n_total counts."""
 		exc = ConversionError("error converting file '/test.md'", n_failed=3, n_total=10)
 
@@ -501,7 +504,7 @@ class TestHandleBuildError:
 class TestIntegration:
 	"""Integration tests using actual Jinja2 errors."""
 
-	def test_full_error_flow(self, test_site_dir, capsys):
+	def test_full_error_flow(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Test complete error handling flow with real Jinja2 error."""
 		jinja_env = Environment()
 
@@ -532,7 +535,7 @@ class TestIntegration:
 		assert "undefined" in traceback_content.lower()
 		assert "test.md" in traceback_content
 
-	def test_template_syntax_error_flow(self, test_site_dir, capsys):
+	def test_template_syntax_error_flow(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Test error handling with TemplateSyntaxError (malformed template)."""
 		jinja_env = Environment()
 
@@ -557,11 +560,11 @@ class TestIntegration:
 		pdj_dir = test_site_dir / ".pdj-sitegen"
 		assert pdj_dir.exists()
 
-	def test_deeply_nested_exception_chain(self, test_site_dir, capsys):
+	def test_deeply_nested_exception_chain(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
 		"""Test 3+ level exception chain extracts info correctly."""
 
 		class Level3Error(Exception):
-			lineno = 42
+			lineno: int = 42
 
 		class Level2Error(Exception):
 			pass

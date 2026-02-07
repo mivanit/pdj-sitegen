@@ -1,8 +1,16 @@
-"define the config, and also provide CLI for printing template"
+"""Configuration dataclass and utilities for pdj-sitegen.
+
+This module provides:
+
+- `Config`: Dataclass holding all site generation settings
+- `read_data_file()`: Read YAML/JSON/TOML files into dicts
+- `emit_data_file()`: Serialize dicts to YAML/JSON strings
+- `save_data_file()`: Save dicts to YAML/JSON files
+- CLI for printing default config templates (python -m pdj_sitegen.config)
+"""
 
 import importlib.resources
 import json
-import sys
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -115,6 +123,9 @@ class Config:
 	copy_include: list[str] = field(default_factory=list)
 	copy_exclude: list[str] = field(default_factory=lambda: ["*.md"])
 
+	# index file normalization: if True, _index.md files are renamed to index.html
+	normalize_index_names: bool = True
+
 	# pandoc settings
 	__pandoc__: dict[str, Any] = field(default_factory=lambda: {"mathjax": True})
 	pandoc_fmt_from: str = "markdown+smart"
@@ -148,22 +159,76 @@ class Config:
 
 	@classmethod
 	def read(cls, config_path: Path, fmt: Format | None = None) -> "Config":
+		"""Read a Config from a file.
+
+		# Parameters:
+		 - `config_path : Path` - path to the configuration file
+		 - `fmt : Format | None` - format to parse as; if None, inferred from extension
+
+		# Returns:
+		 - `Config` - parsed configuration object
+		"""
 		return cls.load(read_data_file(config_path, fmt))
 
 	def as_str(self, fmt: Format) -> str:
+		"""Serialize this Config to a string in the specified format.
+
+		# Parameters:
+		 - `fmt : Format` - output format ('yaml' or 'json')
+
+		# Returns:
+		 - `str` - serialized configuration string
+
+		# Raises:
+		 - `NotImplementedError` : if fmt is 'toml'
+		"""
 		return emit_data_file(self.serialize(), fmt)
 
 	def save(self, config_path: Path, fmt: Format | None = "json") -> None:
+		"""Save this Config to a file.
+
+		# Parameters:
+		 - `config_path : Path` - destination file path
+		 - `fmt : Format | None` - output format; if None, inferred from extension
+
+		# Raises:
+		 - `NotImplementedError` : if fmt is 'toml'
+		"""
 		save_data_file(self.serialize(), config_path, fmt)
 
 
-if __name__ == "__main__":
-	fmt: str = sys.argv[1] if len(sys.argv) > 1 else "toml"
+def main() -> None:
+	"""CLI entry point for printing default config templates."""
+	import argparse
 
-	if fmt == "toml":
+	parser = argparse.ArgumentParser(
+		description="Print a default pdj-sitegen configuration file to stdout.",
+		epilog="""\
+Examples:
+  python -m pdj_sitegen.config              # Print TOML config (default)
+  python -m pdj_sitegen.config toml         # Print TOML config
+  python -m pdj_sitegen.config yaml         # Print YAML config
+  python -m pdj_sitegen.config toml > config.toml  # Save to file
+
+Supported formats: toml (default), yaml
+Note: JSON config files are supported for reading but not generated as templates.
+""",
+		formatter_class=argparse.RawDescriptionHelpFormatter,
+	)
+	parser.add_argument(
+		"format",
+		nargs="?",
+		default="toml",
+		choices=["toml", "yaml"],
+		help="output format for the config file (default: toml)",
+	)
+	args = parser.parse_args()
+
+	if args.format == "toml":
 		print(DEFAULT_CONFIG_TOML)
-	elif fmt == "yaml":
+	elif args.format == "yaml":
 		print(DEFAULT_CONFIG_YAML)
-	else:
-		print(f"Unknown format: {fmt}. Use 'toml' or 'yaml'.", file=sys.stderr)
-		sys.exit(1)
+
+
+if __name__ == "__main__":
+	main()

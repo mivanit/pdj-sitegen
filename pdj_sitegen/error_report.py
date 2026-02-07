@@ -12,7 +12,6 @@ import re
 import sys
 import traceback
 from pathlib import Path
-from typing import Any
 
 from pdj_sitegen.exceptions import ConversionError, MultipleExceptions, RenderError
 
@@ -42,8 +41,9 @@ def extract_line_number(exc: BaseException) -> int | None:
 	3. Extract from traceback template frames
 	"""
 	# Check for lineno attribute (TemplateSyntaxError has this)
-	if hasattr(exc, "lineno") and exc.lineno is not None:
-		return int(exc.lineno)
+	lineno = getattr(exc, "lineno", None)
+	if lineno is not None:
+		return int(lineno)
 
 	# Parse from message like "line 6" or "(line 6)"
 	msg = str(exc)
@@ -116,13 +116,15 @@ def get_root_cause_message(exc: BaseException) -> str:
 	# Get exception type name
 	exc_type = type(root).__name__
 
-	# Get a clean message
-	msg = str(root)
-	# Remove common prefixes
-	for prefix in ["Error rendering template:", "Error creating template:"]:
-		if msg.startswith(prefix):
-			msg = msg[len(prefix) :].strip()
-			break
+	# Get the message - prefer .message attr to avoid __str__ debug info
+	msg = getattr(root, "message", None)
+	if msg is None:
+		msg = str(root)
+		# Remove common prefixes
+		for prefix in ["Error rendering template:", "Error creating template:"]:
+			if msg.startswith(prefix):
+				msg = msg[len(prefix) :].strip()
+				break
 
 	if not msg:
 		return exc_type

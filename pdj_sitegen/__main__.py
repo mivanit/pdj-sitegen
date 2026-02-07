@@ -1,3 +1,13 @@
+"""Command-line entry point for pdj-sitegen.
+
+This module provides the main entry point when running pdj-sitegen as a module
+(python -m pdj_sitegen). It handles:
+
+- Invoking the build pipeline via build.main()
+- Catching KeyboardInterrupt for clean exit (exit code 130)
+- Catching and formatting build errors using the error_report module
+"""
+
 import sys
 from pathlib import Path
 

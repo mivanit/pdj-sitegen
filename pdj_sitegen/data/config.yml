@@ -21,6 +21,8 @@ copy_exclude:
 jinja_env_kwargs: {}
 # whether to prettify with bs4
 prettify: false
+# whether to rename _index.md files to index.html (allows _index.md to sort at top of folder)
+normalize_index_names: true
 # pandoc formats
 pandoc_fmt_from: markdown+smart
 pandoc_fmt_to: html

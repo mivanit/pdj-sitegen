@@ -40,6 +40,7 @@ from pdj_sitegen.consts import (
 	Format,
 )
 from pdj_sitegen.exceptions import (
+	ConflictingIndexError,
 	ConversionError,
 	MultipleExceptions,
 	RenderError,
@@ -210,6 +211,7 @@ def build_document_tree(
 	frontmatter_context: dict[str, Any],
 	jinja_env: Environment,
 	verbose: bool = True,
+	normalize_index_names: bool = True,
 ) -> dict[str, dict[str, Any]]:
 	"""given a dir of markdown files, return a dict of documents with rendered frontmatter
 
@@ -227,12 +229,36 @@ def build_document_tree(
 	   context to use to render the frontmatter *before* parsing it into a dict
 	 - `jinja_env : Environment`
 	   jinja2 environment to use for rendering
+	 - `normalize_index_names : bool`
+	   if True, `_index.md` files are renamed to `index.html` in output
 
 	# Returns:
 	 - `dict[str, dict[str, Any]]`
 	   dict of documents with rendered frontmatter.
+
+	# Raises:
+	 - `ConflictingIndexError` : if both `index.md` and `_index.md` exist in the same directory
 	"""
 	md_files: list[Path] = list(content_dir.rglob("*.md"))
+
+	# Check for conflicting index files when normalization is enabled
+	if normalize_index_names:
+		# Group files by parent directory
+		dirs_with_index: dict[Path, list[str]] = {}
+		for file_path in md_files:
+			if file_path.stem in ("index", "_index"):
+				parent = file_path.parent
+				if parent not in dirs_with_index:
+					dirs_with_index[parent] = []
+				dirs_with_index[parent].append(file_path.name)
+
+		# Check for conflicts
+		for directory, index_files in dirs_with_index.items():
+			if len(index_files) > 1:
+				rel_dir = directory.relative_to(content_dir).as_posix()
+				if rel_dir == ".":
+					rel_dir = "(root)"
+				raise ConflictingIndexError(rel_dir, sorted(index_files))
 
 	if verbose:
 		print(f"Found {len(md_files)} markdown files in '{content_dir}'")
@@ -249,6 +275,17 @@ def build_document_tree(
 		file_path_str: str = (
 			file_path.relative_to(content_dir).as_posix().removesuffix(".md")
 		)
+
+		# Compute output path, normalizing _index -> index if enabled
+		output_path_str: str = file_path_str
+		if normalize_index_names and file_path.stem == "_index":
+			# Replace _index with index in the output path
+			parent_str = file_path.parent.relative_to(content_dir).as_posix()
+			if parent_str == ".":
+				output_path_str = "index"
+			else:
+				output_path_str = f"{parent_str}/index"
+
 		with open(file_path, "r", encoding="utf-8") as f:
 			content: str = f.read()
 
@@ -261,7 +298,8 @@ def build_document_tree(
 			last_modified_time: float = file_path.stat().st_mtime
 			file_meta: dict[str, Any] = {
 				"path": file_path_str,
-				"path_html": f"{file_path_str}.html",
+				"path_stem": file_path.stem,
+				"path_html": f"{output_path_str}.html",
 				"path_raw": file_path.as_posix(),
 				"path_to_root": "/".join([".."] * file_path_str.count("/")) or ".",
 				"modified_time": last_modified_time,
@@ -386,6 +424,26 @@ def convert_single_markdown_file(
 	config: Config,
 	intermediates_dir: Path | None = None,
 ) -> None:
+	"""Convert a single markdown document to HTML.
+
+	This function performs the full conversion pipeline for one document:
+	1. Extract frontmatter, body, and file metadata from the doc dict
+	2. Build context with frontmatter, config, all docs, and directory info
+	3. Render the markdown body with Jinja2
+	4. Convert rendered markdown to HTML with Pandoc
+	5. Apply the HTML template with the converted content
+	6. Optionally prettify the HTML output
+	7. Write the final HTML to the output directory
+
+	# Parameters:
+	 - `path : str` - relative path of the document (without .md extension)
+	 - `output_root : Path` - root directory for output (typically the config file's parent)
+	 - `doc : dict[str, Any]` - document dict with 'frontmatter', 'body', and 'file_meta' keys
+	 - `docs : dict[str, dict[str, Any]]` - dictionary of all documents in the site
+	 - `jinja_env : Environment` - Jinja2 environment for template rendering
+	 - `config : Config` - site configuration
+	 - `intermediates_dir : Path | None` - if provided, intermediate files are saved for debugging
+	"""
 	frontmatter: dict[str, Any] = doc.get("frontmatter", {})
 	if not isinstance(frontmatter, dict):
 		raise TypeError(f"Expected frontmatter to be dict, got {type(frontmatter)}")
@@ -502,6 +560,25 @@ def convert_markdown_files(
 	verbose: bool = True,
 	intermediates_dir: Path | None = None,
 ) -> None:
+	"""Convert all markdown documents to HTML files.
+
+	Iterates through all documents and converts each to HTML. Supports smart
+	rebuild mode where only modified files are reprocessed.
+
+	# Parameters:
+	 - `docs : dict[str, dict[str, Any]]` - dictionary of documents from build_document_tree()
+	 - `jinja_env : Environment` - Jinja2 environment for template rendering
+	 - `config : Config` - site configuration
+	 - `output_root : Path` - root directory for output
+	 - `smart_rebuild : bool` - if True, skip files not modified since rebuild_time
+	 - `rebuild_time : float` - Unix timestamp of last build (for smart rebuild)
+	 - `verbose : bool` - if True, print progress information
+	 - `intermediates_dir : Path | None` - if provided, save intermediate files for debugging
+
+	# Raises:
+	 - `ConversionError` : if a single file fails to convert
+	 - `MultipleExceptions` : if multiple files fail to convert
+	"""
 	n_files: int = len(docs)
 	path: str
 	doc: dict[str, Any]
@@ -604,6 +681,7 @@ def pipeline(
 		frontmatter_context={"config": config.serialize()},
 		jinja_env=jinja_env,
 		verbose=verbose,
+		normalize_index_names=config.normalize_index_names,
 	)
 
 	# convert markdown files to HTML (execute templates with frontmatter on content, convert to HTML with Pandoc, execute template on HTML)
@@ -634,29 +712,49 @@ def pipeline(
 
 
 def main() -> None:
+	"""Parse command-line arguments and run the build pipeline.
+
+	This is the main entry point for the pdj-sitegen CLI. It parses arguments
+	for the config file path, verbosity, and smart rebuild mode, then calls
+	pipeline() with the parsed options.
+	"""
 	# parse args
 	arg_parser: argparse.ArgumentParser = argparse.ArgumentParser(
-		description="Build a static site from markdown content using pandoc and jinja2.",
-		epilog=(
-			"To get a default config file:\n"
-			"  python -m pdj_sitegen.config        # prints TOML (default)\n"
-			"  python -m pdj_sitegen.config toml   # prints TOML\n"
-			"  python -m pdj_sitegen.config yaml   # prints YAML"
-		),
+		description="Build a static site from markdown content using Pandoc and Jinja2.",
+		epilog="""\
+Examples:
+  python -m pdj_sitegen config.yml              # Build with YAML config
+  python -m pdj_sitegen config.toml             # Build with TOML config
+  python -m pdj_sitegen config.yml -s           # Smart rebuild (only modified files)
+  python -m pdj_sitegen config.yml -q           # Quiet mode (minimal output)
+
+To generate a default config file:
+  python -m pdj_sitegen.config        # prints TOML (default)
+  python -m pdj_sitegen.config yaml   # prints YAML
+
+For more information, see: https://miv.name/pdj-sitegen/
+""",
 		formatter_class=argparse.RawDescriptionHelpFormatter,
 	)
-	arg_parser.add_argument("config_path", type=str, help="path to the config file")
+	arg_parser.add_argument(
+		"config_path",
+		type=str,
+		help="path to config file (supports .yml, .yaml, .toml, or .json)",
+	)
 	arg_parser.add_argument(
 		"-q",
 		"--quiet",
 		action="store_true",
-		help="disable verbose output",
+		help="disable verbose output (suppress progress messages)",
 	)
 	arg_parser.add_argument(
 		"-s",
 		"--smart-rebuild",
 		action="store_true",
-		help="enable smart rebuild",
+		help=(
+			"only rebuild files modified since last build. "
+			"Uses .build_time file to track last build timestamp"
+		),
 	)
 	args: argparse.Namespace = arg_parser.parse_args()
 	pipeline(
