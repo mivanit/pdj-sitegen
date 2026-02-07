@@ -1,0 +1,115 @@
+pdj-sitegen v0.0.6 (Changes from v0.0.4)
+========================================
+
+This release includes all changes from version 0.0.4 through 0.0.6.
+
+
+VERSION 0.0.6 (2026-02-07)
+--------------------------
+
+Code Quality Improvements:
+- error_report.py: Added encoding="utf-8" to file operations; emit warnings
+  instead of silently swallowing exceptions during context dump
+- csv_code_table.py: Implemented header-less tables (header=0/false) -
+  previously raised NotImplementedError
+- build.py: Use Path.stat().st_mtime instead of os.path.getmtime() for
+  consistency; add file_path context to SplitMarkdownError exceptions
+- config.py: Emit DeprecationWarning when __format__ key is present in config
+- exceptions.py: Enhanced SplitMarkdownError with file_path attribute
+
+Type Checking Improvements:
+- Cleaned up basedpyright config with hybrid per-line + global suppressions
+- Reduced global suppressions to pervasive patterns only
+- Fixed deprecated typing.Iterable -> collections.abc.Iterable
+- Prefixed unused params/vars with underscore
+- Added type stubs: types-PyYAML, types-tqdm, types-beautifulsoup4
+- Removed unnecessary type: ignore comments now that stubs are installed
+- Fixed ty config rule name: unused-ignore-comment -> unused-type-ignore-comment
+
+Code Formatting:
+- Applied ruff formatting fixes (E731 lambda to def, operator spacing)
+- Indented pyproject.toml for readability
+- Split long lines across test files for readability
+
+Test Fixes:
+- Fixed test imports (RenderError from exceptions, not build)
+- Removed unused capsys fixture from test_creates_dump_directory
+
+
+VERSION 0.0.5 (2026-01-31)
+--------------------------
+
+New Features:
+
+  Error Reporting System:
+  - New module: pdj_sitegen/error_report.py
+  - Comprehensive error handling with terse terminal output
+  - Detailed dump files saved to .pdj-sitegen/<timestamp>/ directories
+  - Error messages now show file:line locations and root cause messages
+  - Batch frontmatter errors with actionable summary
+
+  New Template Variables:
+  - file_meta.path_to_root: Relative path prefix to site root
+  - child_docs_folder: Documents in same directory (vs prefix-based listing)
+  - dir_files: List of files in a directory
+  - dir_subdirs: List of subdirectories
+  - dir_contents_recursive: Recursive directory contents listing
+
+  Index Name Normalization:
+  - New config option: normalize_index_names (default: true)
+  - Converts _index.md files to index.html output
+  - Allows _index.md to sort at top of directories in file browsers
+  - New exception: ConflictingIndexError raised if both index.md and
+    _index.md exist in same directory
+
+Improvements:
+
+  Documentation:
+  - Expanded README with comprehensive documentation
+  - Smart rebuild explanation with usage examples
+  - Complete config examples in YAML, TOML, and JSON formats
+  - Debugging with intermediates_dir option
+  - HTML prettification considerations
+  - Jinja2 environment customization options
+  - Error reporting system with example output
+
+  Demo Site:
+  - Showcases all pdj-sitegen features with comprehensive examples
+  - Frontmatter formats: TOML (+++), JSON (;;;), YAML (---)
+  - Pandoc filters: links_md2html with cross-references, csv_code_table
+    with data tables
+  - Template features: MathJax formulas, TOC, numbered sections, value
+    loops, dir_contents_recursive listing
+  - Config: Jinja2 trim_blocks/lstrip_blocks, copy_include patterns
+  - Added static resources (sample.csv, placeholder.txt)
+
+  Type Checking:
+  - Used getattr() for type-safe attribute access in error_report.py
+  - Accept Mapping instead of dict in MultipleExceptions for covariance
+  - Use explicit relative imports in test files
+  - Added comprehensive docstrings to all modules
+  - Improved CLI help text
+
+Breaking Changes:
+- Renamed child_docs -> child_docs_dotlist (update your templates)
+- Tests temp directory moved: tests/temp -> tests/.temp
+
+New Test Coverage:
+- tests/test_error_report.py (591 lines)
+- tests/test_index_normalization.py (271 lines)
+
+Bug Fixes:
+- Fixed CI configuration
+
+
+MIGRATION NOTES
+---------------
+
+For template authors:
+- Update child_docs to child_docs_dotlist
+- New variables available: file_meta.path_to_root, child_docs_folder,
+  dir_files, dir_subdirs, dir_contents_recursive
+
+For config files:
+- __format__ key triggers deprecation warning (still works, should remove)
+- New optional config: normalize_index_names (defaults to true)
