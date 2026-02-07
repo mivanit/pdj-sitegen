@@ -50,6 +50,10 @@ dev = [
 	"mypy>=1.0.1",
 	"ty>=0.0.12",
 	"basedpyright",
+	# type stubs
+	"types-PyYAML",
+	"types-tqdm",
+	"types-beautifulsoup4",
 	# docs
 	'pdoc>=14.6.0',
 ]
@@ -124,7 +128,7 @@ reportPrivateLocalImportUsage = false
 exclude = ["__pycache__/", ".venv/", "docs/"]
 
 [tool.ty.rules]
-unused-ignore-comment = "ignore"
+unused-type-ignore-comment = "ignore"
 
 [tool.mypy]
 exclude = ["__pycache__", ".venv"]
