@@ -449,9 +449,7 @@ class TestFormatMultipleErrors:
 class TestHandleBuildError:
 	"""Tests for handle_build_error function."""
 
-	def test_creates_dump_directory(
-		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
-	) -> None:
+	def test_creates_dump_directory(self, test_site_dir: Path) -> None:
 		"""Should create .pdj-sitegen dump directory."""
 		exc = ValueError("test error")
 
@@ -566,7 +564,7 @@ class TestIntegration:
 			)
 		except RenderError as e:
 			# TemplateSyntaxError should have lineno attribute
-			file_path, line_number = get_source_info(e)
+			_file_path, line_number = get_source_info(e)
 			assert line_number is not None  # Should extract line from syntax error
 
 			handle_build_error(e, test_site_dir)

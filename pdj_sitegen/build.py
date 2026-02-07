@@ -23,9 +23,10 @@ import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from collections.abc import Callable, Iterable
+from typing import Any
 
-import pypandoc  # type: ignore[import-untyped]
+import pypandoc  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 import tqdm
 from jinja2 import Environment, FileSystemLoader, Template
 from muutils.json_serialize import json_serialize

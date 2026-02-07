@@ -27,7 +27,7 @@ FILE_LOCATIONS: dict[str, Path] = {
 }
 
 
-def setup_site(root: Path = Path(".")) -> None:
+def setup_site(root: Path = Path(".")) -> None:  # pyright: ignore[reportCallInDefaultInitializer]
 	"""Scaffold a new pdj-sitegen site with default files.
 
 	Copies bundled template files from the package to the specified root directory,

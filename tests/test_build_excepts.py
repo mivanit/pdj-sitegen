@@ -1,7 +1,8 @@
 import pytest
 from jinja2 import Environment
 
-from pdj_sitegen.build import RenderError, SplitMarkdownError, render, split_md
+from pdj_sitegen.build import render, split_md
+from pdj_sitegen.exceptions import RenderError, SplitMarkdownError
 
 
 def test_split_md_error():

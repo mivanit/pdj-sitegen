@@ -18,10 +18,10 @@ Usage:
 
 from typing import Any
 
-from pandocfilters import Link, toJSONFilter  # type: ignore[import-untyped]
+from pandocfilters import Link, toJSONFilter  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 
 
-def links_md2html(key: str, value: Any, format: str, meta: Any) -> Any | None:
+def links_md2html(key: str, value: Any, _format: str, _meta: Any) -> Any | None:
 	"""Convert .md links to .html links in pandoc AST Link elements.
 
 	When a Link element's target URL ends with '.md', this filter rewrites

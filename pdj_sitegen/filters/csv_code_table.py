@@ -34,7 +34,7 @@ import os
 import sys
 from typing import Any
 
-from pandocfilters import toJSONFilter  # type: ignore[import-untyped]
+from pandocfilters import toJSONFilter  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 
 ALIGN_MAP: dict[str, str] = {
 	"L": "AlignLeft",
@@ -148,7 +148,7 @@ def keyvals_process(keyvals: list[tuple[str, str]]) -> dict[str, str]:
 
 
 def codeblock_process(
-	key: str, value: Any, format_: str, _: Any
+	key: str, value: Any, _format: str, _meta: Any
 ) -> dict[str, Any] | None:
 	"""Process a CodeBlock and convert csv_table blocks to Table elements.
 
@@ -175,7 +175,7 @@ def codeblock_process(
 		return None
 
 	try:
-		[[ident, classes, lst_keyvals], code] = value
+		[[_ident, classes, lst_keyvals], code] = value
 	except (ValueError, TypeError) as e:
 		raise ValueError(
 			f"Unexpected CodeBlock structure. Expected [[ident, classes, keyvals], code], got: {value!r}"

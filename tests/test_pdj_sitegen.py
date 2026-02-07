@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from jinja2 import Environment
 
-from conftest import TEST_TEMP_DIR
+from conftest import TEST_TEMP_DIR  # pyright: ignore[reportImplicitRelativeImport]
 from pdj_sitegen.config import Config
 
 
@@ -555,7 +555,7 @@ This is a test."""
 	jinja_env = Environment(loader=FileSystemLoader(templates_dir))
 
 	# Mock build_document_tree function
-	def mock_build_document_tree(*args, **kwargs):
+	def mock_build_document_tree(*_args, **_kwargs):
 		return {
 			"test": {
 				"frontmatter": {"title": "Test Page"},

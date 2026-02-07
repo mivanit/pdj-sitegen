@@ -104,7 +104,7 @@ class RenderError(Exception):
 		self.jinja_env: Environment | None = jinja_env
 		self.template: Template | None = template
 
-	def __str__(self) -> str:
+	def __str__(self) -> str:  # pyright: ignore[reportImplicitOverride]
 		if self.kind == "create_template":
 			return (
 				f"Error creating template: {self.message}\n"
@@ -154,7 +154,7 @@ class MultipleExceptions(Exception):
 		self.n_failed: int = len(exceptions)
 		self.n_total: int = n_total if n_total > 0 else len(exceptions)
 
-	def __str__(self) -> str:
+	def __str__(self) -> str:  # pyright: ignore[reportImplicitOverride]
 		return (
 			f"{len(self.exceptions)} exceptions occurred in: {list(self.exceptions.keys())}\n{self.message}\n"
 			+ "\n".join(f"{name}: {exc}" for name, exc in self.exceptions.items())
