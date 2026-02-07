@@ -2,25 +2,25 @@ Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
 pdj_sitegen/__init__.py                     0      0   100%
 pdj_sitegen/__main__.py                    13     13     0%   11-25
-pdj_sitegen/build.py                      219     26    88%   149, 152, 323-325, 328-334, 449, 452, 455, 542, 591-592, 607-612, 614-622, 768
-pdj_sitegen/config.py                      99     12    88%   56-57, 185, 202-230, 234
+pdj_sitegen/build.py                      221     28    87%   149, 152, 323-328, 331-337, 452, 455, 458, 545, 594-595, 610-615, 617-625, 771
+pdj_sitegen/config.py                     102     12    88%   56-57, 194, 211-239, 243
 pdj_sitegen/consts.py                      11      0   100%
-pdj_sitegen/error_report.py               157      3    98%   193, 247-248
-pdj_sitegen/exceptions.py                  41      2    95%   121, 158
+pdj_sitegen/error_report.py               158      4    97%   193, 247-250
+pdj_sitegen/exceptions.py                  44      2    95%   127, 164
 pdj_sitegen/filters/__init__.py             0      0   100%
-pdj_sitegen/filters/csv_code_table.py      81     20    75%   179-180, 193-199, 221, 281-289, 297, 301
+pdj_sitegen/filters/csv_code_table.py      84     20    76%   184-185, 198-204, 226, 287-295, 303, 307
 pdj_sitegen/filters/links_md2html.py       16      2    88%   59, 63
 pdj_sitegen/install_pandoc.py               3      3     0%   3-6
 pdj_sitegen/setup_site.py                  25      5    80%   63-83, 87
 tests/conftest.py                          32      8    75%   39-47, 53, 64, 70-81
-tests/test_build_excepts.py                24      2    92%   33-34
+tests/test_build_excepts.py                25      2    92%   34-35
 tests/test_config.py                       91      0   100%
 tests/test_consts.py                       39      0   100%
 tests/test_error_report.py                281      2    99%   52, 390
-tests/test_filters_csv_code_table.py      199      0   100%
+tests/test_filters_csv_code_table.py      204      0   100%
 tests/test_filters_links_md2html.py        75      0   100%
 tests/test_index_normalization.py          83      0   100%
 tests/test_pdj_sitegen.py                 303      0   100%
 tests/test_setup.py                        81      0   100%
 ---------------------------------------------------------------------
-TOTAL                                    1873     98    95%
+TOTAL                                    1891    101    95%

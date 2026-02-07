@@ -322,104 +322,113 @@
 </span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>	<span class="nd">@classmethod</span>
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Load Config from a dictionary.&quot;&quot;&quot;</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>		<span class="c1"># Convert path strings to Path objects</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>			<span class="k">else</span><span class="p">:</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>		<span class="k">return</span> <span class="n">result</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>		<span class="c1"># Warn about deprecated __format__ key</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>		<span class="k">if</span> <span class="s2">&quot;__format__&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>			<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>				<span class="s2">&quot;The &#39;__format__&#39; key in config is deprecated and will be ignored&quot;</span><span class="p">,</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>				<span class="ne">DeprecationWarning</span><span class="p">,</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>				<span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>			<span class="p">)</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>		<span class="c1"># Convert path strings to Path objects</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
 </span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>	<span class="nd">@classmethod</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">		# Parameters:</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="sd">		# Returns:</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>			<span class="k">else</span><span class="p">:</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>		<span class="k">return</span> <span class="n">result</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>	<span class="nd">@classmethod</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">		# Parameters:</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="sd">		# Returns:</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="sd">		 - `str` - serialized configuration string</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">		# Parameters:</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">		# Returns:</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">		# Raises:</span>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="sd">		# Parameters:</span>
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="sd">		# Raises:</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">		# Parameters:</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="sd">		# Returns:</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="sd">		 - `str` - serialized configuration string</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">		# Raises:</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;CLI entry point for printing default config templates.&quot;&quot;&quot;</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>	<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>		<span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print a default pdj-sitegen configuration file to stdout.&quot;</span><span class="p">,</span>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>		<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="s2">Examples:</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="s2">  python -m pdj_sitegen.config              # Print TOML config (default)</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="s2">  python -m pdj_sitegen.config toml         # Print TOML config</span>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="s2">  python -m pdj_sitegen.config yaml         # Print YAML config</span>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="s2">  python -m pdj_sitegen.config toml &gt; config.toml  # Save to file</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="sd">		# Parameters:</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="sd">		# Raises:</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;CLI entry point for printing default config templates.&quot;&quot;&quot;</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>	<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="s2">Supported formats: toml (default), yaml</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="s2">Note: JSON config files are supported for reading but not generated as templates.</span>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
-</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>		<span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
-</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>	<span class="p">)</span>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>		<span class="s2">&quot;format&quot;</span><span class="p">,</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>		<span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>		<span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>		<span class="n">help</span><span class="o">=</span><span class="s2">&quot;output format for the config file (default: toml)&quot;</span><span class="p">,</span>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>	<span class="p">)</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>	<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;toml&quot;</span><span class="p">:</span>
-</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_TOML</span><span class="p">)</span>
-</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>	<span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
-</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>	<span class="n">main</span><span class="p">()</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>		<span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print a default pdj-sitegen configuration file to stdout.&quot;</span><span class="p">,</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>		<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="s2">Examples:</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="s2">  python -m pdj_sitegen.config              # Print TOML config (default)</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="s2">  python -m pdj_sitegen.config toml         # Print TOML config</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="s2">  python -m pdj_sitegen.config yaml         # Print YAML config</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="s2">  python -m pdj_sitegen.config toml &gt; config.toml  # Save to file</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="s2">Supported formats: toml (default), yaml</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="s2">Note: JSON config files are supported for reading but not generated as templates.</span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>		<span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>	<span class="p">)</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>		<span class="s2">&quot;format&quot;</span><span class="p">,</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>		<span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>		<span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>		<span class="n">help</span><span class="o">=</span><span class="s2">&quot;output format for the config file (default: toml)&quot;</span><span class="p">,</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>	<span class="p">)</span>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>	<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;toml&quot;</span><span class="p">:</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_TOML</span><span class="p">)</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>	<span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>	<span class="n">main</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -604,67 +613,76 @@
 </span><span id="Config-135"><a href="#Config-135"><span class="linenos">135</span></a>	<span class="nd">@classmethod</span>
 </span><span id="Config-136"><a href="#Config-136"><span class="linenos">136</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
 </span><span id="Config-137"><a href="#Config-137"><span class="linenos">137</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Load Config from a dictionary.&quot;&quot;&quot;</span>
-</span><span id="Config-138"><a href="#Config-138"><span class="linenos">138</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
-</span><span id="Config-139"><a href="#Config-139"><span class="linenos">139</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
-</span><span id="Config-140"><a href="#Config-140"><span class="linenos">140</span></a>
-</span><span id="Config-141"><a href="#Config-141"><span class="linenos">141</span></a>		<span class="c1"># Convert path strings to Path objects</span>
-</span><span id="Config-142"><a href="#Config-142"><span class="linenos">142</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="Config-143"><a href="#Config-143"><span class="linenos">143</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config-144"><a href="#Config-144"><span class="linenos">144</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
-</span><span id="Config-145"><a href="#Config-145"><span class="linenos">145</span></a>
-</span><span id="Config-146"><a href="#Config-146"><span class="linenos">146</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
-</span><span id="Config-147"><a href="#Config-147"><span class="linenos">147</span></a>
-</span><span id="Config-148"><a href="#Config-148"><span class="linenos">148</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-</span><span id="Config-149"><a href="#Config-149"><span class="linenos">149</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
-</span><span id="Config-150"><a href="#Config-150"><span class="linenos">150</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
-</span><span id="Config-151"><a href="#Config-151"><span class="linenos">151</span></a>
-</span><span id="Config-152"><a href="#Config-152"><span class="linenos">152</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
-</span><span id="Config-153"><a href="#Config-153"><span class="linenos">153</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
-</span><span id="Config-154"><a href="#Config-154"><span class="linenos">154</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="Config-155"><a href="#Config-155"><span class="linenos">155</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
-</span><span id="Config-156"><a href="#Config-156"><span class="linenos">156</span></a>			<span class="k">else</span><span class="p">:</span>
-</span><span id="Config-157"><a href="#Config-157"><span class="linenos">157</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="Config-158"><a href="#Config-158"><span class="linenos">158</span></a>
-</span><span id="Config-159"><a href="#Config-159"><span class="linenos">159</span></a>		<span class="k">return</span> <span class="n">result</span>
+</span><span id="Config-138"><a href="#Config-138"><span class="linenos">138</span></a>		<span class="c1"># Warn about deprecated __format__ key</span>
+</span><span id="Config-139"><a href="#Config-139"><span class="linenos">139</span></a>		<span class="k">if</span> <span class="s2">&quot;__format__&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+</span><span id="Config-140"><a href="#Config-140"><span class="linenos">140</span></a>			<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+</span><span id="Config-141"><a href="#Config-141"><span class="linenos">141</span></a>
+</span><span id="Config-142"><a href="#Config-142"><span class="linenos">142</span></a>			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</span><span id="Config-143"><a href="#Config-143"><span class="linenos">143</span></a>				<span class="s2">&quot;The &#39;__format__&#39; key in config is deprecated and will be ignored&quot;</span><span class="p">,</span>
+</span><span id="Config-144"><a href="#Config-144"><span class="linenos">144</span></a>				<span class="ne">DeprecationWarning</span><span class="p">,</span>
+</span><span id="Config-145"><a href="#Config-145"><span class="linenos">145</span></a>				<span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="Config-146"><a href="#Config-146"><span class="linenos">146</span></a>			<span class="p">)</span>
+</span><span id="Config-147"><a href="#Config-147"><span class="linenos">147</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
+</span><span id="Config-148"><a href="#Config-148"><span class="linenos">148</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
+</span><span id="Config-149"><a href="#Config-149"><span class="linenos">149</span></a>
+</span><span id="Config-150"><a href="#Config-150"><span class="linenos">150</span></a>		<span class="c1"># Convert path strings to Path objects</span>
+</span><span id="Config-151"><a href="#Config-151"><span class="linenos">151</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="Config-152"><a href="#Config-152"><span class="linenos">152</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config-153"><a href="#Config-153"><span class="linenos">153</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
+</span><span id="Config-154"><a href="#Config-154"><span class="linenos">154</span></a>
+</span><span id="Config-155"><a href="#Config-155"><span class="linenos">155</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
+</span><span id="Config-156"><a href="#Config-156"><span class="linenos">156</span></a>
+</span><span id="Config-157"><a href="#Config-157"><span class="linenos">157</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="Config-158"><a href="#Config-158"><span class="linenos">158</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
+</span><span id="Config-159"><a href="#Config-159"><span class="linenos">159</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
 </span><span id="Config-160"><a href="#Config-160"><span class="linenos">160</span></a>
-</span><span id="Config-161"><a href="#Config-161"><span class="linenos">161</span></a>	<span class="nd">@classmethod</span>
-</span><span id="Config-162"><a href="#Config-162"><span class="linenos">162</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="Config-163"><a href="#Config-163"><span class="linenos">163</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
-</span><span id="Config-164"><a href="#Config-164"><span class="linenos">164</span></a>
-</span><span id="Config-165"><a href="#Config-165"><span class="linenos">165</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config-166"><a href="#Config-166"><span class="linenos">166</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
-</span><span id="Config-167"><a href="#Config-167"><span class="linenos">167</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
-</span><span id="Config-168"><a href="#Config-168"><span class="linenos">168</span></a>
-</span><span id="Config-169"><a href="#Config-169"><span class="linenos">169</span></a><span class="sd">		# Returns:</span>
-</span><span id="Config-170"><a href="#Config-170"><span class="linenos">170</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
-</span><span id="Config-171"><a href="#Config-171"><span class="linenos">171</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config-172"><a href="#Config-172"><span class="linenos">172</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
+</span><span id="Config-161"><a href="#Config-161"><span class="linenos">161</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+</span><span id="Config-162"><a href="#Config-162"><span class="linenos">162</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+</span><span id="Config-163"><a href="#Config-163"><span class="linenos">163</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="Config-164"><a href="#Config-164"><span class="linenos">164</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
+</span><span id="Config-165"><a href="#Config-165"><span class="linenos">165</span></a>			<span class="k">else</span><span class="p">:</span>
+</span><span id="Config-166"><a href="#Config-166"><span class="linenos">166</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="Config-167"><a href="#Config-167"><span class="linenos">167</span></a>
+</span><span id="Config-168"><a href="#Config-168"><span class="linenos">168</span></a>		<span class="k">return</span> <span class="n">result</span>
+</span><span id="Config-169"><a href="#Config-169"><span class="linenos">169</span></a>
+</span><span id="Config-170"><a href="#Config-170"><span class="linenos">170</span></a>	<span class="nd">@classmethod</span>
+</span><span id="Config-171"><a href="#Config-171"><span class="linenos">171</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="Config-172"><a href="#Config-172"><span class="linenos">172</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
 </span><span id="Config-173"><a href="#Config-173"><span class="linenos">173</span></a>
-</span><span id="Config-174"><a href="#Config-174"><span class="linenos">174</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="Config-175"><a href="#Config-175"><span class="linenos">175</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
-</span><span id="Config-176"><a href="#Config-176"><span class="linenos">176</span></a>
-</span><span id="Config-177"><a href="#Config-177"><span class="linenos">177</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config-178"><a href="#Config-178"><span class="linenos">178</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
-</span><span id="Config-179"><a href="#Config-179"><span class="linenos">179</span></a>
-</span><span id="Config-180"><a href="#Config-180"><span class="linenos">180</span></a><span class="sd">		# Returns:</span>
-</span><span id="Config-181"><a href="#Config-181"><span class="linenos">181</span></a><span class="sd">		 - `str` - serialized configuration string</span>
+</span><span id="Config-174"><a href="#Config-174"><span class="linenos">174</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config-175"><a href="#Config-175"><span class="linenos">175</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
+</span><span id="Config-176"><a href="#Config-176"><span class="linenos">176</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
+</span><span id="Config-177"><a href="#Config-177"><span class="linenos">177</span></a>
+</span><span id="Config-178"><a href="#Config-178"><span class="linenos">178</span></a><span class="sd">		# Returns:</span>
+</span><span id="Config-179"><a href="#Config-179"><span class="linenos">179</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
+</span><span id="Config-180"><a href="#Config-180"><span class="linenos">180</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config-181"><a href="#Config-181"><span class="linenos">181</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span><span id="Config-182"><a href="#Config-182"><span class="linenos">182</span></a>
-</span><span id="Config-183"><a href="#Config-183"><span class="linenos">183</span></a><span class="sd">		# Raises:</span>
-</span><span id="Config-184"><a href="#Config-184"><span class="linenos">184</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="Config-185"><a href="#Config-185"><span class="linenos">185</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config-186"><a href="#Config-186"><span class="linenos">186</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
-</span><span id="Config-187"><a href="#Config-187"><span class="linenos">187</span></a>
-</span><span id="Config-188"><a href="#Config-188"><span class="linenos">188</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config-189"><a href="#Config-189"><span class="linenos">189</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
-</span><span id="Config-190"><a href="#Config-190"><span class="linenos">190</span></a>
-</span><span id="Config-191"><a href="#Config-191"><span class="linenos">191</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config-192"><a href="#Config-192"><span class="linenos">192</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
-</span><span id="Config-193"><a href="#Config-193"><span class="linenos">193</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
-</span><span id="Config-194"><a href="#Config-194"><span class="linenos">194</span></a>
-</span><span id="Config-195"><a href="#Config-195"><span class="linenos">195</span></a><span class="sd">		# Raises:</span>
-</span><span id="Config-196"><a href="#Config-196"><span class="linenos">196</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="Config-197"><a href="#Config-197"><span class="linenos">197</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config-198"><a href="#Config-198"><span class="linenos">198</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="Config-183"><a href="#Config-183"><span class="linenos">183</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="Config-184"><a href="#Config-184"><span class="linenos">184</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
+</span><span id="Config-185"><a href="#Config-185"><span class="linenos">185</span></a>
+</span><span id="Config-186"><a href="#Config-186"><span class="linenos">186</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config-187"><a href="#Config-187"><span class="linenos">187</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
+</span><span id="Config-188"><a href="#Config-188"><span class="linenos">188</span></a>
+</span><span id="Config-189"><a href="#Config-189"><span class="linenos">189</span></a><span class="sd">		# Returns:</span>
+</span><span id="Config-190"><a href="#Config-190"><span class="linenos">190</span></a><span class="sd">		 - `str` - serialized configuration string</span>
+</span><span id="Config-191"><a href="#Config-191"><span class="linenos">191</span></a>
+</span><span id="Config-192"><a href="#Config-192"><span class="linenos">192</span></a><span class="sd">		# Raises:</span>
+</span><span id="Config-193"><a href="#Config-193"><span class="linenos">193</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="Config-194"><a href="#Config-194"><span class="linenos">194</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config-195"><a href="#Config-195"><span class="linenos">195</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
+</span><span id="Config-196"><a href="#Config-196"><span class="linenos">196</span></a>
+</span><span id="Config-197"><a href="#Config-197"><span class="linenos">197</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config-198"><a href="#Config-198"><span class="linenos">198</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
+</span><span id="Config-199"><a href="#Config-199"><span class="linenos">199</span></a>
+</span><span id="Config-200"><a href="#Config-200"><span class="linenos">200</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config-201"><a href="#Config-201"><span class="linenos">201</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
+</span><span id="Config-202"><a href="#Config-202"><span class="linenos">202</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
+</span><span id="Config-203"><a href="#Config-203"><span class="linenos">203</span></a>
+</span><span id="Config-204"><a href="#Config-204"><span class="linenos">204</span></a><span class="sd">		# Raises:</span>
+</span><span id="Config-205"><a href="#Config-205"><span class="linenos">205</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="Config-206"><a href="#Config-206"><span class="linenos">206</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config-207"><a href="#Config-207"><span class="linenos">207</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -858,15 +876,24 @@
             <div class="pdoc-code codehilite"><pre><span></span><span id="Config.load-135"><a href="#Config.load-135"><span class="linenos">135</span></a>	<span class="nd">@classmethod</span>
 </span><span id="Config.load-136"><a href="#Config.load-136"><span class="linenos">136</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
 </span><span id="Config.load-137"><a href="#Config.load-137"><span class="linenos">137</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Load Config from a dictionary.&quot;&quot;&quot;</span>
-</span><span id="Config.load-138"><a href="#Config.load-138"><span class="linenos">138</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
-</span><span id="Config.load-139"><a href="#Config.load-139"><span class="linenos">139</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
-</span><span id="Config.load-140"><a href="#Config.load-140"><span class="linenos">140</span></a>
-</span><span id="Config.load-141"><a href="#Config.load-141"><span class="linenos">141</span></a>		<span class="c1"># Convert path strings to Path objects</span>
-</span><span id="Config.load-142"><a href="#Config.load-142"><span class="linenos">142</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="Config.load-143"><a href="#Config.load-143"><span class="linenos">143</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config.load-144"><a href="#Config.load-144"><span class="linenos">144</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
-</span><span id="Config.load-145"><a href="#Config.load-145"><span class="linenos">145</span></a>
-</span><span id="Config.load-146"><a href="#Config.load-146"><span class="linenos">146</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
+</span><span id="Config.load-138"><a href="#Config.load-138"><span class="linenos">138</span></a>		<span class="c1"># Warn about deprecated __format__ key</span>
+</span><span id="Config.load-139"><a href="#Config.load-139"><span class="linenos">139</span></a>		<span class="k">if</span> <span class="s2">&quot;__format__&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+</span><span id="Config.load-140"><a href="#Config.load-140"><span class="linenos">140</span></a>			<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+</span><span id="Config.load-141"><a href="#Config.load-141"><span class="linenos">141</span></a>
+</span><span id="Config.load-142"><a href="#Config.load-142"><span class="linenos">142</span></a>			<span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</span><span id="Config.load-143"><a href="#Config.load-143"><span class="linenos">143</span></a>				<span class="s2">&quot;The &#39;__format__&#39; key in config is deprecated and will be ignored&quot;</span><span class="p">,</span>
+</span><span id="Config.load-144"><a href="#Config.load-144"><span class="linenos">144</span></a>				<span class="ne">DeprecationWarning</span><span class="p">,</span>
+</span><span id="Config.load-145"><a href="#Config.load-145"><span class="linenos">145</span></a>				<span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="Config.load-146"><a href="#Config.load-146"><span class="linenos">146</span></a>			<span class="p">)</span>
+</span><span id="Config.load-147"><a href="#Config.load-147"><span class="linenos">147</span></a>		<span class="c1"># Filter out __format__ key if present (legacy support)</span>
+</span><span id="Config.load-148"><a href="#Config.load-148"><span class="linenos">148</span></a>		<span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;__format__&quot;</span><span class="p">}</span>
+</span><span id="Config.load-149"><a href="#Config.load-149"><span class="linenos">149</span></a>
+</span><span id="Config.load-150"><a href="#Config.load-150"><span class="linenos">150</span></a>		<span class="c1"># Convert path strings to Path objects</span>
+</span><span id="Config.load-151"><a href="#Config.load-151"><span class="linenos">151</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="Config.load-152"><a href="#Config.load-152"><span class="linenos">152</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">filtered</span> <span class="ow">and</span> <span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config.load-153"><a href="#Config.load-153"><span class="linenos">153</span></a>				<span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filtered</span><span class="p">[</span><span class="n">field_name</span><span class="p">])</span>
+</span><span id="Config.load-154"><a href="#Config.load-154"><span class="linenos">154</span></a>
+</span><span id="Config.load-155"><a href="#Config.load-155"><span class="linenos">155</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">filtered</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -886,18 +913,18 @@
 
     </div>
     <a class="headerlink" href="#Config.serialize"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.serialize-148"><a href="#Config.serialize-148"><span class="linenos">148</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-</span><span id="Config.serialize-149"><a href="#Config.serialize-149"><span class="linenos">149</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
-</span><span id="Config.serialize-150"><a href="#Config.serialize-150"><span class="linenos">150</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
-</span><span id="Config.serialize-151"><a href="#Config.serialize-151"><span class="linenos">151</span></a>
-</span><span id="Config.serialize-152"><a href="#Config.serialize-152"><span class="linenos">152</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
-</span><span id="Config.serialize-153"><a href="#Config.serialize-153"><span class="linenos">153</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
-</span><span id="Config.serialize-154"><a href="#Config.serialize-154"><span class="linenos">154</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
-</span><span id="Config.serialize-155"><a href="#Config.serialize-155"><span class="linenos">155</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
-</span><span id="Config.serialize-156"><a href="#Config.serialize-156"><span class="linenos">156</span></a>			<span class="k">else</span><span class="p">:</span>
-</span><span id="Config.serialize-157"><a href="#Config.serialize-157"><span class="linenos">157</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span><span id="Config.serialize-158"><a href="#Config.serialize-158"><span class="linenos">158</span></a>
-</span><span id="Config.serialize-159"><a href="#Config.serialize-159"><span class="linenos">159</span></a>		<span class="k">return</span> <span class="n">result</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.serialize-157"><a href="#Config.serialize-157"><span class="linenos">157</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="Config.serialize-158"><a href="#Config.serialize-158"><span class="linenos">158</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize Config to a dictionary.&quot;&quot;&quot;</span>
+</span><span id="Config.serialize-159"><a href="#Config.serialize-159"><span class="linenos">159</span></a>		<span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;__format__&quot;</span><span class="p">:</span> <span class="s2">&quot;Config(SerializableDataclass)&quot;</span><span class="p">}</span>
+</span><span id="Config.serialize-160"><a href="#Config.serialize-160"><span class="linenos">160</span></a>
+</span><span id="Config.serialize-161"><a href="#Config.serialize-161"><span class="linenos">161</span></a>		<span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+</span><span id="Config.serialize-162"><a href="#Config.serialize-162"><span class="linenos">162</span></a>			<span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+</span><span id="Config.serialize-163"><a href="#Config.serialize-163"><span class="linenos">163</span></a>			<span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">_PATH_FIELDS</span><span class="p">:</span>
+</span><span id="Config.serialize-164"><a href="#Config.serialize-164"><span class="linenos">164</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
+</span><span id="Config.serialize-165"><a href="#Config.serialize-165"><span class="linenos">165</span></a>			<span class="k">else</span><span class="p">:</span>
+</span><span id="Config.serialize-166"><a href="#Config.serialize-166"><span class="linenos">166</span></a>				<span class="n">result</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="Config.serialize-167"><a href="#Config.serialize-167"><span class="linenos">167</span></a>
+</span><span id="Config.serialize-168"><a href="#Config.serialize-168"><span class="linenos">168</span></a>		<span class="k">return</span> <span class="n">result</span>
 </span></pre></div>
 
 
@@ -918,18 +945,18 @@
 
     </div>
     <a class="headerlink" href="#Config.read"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.read-161"><a href="#Config.read-161"><span class="linenos">161</span></a>	<span class="nd">@classmethod</span>
-</span><span id="Config.read-162"><a href="#Config.read-162"><span class="linenos">162</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
-</span><span id="Config.read-163"><a href="#Config.read-163"><span class="linenos">163</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
-</span><span id="Config.read-164"><a href="#Config.read-164"><span class="linenos">164</span></a>
-</span><span id="Config.read-165"><a href="#Config.read-165"><span class="linenos">165</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config.read-166"><a href="#Config.read-166"><span class="linenos">166</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
-</span><span id="Config.read-167"><a href="#Config.read-167"><span class="linenos">167</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
-</span><span id="Config.read-168"><a href="#Config.read-168"><span class="linenos">168</span></a>
-</span><span id="Config.read-169"><a href="#Config.read-169"><span class="linenos">169</span></a><span class="sd">		# Returns:</span>
-</span><span id="Config.read-170"><a href="#Config.read-170"><span class="linenos">170</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
-</span><span id="Config.read-171"><a href="#Config.read-171"><span class="linenos">171</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config.read-172"><a href="#Config.read-172"><span class="linenos">172</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.read-170"><a href="#Config.read-170"><span class="linenos">170</span></a>	<span class="nd">@classmethod</span>
+</span><span id="Config.read-171"><a href="#Config.read-171"><span class="linenos">171</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Config&quot;</span><span class="p">:</span>
+</span><span id="Config.read-172"><a href="#Config.read-172"><span class="linenos">172</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Read a Config from a file.</span>
+</span><span id="Config.read-173"><a href="#Config.read-173"><span class="linenos">173</span></a>
+</span><span id="Config.read-174"><a href="#Config.read-174"><span class="linenos">174</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config.read-175"><a href="#Config.read-175"><span class="linenos">175</span></a><span class="sd">		 - `config_path : Path` - path to the configuration file</span>
+</span><span id="Config.read-176"><a href="#Config.read-176"><span class="linenos">176</span></a><span class="sd">		 - `fmt : Format | None` - format to parse as; if None, inferred from extension</span>
+</span><span id="Config.read-177"><a href="#Config.read-177"><span class="linenos">177</span></a>
+</span><span id="Config.read-178"><a href="#Config.read-178"><span class="linenos">178</span></a><span class="sd">		# Returns:</span>
+</span><span id="Config.read-179"><a href="#Config.read-179"><span class="linenos">179</span></a><span class="sd">		 - `Config` - parsed configuration object</span>
+</span><span id="Config.read-180"><a href="#Config.read-180"><span class="linenos">180</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config.read-181"><a href="#Config.read-181"><span class="linenos">181</span></a>		<span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_data_file</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -962,19 +989,19 @@
 
     </div>
     <a class="headerlink" href="#Config.as_str"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.as_str-174"><a href="#Config.as_str-174"><span class="linenos">174</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="Config.as_str-175"><a href="#Config.as_str-175"><span class="linenos">175</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
-</span><span id="Config.as_str-176"><a href="#Config.as_str-176"><span class="linenos">176</span></a>
-</span><span id="Config.as_str-177"><a href="#Config.as_str-177"><span class="linenos">177</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config.as_str-178"><a href="#Config.as_str-178"><span class="linenos">178</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
-</span><span id="Config.as_str-179"><a href="#Config.as_str-179"><span class="linenos">179</span></a>
-</span><span id="Config.as_str-180"><a href="#Config.as_str-180"><span class="linenos">180</span></a><span class="sd">		# Returns:</span>
-</span><span id="Config.as_str-181"><a href="#Config.as_str-181"><span class="linenos">181</span></a><span class="sd">		 - `str` - serialized configuration string</span>
-</span><span id="Config.as_str-182"><a href="#Config.as_str-182"><span class="linenos">182</span></a>
-</span><span id="Config.as_str-183"><a href="#Config.as_str-183"><span class="linenos">183</span></a><span class="sd">		# Raises:</span>
-</span><span id="Config.as_str-184"><a href="#Config.as_str-184"><span class="linenos">184</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="Config.as_str-185"><a href="#Config.as_str-185"><span class="linenos">185</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config.as_str-186"><a href="#Config.as_str-186"><span class="linenos">186</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.as_str-183"><a href="#Config.as_str-183"><span class="linenos">183</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="Config.as_str-184"><a href="#Config.as_str-184"><span class="linenos">184</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Serialize this Config to a string in the specified format.</span>
+</span><span id="Config.as_str-185"><a href="#Config.as_str-185"><span class="linenos">185</span></a>
+</span><span id="Config.as_str-186"><a href="#Config.as_str-186"><span class="linenos">186</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config.as_str-187"><a href="#Config.as_str-187"><span class="linenos">187</span></a><span class="sd">		 - `fmt : Format` - output format (&#39;yaml&#39; or &#39;json&#39;)</span>
+</span><span id="Config.as_str-188"><a href="#Config.as_str-188"><span class="linenos">188</span></a>
+</span><span id="Config.as_str-189"><a href="#Config.as_str-189"><span class="linenos">189</span></a><span class="sd">		# Returns:</span>
+</span><span id="Config.as_str-190"><a href="#Config.as_str-190"><span class="linenos">190</span></a><span class="sd">		 - `str` - serialized configuration string</span>
+</span><span id="Config.as_str-191"><a href="#Config.as_str-191"><span class="linenos">191</span></a>
+</span><span id="Config.as_str-192"><a href="#Config.as_str-192"><span class="linenos">192</span></a><span class="sd">		# Raises:</span>
+</span><span id="Config.as_str-193"><a href="#Config.as_str-193"><span class="linenos">193</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="Config.as_str-194"><a href="#Config.as_str-194"><span class="linenos">194</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config.as_str-195"><a href="#Config.as_str-195"><span class="linenos">195</span></a>		<span class="k">return</span> <span class="n">emit_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">fmt</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1012,17 +1039,17 @@
 
     </div>
     <a class="headerlink" href="#Config.save"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.save-188"><a href="#Config.save-188"><span class="linenos">188</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config.save-189"><a href="#Config.save-189"><span class="linenos">189</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
-</span><span id="Config.save-190"><a href="#Config.save-190"><span class="linenos">190</span></a>
-</span><span id="Config.save-191"><a href="#Config.save-191"><span class="linenos">191</span></a><span class="sd">		# Parameters:</span>
-</span><span id="Config.save-192"><a href="#Config.save-192"><span class="linenos">192</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
-</span><span id="Config.save-193"><a href="#Config.save-193"><span class="linenos">193</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
-</span><span id="Config.save-194"><a href="#Config.save-194"><span class="linenos">194</span></a>
-</span><span id="Config.save-195"><a href="#Config.save-195"><span class="linenos">195</span></a><span class="sd">		# Raises:</span>
-</span><span id="Config.save-196"><a href="#Config.save-196"><span class="linenos">196</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
-</span><span id="Config.save-197"><a href="#Config.save-197"><span class="linenos">197</span></a><span class="sd">		&quot;&quot;&quot;</span>
-</span><span id="Config.save-198"><a href="#Config.save-198"><span class="linenos">198</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.save-197"><a href="#Config.save-197"><span class="linenos">197</span></a>	<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">Format</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config.save-198"><a href="#Config.save-198"><span class="linenos">198</span></a><span class="w">		</span><span class="sd">&quot;&quot;&quot;Save this Config to a file.</span>
+</span><span id="Config.save-199"><a href="#Config.save-199"><span class="linenos">199</span></a>
+</span><span id="Config.save-200"><a href="#Config.save-200"><span class="linenos">200</span></a><span class="sd">		# Parameters:</span>
+</span><span id="Config.save-201"><a href="#Config.save-201"><span class="linenos">201</span></a><span class="sd">		 - `config_path : Path` - destination file path</span>
+</span><span id="Config.save-202"><a href="#Config.save-202"><span class="linenos">202</span></a><span class="sd">		 - `fmt : Format | None` - output format; if None, inferred from extension</span>
+</span><span id="Config.save-203"><a href="#Config.save-203"><span class="linenos">203</span></a>
+</span><span id="Config.save-204"><a href="#Config.save-204"><span class="linenos">204</span></a><span class="sd">		# Raises:</span>
+</span><span id="Config.save-205"><a href="#Config.save-205"><span class="linenos">205</span></a><span class="sd">		 - `NotImplementedError` : if fmt is &#39;toml&#39;</span>
+</span><span id="Config.save-206"><a href="#Config.save-206"><span class="linenos">206</span></a><span class="sd">		&quot;&quot;&quot;</span>
+</span><span id="Config.save-207"><a href="#Config.save-207"><span class="linenos">207</span></a>		<span class="n">save_data_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1056,37 +1083,37 @@
 
     </div>
     <a class="headerlink" href="#main"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="main-201"><a href="#main-201"><span class="linenos">201</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="main-202"><a href="#main-202"><span class="linenos">202</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;CLI entry point for printing default config templates.&quot;&quot;&quot;</span>
-</span><span id="main-203"><a href="#main-203"><span class="linenos">203</span></a>	<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-</span><span id="main-204"><a href="#main-204"><span class="linenos">204</span></a>
-</span><span id="main-205"><a href="#main-205"><span class="linenos">205</span></a>	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-</span><span id="main-206"><a href="#main-206"><span class="linenos">206</span></a>		<span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print a default pdj-sitegen configuration file to stdout.&quot;</span><span class="p">,</span>
-</span><span id="main-207"><a href="#main-207"><span class="linenos">207</span></a>		<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-</span><span id="main-208"><a href="#main-208"><span class="linenos">208</span></a><span class="s2">Examples:</span>
-</span><span id="main-209"><a href="#main-209"><span class="linenos">209</span></a><span class="s2">  python -m pdj_sitegen.config              # Print TOML config (default)</span>
-</span><span id="main-210"><a href="#main-210"><span class="linenos">210</span></a><span class="s2">  python -m pdj_sitegen.config toml         # Print TOML config</span>
-</span><span id="main-211"><a href="#main-211"><span class="linenos">211</span></a><span class="s2">  python -m pdj_sitegen.config yaml         # Print YAML config</span>
-</span><span id="main-212"><a href="#main-212"><span class="linenos">212</span></a><span class="s2">  python -m pdj_sitegen.config toml &gt; config.toml  # Save to file</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="main-210"><a href="#main-210"><span class="linenos">210</span></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="main-211"><a href="#main-211"><span class="linenos">211</span></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;CLI entry point for printing default config templates.&quot;&quot;&quot;</span>
+</span><span id="main-212"><a href="#main-212"><span class="linenos">212</span></a>	<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 </span><span id="main-213"><a href="#main-213"><span class="linenos">213</span></a>
-</span><span id="main-214"><a href="#main-214"><span class="linenos">214</span></a><span class="s2">Supported formats: toml (default), yaml</span>
-</span><span id="main-215"><a href="#main-215"><span class="linenos">215</span></a><span class="s2">Note: JSON config files are supported for reading but not generated as templates.</span>
-</span><span id="main-216"><a href="#main-216"><span class="linenos">216</span></a><span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
-</span><span id="main-217"><a href="#main-217"><span class="linenos">217</span></a>		<span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
-</span><span id="main-218"><a href="#main-218"><span class="linenos">218</span></a>	<span class="p">)</span>
-</span><span id="main-219"><a href="#main-219"><span class="linenos">219</span></a>	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-</span><span id="main-220"><a href="#main-220"><span class="linenos">220</span></a>		<span class="s2">&quot;format&quot;</span><span class="p">,</span>
-</span><span id="main-221"><a href="#main-221"><span class="linenos">221</span></a>		<span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
-</span><span id="main-222"><a href="#main-222"><span class="linenos">222</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span>
-</span><span id="main-223"><a href="#main-223"><span class="linenos">223</span></a>		<span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
-</span><span id="main-224"><a href="#main-224"><span class="linenos">224</span></a>		<span class="n">help</span><span class="o">=</span><span class="s2">&quot;output format for the config file (default: toml)&quot;</span><span class="p">,</span>
-</span><span id="main-225"><a href="#main-225"><span class="linenos">225</span></a>	<span class="p">)</span>
-</span><span id="main-226"><a href="#main-226"><span class="linenos">226</span></a>	<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-</span><span id="main-227"><a href="#main-227"><span class="linenos">227</span></a>
-</span><span id="main-228"><a href="#main-228"><span class="linenos">228</span></a>	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;toml&quot;</span><span class="p">:</span>
-</span><span id="main-229"><a href="#main-229"><span class="linenos">229</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_TOML</span><span class="p">)</span>
-</span><span id="main-230"><a href="#main-230"><span class="linenos">230</span></a>	<span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
-</span><span id="main-231"><a href="#main-231"><span class="linenos">231</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
+</span><span id="main-214"><a href="#main-214"><span class="linenos">214</span></a>	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+</span><span id="main-215"><a href="#main-215"><span class="linenos">215</span></a>		<span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print a default pdj-sitegen configuration file to stdout.&quot;</span><span class="p">,</span>
+</span><span id="main-216"><a href="#main-216"><span class="linenos">216</span></a>		<span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+</span><span id="main-217"><a href="#main-217"><span class="linenos">217</span></a><span class="s2">Examples:</span>
+</span><span id="main-218"><a href="#main-218"><span class="linenos">218</span></a><span class="s2">  python -m pdj_sitegen.config              # Print TOML config (default)</span>
+</span><span id="main-219"><a href="#main-219"><span class="linenos">219</span></a><span class="s2">  python -m pdj_sitegen.config toml         # Print TOML config</span>
+</span><span id="main-220"><a href="#main-220"><span class="linenos">220</span></a><span class="s2">  python -m pdj_sitegen.config yaml         # Print YAML config</span>
+</span><span id="main-221"><a href="#main-221"><span class="linenos">221</span></a><span class="s2">  python -m pdj_sitegen.config toml &gt; config.toml  # Save to file</span>
+</span><span id="main-222"><a href="#main-222"><span class="linenos">222</span></a>
+</span><span id="main-223"><a href="#main-223"><span class="linenos">223</span></a><span class="s2">Supported formats: toml (default), yaml</span>
+</span><span id="main-224"><a href="#main-224"><span class="linenos">224</span></a><span class="s2">Note: JSON config files are supported for reading but not generated as templates.</span>
+</span><span id="main-225"><a href="#main-225"><span class="linenos">225</span></a><span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
+</span><span id="main-226"><a href="#main-226"><span class="linenos">226</span></a>		<span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
+</span><span id="main-227"><a href="#main-227"><span class="linenos">227</span></a>	<span class="p">)</span>
+</span><span id="main-228"><a href="#main-228"><span class="linenos">228</span></a>	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+</span><span id="main-229"><a href="#main-229"><span class="linenos">229</span></a>		<span class="s2">&quot;format&quot;</span><span class="p">,</span>
+</span><span id="main-230"><a href="#main-230"><span class="linenos">230</span></a>		<span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+</span><span id="main-231"><a href="#main-231"><span class="linenos">231</span></a>		<span class="n">default</span><span class="o">=</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span>
+</span><span id="main-232"><a href="#main-232"><span class="linenos">232</span></a>		<span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;toml&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
+</span><span id="main-233"><a href="#main-233"><span class="linenos">233</span></a>		<span class="n">help</span><span class="o">=</span><span class="s2">&quot;output format for the config file (default: toml)&quot;</span><span class="p">,</span>
+</span><span id="main-234"><a href="#main-234"><span class="linenos">234</span></a>	<span class="p">)</span>
+</span><span id="main-235"><a href="#main-235"><span class="linenos">235</span></a>	<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span id="main-236"><a href="#main-236"><span class="linenos">236</span></a>
+</span><span id="main-237"><a href="#main-237"><span class="linenos">237</span></a>	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;toml&quot;</span><span class="p">:</span>
+</span><span id="main-238"><a href="#main-238"><span class="linenos">238</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_TOML</span><span class="p">)</span>
+</span><span id="main-239"><a href="#main-239"><span class="linenos">239</span></a>	<span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
+</span><span id="main-240"><a href="#main-240"><span class="linenos">240</span></a>		<span class="nb">print</span><span class="p">(</span><span class="n">DEFAULT_CONFIG_YAML</span><span class="p">)</span>
 </span></pre></div>
 
 
