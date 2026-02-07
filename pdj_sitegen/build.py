@@ -589,10 +589,10 @@ def convert_markdown_files(
 		path_raw: str = doc["file_meta"]["path_raw"]
 		if smart_rebuild and os.path.getmtime(path_raw) <= rebuild_time:
 			if verbose:
-				print(f"\t({idx+1:3} / {n_files})  [unmodified]  '{path_raw}'")
+				print(f"\t({idx + 1:3} / {n_files})  [unmodified]  '{path_raw}'")
 		else:
 			if verbose:
-				print(f"\t({idx+1:3} / {n_files})  [building..]  '{path_raw}'")
+				print(f"\t({idx + 1:3} / {n_files})  [building..]  '{path_raw}'")
 
 			try:
 				convert_single_markdown_file(

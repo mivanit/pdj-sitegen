@@ -289,5 +289,8 @@ def handle_build_error(exc: BaseException, root_dir: Path) -> None:
 		print(format_single_error(exc), file=sys.stderr)
 
 	# Print summary in red
-	print(f"\n\033[91m{n_failed}/{n_total} files failed to convert\033[0m", file=sys.stderr)
+	print(
+		f"\n\033[91m{n_failed}/{n_total} files failed to convert\033[0m",
+		file=sys.stderr,
+	)
 	print(f"  Full details: {dump_dir}/", file=sys.stderr)

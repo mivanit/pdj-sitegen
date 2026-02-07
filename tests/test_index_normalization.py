@@ -12,7 +12,9 @@ from pdj_sitegen.exceptions import ConflictingIndexError
 class TestIndexNormalization:
 	"""Tests for _index.md -> index.html normalization."""
 
-	def test_underscore_index_becomes_index_html(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_underscore_index_becomes_index_html(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""_index.md should produce index.html when normalize_index_names is True."""
 		content_dir = temp_site_structure["content_dir"]
 
@@ -40,7 +42,9 @@ title: Home
 		# But path_html should be "index.html"
 		assert docs["_index"]["file_meta"]["path_html"] == "index.html"
 
-	def test_underscore_index_in_subdir(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_underscore_index_in_subdir(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""_index.md in subdirectory should produce subdir/index.html."""
 		content_dir = temp_site_structure["content_dir"]
 
@@ -70,7 +74,9 @@ title: Blog
 		# But path_html should be "blog/index.html"
 		assert docs["blog/_index"]["file_meta"]["path_html"] == "blog/index.html"
 
-	def test_regular_index_unchanged(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_regular_index_unchanged(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""Regular index.md should still produce index.html."""
 		content_dir = temp_site_structure["content_dir"]
 
@@ -161,7 +167,9 @@ title: Home 2
 		assert "_index.md" in str(exc_info.value)
 		assert "index.md" in str(exc_info.value)
 
-	def test_conflict_in_subdirectory(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_conflict_in_subdirectory(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""Both index.md and _index.md in subdirectory should raise error."""
 		content_dir = temp_site_structure["content_dir"]
 
@@ -195,7 +203,9 @@ title: Blog 2
 
 		assert "blog" in str(exc_info.value)
 
-	def test_no_conflict_when_normalization_disabled(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_no_conflict_when_normalization_disabled(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""Conflict check should be skipped when normalize_index_names is False."""
 		content_dir = temp_site_structure["content_dir"]
 
@@ -231,7 +241,9 @@ title: Home 2
 		assert docs["index"]["file_meta"]["path_html"] == "index.html"
 		assert docs["_index"]["file_meta"]["path_html"] == "_index.html"
 
-	def test_no_conflict_separate_directories(self, temp_site_structure: dict[str, Path]) -> None:
+	def test_no_conflict_separate_directories(
+		self, temp_site_structure: dict[str, Path]
+	) -> None:
 		"""index.md and _index.md in different directories should not conflict."""
 		content_dir = temp_site_structure["content_dir"]
 

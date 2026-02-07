@@ -120,9 +120,9 @@ class TestLinksMd2Html:
 				[target, ""],
 			]
 			result = links_md2html("Link", value, "html", {})
-			assert (
-				result is None
-			), f"Should not convert '{target}' - it doesn't end with .md"
+			assert result is None, (
+				f"Should not convert '{target}' - it doesn't end with .md"
+			)
 
 	def test_malformed_link_empty_value(self):
 		"""Test that malformed links with empty value don't crash"""

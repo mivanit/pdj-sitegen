@@ -301,7 +301,9 @@ class TestCreateDumpDir:
 		assert dump_dir.parent.parent == temp_test_dir
 
 		# Write a marker so the directory isn't empty
-		(dump_dir / "_test_marker.txt").write_text("created by test_creates_timestamped_directory")
+		(dump_dir / "_test_marker.txt").write_text(
+			"created by test_creates_timestamped_directory"
+		)
 
 
 class TestDumpErrorContext:
@@ -383,8 +385,10 @@ class TestDumpErrorContext:
 		dump_dir = test_site_dir / "dump"
 		dump_dir.mkdir(parents=True, exist_ok=True)
 
-		# Lambda is not JSON serializable, but default=str handles it
-		non_serializable_func: Any = lambda x: x  # pyright: ignore[reportUnknownLambdaType]
+		# Function is not JSON serializable, but default=str handles it
+		def non_serializable_func(x: Any) -> Any:  # pyright: ignore[reportUnknownParameterType, reportUnknownVariableType]
+			return x
+
 		exc = RenderError(
 			message="test",
 			kind="render_template",
@@ -445,7 +449,9 @@ class TestFormatMultipleErrors:
 class TestHandleBuildError:
 	"""Tests for handle_build_error function."""
 
-	def test_creates_dump_directory(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_creates_dump_directory(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Should create .pdj-sitegen dump directory."""
 		exc = ValueError("test error")
 
@@ -457,7 +463,9 @@ class TestHandleBuildError:
 		subdirs = list(pdj_dir.iterdir())
 		assert len(subdirs) >= 1
 
-	def test_prints_terse_message(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_prints_terse_message(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Should print terse summary to stderr."""
 		exc = ValueError("test error message")
 
@@ -467,7 +475,9 @@ class TestHandleBuildError:
 		assert "1/1 files failed" in captured.err
 		assert "Full details:" in captured.err
 
-	def test_handles_multiple_exceptions(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_handles_multiple_exceptions(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Should handle MultipleExceptions properly."""
 		exceptions = {
 			"/file1.md": ValueError("error 1"),
@@ -486,9 +496,13 @@ class TestHandleBuildError:
 		dump_files = list(dump_dir.iterdir())
 		assert len(dump_files) >= 2  # At least 2 traceback files
 
-	def test_handles_conversion_error(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_handles_conversion_error(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Should handle ConversionError with n_failed/n_total counts."""
-		exc = ConversionError("error converting file '/test.md'", n_failed=3, n_total=10)
+		exc = ConversionError(
+			"error converting file '/test.md'", n_failed=3, n_total=10
+		)
 
 		handle_build_error(exc, test_site_dir)
 
@@ -504,7 +518,9 @@ class TestHandleBuildError:
 class TestIntegration:
 	"""Integration tests using actual Jinja2 errors."""
 
-	def test_full_error_flow(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_full_error_flow(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Test complete error handling flow with real Jinja2 error."""
 		jinja_env = Environment()
 
@@ -535,7 +551,9 @@ class TestIntegration:
 		assert "undefined" in traceback_content.lower()
 		assert "test.md" in traceback_content
 
-	def test_template_syntax_error_flow(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_template_syntax_error_flow(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Test error handling with TemplateSyntaxError (malformed template)."""
 		jinja_env = Environment()
 
@@ -560,7 +578,9 @@ class TestIntegration:
 		pdj_dir = test_site_dir / ".pdj-sitegen"
 		assert pdj_dir.exists()
 
-	def test_deeply_nested_exception_chain(self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]) -> None:
+	def test_deeply_nested_exception_chain(
+		self, test_site_dir: Path, capsys: pytest.CaptureFixture[str]
+	) -> None:
 		"""Test 3+ level exception chain extracts info correctly."""
 
 		class Level3Error(Exception):
