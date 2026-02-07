@@ -58,82 +58,82 @@ dev = [
 	'pdoc>=14.6.0',
 ]
 
-[project.urls]
-Repository = "https://github.com/mivanit/pdj-sitegen"
-Issues = "https://github.com/mivanit/pdj-sitegen/issues"
-Documentation = "https://miv.name/pdj-sitegen/"
+	[project.urls]
+		Repository = "https://github.com/mivanit/pdj-sitegen"
+		Issues = "https://github.com/mivanit/pdj-sitegen/issues"
+		Documentation = "https://miv.name/pdj-sitegen/"
 
-[project.scripts]
-pdj-sitegen = "pdj_sitegen.build:main"
-pdj-csv-code-table = "pdj_sitegen.filters.csv_code_table:main"
-pdj-links-md2html = "pdj_sitegen.filters.links_md2html:main"
+	[project.scripts]
+		pdj-sitegen = "pdj_sitegen.build:main"
+		pdj-csv-code-table = "pdj_sitegen.filters.csv_code_table:main"
+		pdj-links-md2html = "pdj_sitegen.filters.links_md2html:main"
 
 # build system
 [build-system]
-requires = ["hatchling>=1.21,<1.26"]
-build-backend = "hatchling.build"
+	requires = ["hatchling>=1.21,<1.26"]
+	build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["pdj_sitegen"]
+	packages = ["pdj_sitegen"]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/pdj_sitegen",
-]
+	include = [
+		"/pdj_sitegen",
+	]
 
 # ruff config
 [tool.ruff]
-exclude = ["__pycache__"]
+	exclude = ["__pycache__"]
 
-[tool.ruff.format]
-indent-style = "tab"
-skip-magic-trailing-comma = false
+	[tool.ruff.format]
+		indent-style = "tab"
+		skip-magic-trailing-comma = false
 
 [tool.basedpyright]
-include = ["pdj_sitegen", "tests"]
-exclude = ["__pycache__", ".venv", "docs"]
-reportConstantRedefinition = false
-reportDeprecated = false
-reportUnsupportedDunderAll = false
-# Allow pytest-style conftest imports in test files
-reportImplicitRelativeImport = false
-reportExplicitAny = false
-# Suppress warnings for untyped libraries (pypandoc, bs4, pandocfilters)
-reportMissingTypeStubs = false
-# Suppress warnings for Any types from untyped libs
-reportAny = false
-# Suppress warnings for unused call results (f.write(), add_argument(), etc.)
-reportUnusedCallResult = false
-# Suppress warnings for unknown types from untyped libs
-reportUnknownMemberType = false
-reportUnknownParameterType = false
-reportUnknownVariableType = false
-reportUnknownArgumentType = false
-# Don't require @override decorators
-reportImplicitOverride = false
-# Allow function calls in default parameter values
-reportCallInDefaultInitializer = false
-# Suppress warnings for unreachable match fallback cases (defensive coding)
-reportUnnecessaryComparison = false
-# Suppress warnings for defensive isinstance checks
-reportUnnecessaryIsInstance = false
-reportUnreachable = false
-# Suppress warnings for unused parameters/variables (common in callbacks)
-reportUnusedParameter = false
-reportUnusedVariable = false
-# Allow importing re-exported symbols
-reportPrivateLocalImportUsage = false
+	include = ["pdj_sitegen", "tests"]
+	exclude = ["__pycache__", ".venv", "docs"]
+	reportConstantRedefinition = false
+	reportDeprecated = false
+	reportUnsupportedDunderAll = false
+	# Allow pytest-style conftest imports in test files
+	reportImplicitRelativeImport = false
+	reportExplicitAny = false
+	# Suppress warnings for untyped libraries (pypandoc, bs4, pandocfilters)
+	reportMissingTypeStubs = false
+	# Suppress warnings for Any types from untyped libs
+	reportAny = false
+	# Suppress warnings for unused call results (f.write(), add_argument(), etc.)
+	reportUnusedCallResult = false
+	# Suppress warnings for unknown types from untyped libs
+	reportUnknownMemberType = false
+	reportUnknownParameterType = false
+	reportUnknownVariableType = false
+	reportUnknownArgumentType = false
+	# Don't require @override decorators
+	reportImplicitOverride = false
+	# Allow function calls in default parameter values
+	reportCallInDefaultInitializer = false
+	# Suppress warnings for unreachable match fallback cases (defensive coding)
+	reportUnnecessaryComparison = false
+	# Suppress warnings for defensive isinstance checks
+	reportUnnecessaryIsInstance = false
+	reportUnreachable = false
+	# Suppress warnings for unused parameters/variables (common in callbacks)
+	reportUnusedParameter = false
+	reportUnusedVariable = false
+	# Allow importing re-exported symbols
+	reportPrivateLocalImportUsage = false
 
 [tool.ty.src]
-exclude = ["__pycache__/", ".venv/", "docs/"]
+	exclude = ["__pycache__/", ".venv/", "docs/"]
 
 [tool.ty.rules]
-unused-type-ignore-comment = "ignore"
+	unused-type-ignore-comment = "ignore"
 
 [tool.mypy]
-exclude = ["__pycache__", ".venv"]
-show_error_codes = true
-check_untyped_defs = true
+	exclude = ["__pycache__", ".venv"]
+	show_error_codes = true
+	check_untyped_defs = true
 
 [tool.makefile.uv-exports]
 	args = [
