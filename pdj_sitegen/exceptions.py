@@ -21,9 +21,15 @@ class SplitMarkdownError(Exception):
 	- The frontmatter delimiters (---, ;;;, +++) are missing or malformed
 	- The content does not match the expected frontmatter regex pattern
 	- The frontmatter section cannot be parsed (invalid YAML/JSON/TOML)
+
+	# Attributes:
+	 - `file_path : str | None` - the path to the file that failed to parse
 	"""
 
-	pass
+	def __init__(self, message: str, file_path: str | None = None) -> None:
+		self.file_path: str | None = file_path
+		full_message = f"{file_path}: {message}" if file_path else message
+		super().__init__(full_message)
 
 
 class ConflictingIndexError(Exception):

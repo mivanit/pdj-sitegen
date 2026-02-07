@@ -105,11 +105,14 @@ def header_factory(lst_vals: list[str]) -> list[Any]:
 	"""Create a pandoc table header from a list of column headers.
 
 	# Parameters:
-	 - `lst_vals : list[str]` - list of header text values
+	 - `lst_vals : list[str]` - list of header text values (empty list for no header)
 
 	# Returns:
 	 - `list[Any]` - pandoc AST table header structure
 	"""
+	if not lst_vals:
+		# No header row - return empty rows list
+		return [emptyblock(), []]
 	return [
 		emptyblock(),
 		[table_row_factory(lst_vals)],
@@ -168,7 +171,9 @@ def codeblock_process(
 	# Raises:
 	 - `ValueError` : if CSV data is empty, not rectangular, or has invalid options
 	 - `FileNotFoundError` : if source CSV file does not exist
-	 - `NotImplementedError` : if header=0 (tables without headers not yet supported)
+
+	# Notes:
+	 - Use `header=0` or `header=false` to create a table without a header row
 	"""
 	# figure out whether this block should be processed
 	if not (key == "CodeBlock"):
@@ -241,7 +246,8 @@ def codeblock_process(
 		row_header = table_data[0]
 		table_rows = table_data[1:]
 	else:
-		raise NotImplementedError("Tables without headers are not yet supported")
+		row_header = []
+		table_rows = table_data
 
 	# write the table
 	return {

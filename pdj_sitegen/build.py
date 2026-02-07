@@ -18,7 +18,6 @@ import datetime
 import fnmatch
 import functools
 import json
-import os
 import re
 import shutil
 import sys
@@ -322,6 +321,9 @@ def build_document_tree(
 				"file_meta": file_meta,
 			}
 		except SplitMarkdownError as e:
+			# Add file path context if not already set
+			if not e.file_path:
+				e = SplitMarkdownError(str(e), file_path=file_path.as_posix())
 			errors[file_path.as_posix()] = e
 			continue
 
@@ -588,7 +590,7 @@ def convert_markdown_files(
 		print(f"Converting {n_files} markdown files to HTML...")
 	for idx, (path, doc) in enumerate(docs.items()):
 		path_raw: str = doc["file_meta"]["path_raw"]
-		if smart_rebuild and os.path.getmtime(path_raw) <= rebuild_time:
+		if smart_rebuild and Path(path_raw).stat().st_mtime <= rebuild_time:
 			if verbose:
 				print(f"\t({idx + 1:3} / {n_files})  [unmodified]  '{path_raw}'")
 		else:
@@ -669,7 +671,7 @@ def pipeline(
 		rebuild_time: float
 		build_time_path: Path = root_dir_absolute / config.build_time_fname
 		try:
-			rebuild_time = os.path.getmtime(build_time_path)
+			rebuild_time = build_time_path.stat().st_mtime
 		except FileNotFoundError:
 			# set it to very old time so that all files are rebuilt
 			rebuild_time = -1.0

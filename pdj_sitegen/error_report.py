@@ -234,7 +234,7 @@ def dump_error_context(
 
 	# Dump full traceback
 	tb_path = dump_dir / f"traceback{suffix}.txt"
-	with open(tb_path, "w") as f:
+	with open(tb_path, "w", encoding="utf-8") as f:
 		f.write("".join(traceback.format_exception(type(exc), exc, exc.__traceback__)))
 
 	# Dump context if RenderError
@@ -242,15 +242,17 @@ def dump_error_context(
 		ctx_path = dump_dir / f"context{suffix}.json"
 		try:
 			# Use default=str to handle non-serializable objects
-			with open(ctx_path, "w") as f:
+			with open(ctx_path, "w", encoding="utf-8") as f:
 				json.dump(exc.context, f, indent=2, default=str)
-		except Exception:
-			pass  # Best effort
+		except Exception as e:
+			import warnings
+
+			warnings.warn(f"Failed to dump error context to {ctx_path}: {e}")
 
 	# Dump template content if available
 	if isinstance(exc, RenderError) and exc.content:
 		tpl_path = dump_dir / f"template{suffix}.txt"
-		with open(tpl_path, "w") as f:
+		with open(tpl_path, "w", encoding="utf-8") as f:
 			f.write(exc.content)
 
 	return tb_path

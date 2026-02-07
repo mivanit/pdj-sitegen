@@ -134,6 +134,15 @@ class Config:
 	@classmethod
 	def load(cls, data: dict[str, Any]) -> "Config":
 		"""Load Config from a dictionary."""
+		# Warn about deprecated __format__ key
+		if "__format__" in data:
+			import warnings
+
+			warnings.warn(
+				"The '__format__' key in config is deprecated and will be ignored",
+				DeprecationWarning,
+				stacklevel=2,
+			)
 		# Filter out __format__ key if present (legacy support)
 		filtered = {k: v for k, v in data.items() if k != "__format__"}
 

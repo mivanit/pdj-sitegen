@@ -262,12 +262,20 @@ class TestCodeblockProcess:
 		with pytest.raises(Exception, match="aligns length mismatch"):
 			codeblock_process("CodeBlock", value, "html", {})
 
-	def test_csv_table_no_header_raises(self):
-		"""Test error when header=0 (not supported)."""
+	def test_csv_table_no_header(self):
+		"""Test header=0 produces table without header row."""
 		csv_content = "1,2,3\n4,5,6"
 		value = [["", ["csv_table"], [("header", "0")]], csv_content]
-		with pytest.raises(NotImplementedError, match="Tables without headers"):
-			codeblock_process("CodeBlock", value, "html", {})
+		result = codeblock_process("CodeBlock", value, "html", {})
+
+		assert result is not None
+		assert result["t"] == "Table"
+		# Header at index 3 should have empty rows list
+		header = result["c"][3]
+		assert header[1] == []  # No header rows
+		# Body at index 4 should have both rows
+		body = result["c"][4]
+		assert len(body[0][3]) == 2  # Two body rows
 
 	def test_csv_table_header_rows(self):
 		"""Test that header row is separate from body rows."""
