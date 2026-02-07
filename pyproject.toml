@@ -135,3 +135,14 @@ exclude = ["__pycache__", ".venv"]
 show_error_codes = true
 check_untyped_defs = true
 
+[tool.makefile.uv-exports]
+	args = [
+		"--no-hashes"
+	]
+	exports = [
+		# no groups, no extras, just the base dependencies
+		{ name = "base", filename="requirements.txt", groups = false, extras = false },
+		# all groups and extras
+		{ name = "all", filename="requirements-dev.txt", groups = true, extras=true },
+	]
+
