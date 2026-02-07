@@ -16,7 +16,7 @@ Here you'll find our latest thoughts, ideas, and updates.
 {% if post.file_meta.path.startswith("blog.post-") %}
 ### [{{ post.frontmatter.title }}]({{ post.file_meta.path_html }})
 
-*Posted on {{ post.frontmatter.date }}*
+**Posted on {{ post.frontmatter.date }}**
 
 {{ post.frontmatter.excerpt }}
 

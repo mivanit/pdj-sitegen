@@ -1,6 +1,8 @@
 ---
 title: Our Team
-description: Meet the team
+description: "Meet the team at {{ config.globals_.company_name }}"
+page_generated: "{{ file_meta.modified_time_str }}"
+company: "{{ config.globals_.company_name }}"
 team_members:
   - name: Lorem Ipsum
     position: Dolor Sit
@@ -39,3 +41,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit:
 {% endfor %}
 
 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+
+## Site Resources
+
+The following files are available in this site:
+
+{% for file in dir_contents_recursive %}
+- `{{ file }}`
+{% endfor %}
+
+---
+
+*Page information: {{ page_generated }} | Company: {{ company }}*

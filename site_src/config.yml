@@ -10,11 +10,28 @@ output_dir: ../docs/demo_site/
 # intermediate files directory -- if null, then no intermediate files will be saved
 intermediates_dir: ../tests/_temp/demo_site_intermediates
 # kwargs to pass to the Jinja2 environment
-jinja_env_kwargs: {}
+jinja_env_kwargs:
+  trim_blocks: true
+  lstrip_blocks: true
+# glob patterns to include when copying non-markdown files (empty = include all)
+copy_include:
+  - "*.css"
+  - "*.js"
+  - "*.txt"
+  - "*.csv"
+  - "*.json"
+  - "*.png"
+  - "*.jpg"
+  - "*.svg"
+# glob patterns to exclude when copying (markdown is always excluded)
+copy_exclude:
+  - "*.md"
+  - "*.bak"
+  - "*.tmp"
 # whether to prettify with bs4
 prettify: true
-# pandoc formats
-pandoc_fmt_from: markdown+smart
+# pandoc formats (disable yaml_metadata_block since pdj-sitegen handles frontmatter separately)
+pandoc_fmt_from: markdown+smart-yaml_metadata_block
 pandoc_fmt_to: html
 # extra kwargs to pass to pandoc (this will be augmented with `__pandoc__` from the frontmatter of a file)
 __pandoc__:

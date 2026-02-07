@@ -10,6 +10,8 @@ technologies:
   - Lorem ipsum
   - Dolor sit amet
   - Consectetur adipiscing
+__pandoc__:
+  filter: csv_code_table
 tags:
   - projects
 ---
@@ -19,6 +21,27 @@ tags:
 ## Overview
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+## Project Timeline
+
+```{.csv_table header=1 aligns=LCCC caption="Project Milestones"}
+Phase,Start Date,End Date,Status
+Discovery,2022-09-01,2022-10-15,Complete
+Design,2022-10-16,2022-11-30,Complete
+Development,2022-12-01,2023-02-15,Complete
+Testing,2023-02-16,2023-03-01,Complete
+Deployment,2023-03-02,2023-03-15,Complete
+```
+
+## Project Metrics
+
+```{.csv_table header=1 aligns=LRR caption="Key Performance Indicators"}
+Metric,Target,Actual
+Code Coverage,80%,92%
+Response Time,200ms,150ms
+Uptime,99.9%,99.95%
+User Satisfaction,4.0/5,4.6/5
+```
 
 ## Challenges
 

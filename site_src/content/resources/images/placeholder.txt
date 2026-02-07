@@ -1,0 +1,7 @@
+This is a placeholder for team member images.
+
+In a real site, you would place actual image files here:
+- lorem-ipsum.jpg
+- ut-enim.jpg
+- duis-aute.jpg
+- excepteur-sint.jpg

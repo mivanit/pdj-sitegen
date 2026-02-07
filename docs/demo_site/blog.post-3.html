@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Technical Tutorial - Building Static Sites
+  </title>
+  <link href="./resources/default.css" rel="stylesheet"/>
+  <link href="./resources/syntax.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <nav class="nav">
+   <a class="nav" href="./about.html">
+    About
+   </a>
+   <a class="nav" href="./index.html">
+    Home
+   </a>
+   <a class="nav" href="https://github.com/mivanit/pdj-sitegen">
+    GitHub
+   </a>
+   <a class="nav" href="./blog.html">
+    Blog
+   </a>
+   <a class="nav" href="./projects.html">
+    Projects
+   </a>
+  </nav>
+  <main>
+   <h1 id="technical-tutorial-building-static-sites">
+    Technical Tutorial:
+Building Static Sites
+   </h1>
+   <p>
+    In this post, we’ll explore the technical aspects of static site
+generation. For more context, check out our
+    <a href="blog.post-1.html">
+     first
+    </a>
+    and
+    <a href="blog.post-2.html">
+     second
+    </a>
+    .
+   </p>
+   <h2 id="python-example">
+    Python Example
+   </h2>
+   <p>
+    Here’s a simple Python script that processes Markdown files:
+   </p>
+   <div class="sourceCode" id="cb1">
+    <pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a><span class="kw">def</span> process_markdown_files(content_dir: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">dict</span>]:</span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a>    <span class="co">"""Process all markdown files in a directory."""</span></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a>    <span class="cf">for</span> md_file <span class="kw">in</span> Path(content_dir).glob(<span class="st">"**/*.md"</span>):</span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(md_file, <span class="st">"r"</span>) <span class="im">as</span> f:</span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a>            content <span class="op">=</span> f.read()</span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a>        <span class="co"># Extract frontmatter and content</span></span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a>        <span class="cf">if</span> content.startswith(<span class="st">"---"</span>):</span>
+<span id="cb1-14"><a aria-hidden="true" href="#cb1-14" tabindex="-1"></a>            parts <span class="op">=</span> content.split(<span class="st">"---"</span>, <span class="dv">2</span>)</span>
+<span id="cb1-15"><a aria-hidden="true" href="#cb1-15" tabindex="-1"></a>            frontmatter <span class="op">=</span> parts[<span class="dv">1</span>]</span>
+<span id="cb1-16"><a aria-hidden="true" href="#cb1-16" tabindex="-1"></a>            body <span class="op">=</span> parts[<span class="dv">2</span>]</span>
+<span id="cb1-17"><a aria-hidden="true" href="#cb1-17" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-18"><a aria-hidden="true" href="#cb1-18" tabindex="-1"></a>            frontmatter <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb1-19"><a aria-hidden="true" href="#cb1-19" tabindex="-1"></a>            body <span class="op">=</span> content</span>
+<span id="cb1-20"><a aria-hidden="true" href="#cb1-20" tabindex="-1"></a></span>
+<span id="cb1-21"><a aria-hidden="true" href="#cb1-21" tabindex="-1"></a>        results.append({</span>
+<span id="cb1-22"><a aria-hidden="true" href="#cb1-22" tabindex="-1"></a>            <span class="st">"path"</span>: <span class="bu">str</span>(md_file),</span>
+<span id="cb1-23"><a aria-hidden="true" href="#cb1-23" tabindex="-1"></a>            <span class="st">"frontmatter"</span>: frontmatter,</span>
+<span id="cb1-24"><a aria-hidden="true" href="#cb1-24" tabindex="-1"></a>            <span class="st">"body"</span>: body</span>
+<span id="cb1-25"><a aria-hidden="true" href="#cb1-25" tabindex="-1"></a>        })</span>
+<span id="cb1-26"><a aria-hidden="true" href="#cb1-26" tabindex="-1"></a></span>
+<span id="cb1-27"><a aria-hidden="true" href="#cb1-27" tabindex="-1"></a>    <span class="cf">return</span> results</span>
+<span id="cb1-28"><a aria-hidden="true" href="#cb1-28" tabindex="-1"></a></span>
+<span id="cb1-29"><a aria-hidden="true" href="#cb1-29" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-30"><a aria-hidden="true" href="#cb1-30" tabindex="-1"></a>    files <span class="op">=</span> process_markdown_files(<span class="st">"content"</span>)</span>
+<span id="cb1-31"><a aria-hidden="true" href="#cb1-31" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Processed </span><span class="sc">{</span><span class="bu">len</span>(files)<span class="sc">}</span><span class="ss"> files"</span>)</span></code></pre>
+   </div>
+   <h2 id="javascript-example">
+    JavaScript Example
+   </h2>
+   <p>
+    For client-side interactivity, you might use JavaScript like
+this:
+   </p>
+   <div class="sourceCode" id="cb2">
+    <pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="co">// Filter blog posts by tag</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a><span class="kw">function</span> <span class="fu">filterByTag</span>(posts<span class="op">,</span> tag) {</span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>    <span class="cf">return</span> posts<span class="op">.</span><span class="fu">filter</span>(post <span class="kw">=&gt;</span> post<span class="op">.</span><span class="at">tags</span><span class="op">.</span><span class="fu">includes</span>(tag))<span class="op">;</span></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a><span class="co">// Render a list of posts to the DOM</span></span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a><span class="kw">function</span> <span class="fu">renderPosts</span>(posts<span class="op">,</span> container) {</span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a>    container<span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> posts</span>
+<span id="cb2-9"><a aria-hidden="true" href="#cb2-9" tabindex="-1"></a>        <span class="op">.</span><span class="fu">map</span>(post <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb2-10"><a aria-hidden="true" href="#cb2-10" tabindex="-1"></a><span class="vs">            &lt;article class="post"&gt;</span></span>
+<span id="cb2-11"><a aria-hidden="true" href="#cb2-11" tabindex="-1"></a><span class="vs">                &lt;h2&gt;&lt;a href="</span><span class="sc">${</span>post<span class="op">.</span><span class="at">url</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>post<span class="op">.</span><span class="at">title</span><span class="sc">}</span><span class="vs">&lt;/a&gt;&lt;/h2&gt;</span></span>
+<span id="cb2-12"><a aria-hidden="true" href="#cb2-12" tabindex="-1"></a><span class="vs">                &lt;time datetime="</span><span class="sc">${</span>post<span class="op">.</span><span class="at">date</span><span class="sc">}</span><span class="vs">"&gt;</span><span class="sc">${</span>post<span class="op">.</span><span class="at">date</span><span class="sc">}</span><span class="vs">&lt;/time&gt;</span></span>
+<span id="cb2-13"><a aria-hidden="true" href="#cb2-13" tabindex="-1"></a><span class="vs">                &lt;p&gt;</span><span class="sc">${</span>post<span class="op">.</span><span class="at">excerpt</span><span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb2-14"><a aria-hidden="true" href="#cb2-14" tabindex="-1"></a><span class="vs">            &lt;/article&gt;</span></span>
+<span id="cb2-15"><a aria-hidden="true" href="#cb2-15" tabindex="-1"></a><span class="vs">        `</span>)</span>
+<span id="cb2-16"><a aria-hidden="true" href="#cb2-16" tabindex="-1"></a>        <span class="op">.</span><span class="fu">join</span>(<span class="st">''</span>)<span class="op">;</span></span>
+<span id="cb2-17"><a aria-hidden="true" href="#cb2-17" tabindex="-1"></a>}</span>
+<span id="cb2-18"><a aria-hidden="true" href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a aria-hidden="true" href="#cb2-19" tabindex="-1"></a><span class="co">// Initialize on page load</span></span>
+<span id="cb2-20"><a aria-hidden="true" href="#cb2-20" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'DOMContentLoaded'</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-21"><a aria-hidden="true" href="#cb2-21" tabindex="-1"></a>    <span class="kw">const</span> posts <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(<span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'posts-data'</span>)<span class="op">.</span><span class="at">textContent</span>)<span class="op">;</span></span>
+<span id="cb2-22"><a aria-hidden="true" href="#cb2-22" tabindex="-1"></a>    <span class="kw">const</span> container <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">'posts-container'</span>)<span class="op">;</span></span>
+<span id="cb2-23"><a aria-hidden="true" href="#cb2-23" tabindex="-1"></a>    <span class="fu">renderPosts</span>(posts<span class="op">,</span> container)<span class="op">;</span></span>
+<span id="cb2-24"><a aria-hidden="true" href="#cb2-24" tabindex="-1"></a>})<span class="op">;</span></span></code></pre>
+   </div>
+   <h2 id="shell-commands">
+    Shell Commands
+   </h2>
+   <p>
+    Building a static site often involves shell commands:
+   </p>
+   <div class="sourceCode" id="cb3">
+    <pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="co"># Build the site</span></span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.yml</span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a><span class="co"># Smart rebuild (only changed files)</span></span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pdj_sitegen config.yml <span class="at">-s</span></span>
+<span id="cb3-6"><a aria-hidden="true" href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a aria-hidden="true" href="#cb3-7" tabindex="-1"></a><span class="co"># Serve locally for development</span></span>
+<span id="cb3-8"><a aria-hidden="true" href="#cb3-8" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> http.server <span class="at">-d</span> output 8000</span></code></pre>
+   </div>
+   <h2 id="configuration-example">
+    Configuration Example
+   </h2>
+   <p>
+    Here’s a sample YAML configuration:
+   </p>
+   <div class="sourceCode" id="cb4">
+    <pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a><span class="fu">content_dir</span><span class="kw">:</span><span class="at"> content</span></span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a><span class="fu">templates_dir</span><span class="kw">:</span><span class="at"> templates</span></span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a><span class="fu">output_dir</span><span class="kw">:</span><span class="at"> output</span></span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a><span class="fu">prettify</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a><span class="fu">__pandoc__</span><span class="kw">:</span></span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a><span class="at">  </span><span class="fu">mathjax</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a><span class="at">  </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre>
+   </div>
+   <h2 id="related-pages">
+    Related Pages
+   </h2>
+   <p>
+    Be sure to check out our
+    <a href="projects.html">
+     projects
+    </a>
+    and
+learn more
+    <a href="about.html">
+     about
+    </a>
+    !
+   </p>
+  </main>
+  <footer>
+   <p>
+    tags: blog, tutorial, code
+   </p>
+  </footer>
+ </body>
+</html>
