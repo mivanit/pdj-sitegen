@@ -386,7 +386,7 @@ class TestDumpErrorContext:
 		dump_dir.mkdir(parents=True, exist_ok=True)
 
 		# Function is not JSON serializable, but default=str handles it
-		def non_serializable_func(x: Any) -> Any:  # pyright: ignore[reportUnknownParameterType, reportUnknownVariableType]
+		def non_serializable_func(x: Any) -> Any:
 			return x
 
 		exc = RenderError(
