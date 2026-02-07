@@ -8,7 +8,7 @@ default_template: default.html.jinja2
 # output directory, relative to cwd
 output_dir: ../docs/demo_site/
 # intermediate files directory -- if null, then no intermediate files will be saved
-intermediates_dir: ../tests/_temp/demo_site_intermediates
+intermediates_dir: ../tests/.temp/demo_site_intermediates
 # kwargs to pass to the Jinja2 environment
 jinja_env_kwargs:
   trim_blocks: true

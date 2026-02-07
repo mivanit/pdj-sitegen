@@ -80,7 +80,7 @@ def increment_markdown_headings(markdown_text: str, increment: int = 2) -> str:
 OUTPUT_DIR: Path = Path("docs")
 
 
-def format_signature(sig: inspect.Signature, colon: bool) -> str:
+def format_signature(sig: inspect.Signature, colon: bool) -> Markup:
 	"""Format a function signature for Markdown. Returns a single-line Markdown string."""
 	# First get a list with all params as strings.
 	result = pdoc.doc._PrettySignature._params(sig)  # type: ignore
@@ -108,7 +108,7 @@ def format_signature(sig: inspect.Signature, colon: bool) -> str:
 	# Construct the full signature
 	rendered = f"`(`{params_str}`{anno}`"
 
-	return rendered
+	return Markup(rendered)
 
 
 HTML_TO_MD_MAP: dict[str, str] = {
