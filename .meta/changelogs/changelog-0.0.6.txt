@@ -4,7 +4,7 @@ pdj-sitegen v0.0.6 (Changes from v0.0.4)
 This release includes all changes from version 0.0.4 through 0.0.6.
 
 
-VERSION 0.0.6 (2026-02-07)
+VERSION 0.0.6
 --------------------------
 
 Code Quality Improvements:
@@ -36,7 +36,7 @@ Test Fixes:
 - Removed unused capsys fixture from test_creates_dump_directory
 
 
-VERSION 0.0.5 (2026-01-31)
+VERSION 0.0.5
 --------------------------
 
 New Features:
