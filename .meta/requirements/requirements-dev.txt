@@ -20,10 +20,7 @@ colorama==0.4.6 ; sys_platform == 'win32'
     #   pytest
     #   tqdm
 coverage==7.13.3
-    # via
-    #   coverage-badge
-    #   pytest-cov
-coverage-badge==1.1.2
+    # via pytest-cov
 cryptography==46.0.4 ; platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'
     # via secretstorage
 docutils==0.22.4
@@ -134,8 +131,6 @@ rich==14.3.2
 ruff==0.15.0
 secretstorage==3.5.0 ; platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'
     # via keyring
-setuptools==81.0.0
-    # via coverage-badge
 shellingham==1.5.4
     # via typer
 soupsieve==2.8.3
