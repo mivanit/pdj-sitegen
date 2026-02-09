@@ -87,7 +87,7 @@
     </nav>
     <main class="pdoc">
             <section class="module-info">
-                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.6/filters/links_md2html.py">Edit on GitHub</a>
+                        <a class="pdoc-button git-button" href="https://github.com/mivanit/pdj-sitegen/blob/0.0.7/filters/links_md2html.py">Edit on GitHub</a>
                     <h1 class="modulename">
 <a href="./../../pdj_sitegen.html">pdj_sitegen</a><wbr>.<a href="./../filters.html">filters</a><wbr>.links_md2html    </h1>
 
@@ -154,14 +154,14 @@ pandoc --filter pdj-links-md2html input.md
 </span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">	&quot;&quot;&quot;</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>		<span class="k">try</span><span class="p">:</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>			<span class="n">link_tgt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>		<span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>			<span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Malformed link structure, skip</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">):</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>				<span class="n">link_txt</span><span class="p">,</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>				<span class="p">[</span><span class="n">link_tgt</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>			<span class="p">)</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>	<span class="k">return</span> <span class="kc">None</span>
@@ -209,14 +209,14 @@ pandoc --filter pdj-links-md2html input.md
 </span><span id="links_md2html-39"><a href="#links_md2html-39"><span class="linenos">39</span></a><span class="sd">	&quot;&quot;&quot;</span>
 </span><span id="links_md2html-40"><a href="#links_md2html-40"><span class="linenos">40</span></a>	<span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Link&quot;</span><span class="p">:</span>
 </span><span id="links_md2html-41"><a href="#links_md2html-41"><span class="linenos">41</span></a>		<span class="k">try</span><span class="p">:</span>
-</span><span id="links_md2html-42"><a href="#links_md2html-42"><span class="linenos">42</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="links_md2html-42"><a href="#links_md2html-42"><span class="linenos">42</span></a>			<span class="n">link_txt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </span><span id="links_md2html-43"><a href="#links_md2html-43"><span class="linenos">43</span></a>			<span class="n">link_tgt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </span><span id="links_md2html-44"><a href="#links_md2html-44"><span class="linenos">44</span></a>		<span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
 </span><span id="links_md2html-45"><a href="#links_md2html-45"><span class="linenos">45</span></a>			<span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Malformed link structure, skip</span>
 </span><span id="links_md2html-46"><a href="#links_md2html-46"><span class="linenos">46</span></a>		<span class="k">if</span> <span class="n">link_tgt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">):</span>
 </span><span id="links_md2html-47"><a href="#links_md2html-47"><span class="linenos">47</span></a>			<span class="k">return</span> <span class="n">Link</span><span class="p">(</span>
 </span><span id="links_md2html-48"><a href="#links_md2html-48"><span class="linenos">48</span></a>				<span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]],</span>
-</span><span id="links_md2html-49"><a href="#links_md2html-49"><span class="linenos">49</span></a>				<span class="p">[</span><span class="n">link_txt</span><span class="p">],</span>
+</span><span id="links_md2html-49"><a href="#links_md2html-49"><span class="linenos">49</span></a>				<span class="n">link_txt</span><span class="p">,</span>
 </span><span id="links_md2html-50"><a href="#links_md2html-50"><span class="linenos">50</span></a>				<span class="p">[</span><span class="n">link_tgt</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
 </span><span id="links_md2html-51"><a href="#links_md2html-51"><span class="linenos">51</span></a>			<span class="p">)</span>
 </span><span id="links_md2html-52"><a href="#links_md2html-52"><span class="linenos">52</span></a>	<span class="k">return</span> <span class="kc">None</span>

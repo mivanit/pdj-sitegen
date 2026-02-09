@@ -18,9 +18,9 @@ tests/test_config.py                       91      0   100%
 tests/test_consts.py                       39      0   100%
 tests/test_error_report.py                281      2    99%   52, 390
 tests/test_filters_csv_code_table.py      204      0   100%
-tests/test_filters_links_md2html.py        75      0   100%
+tests/test_filters_links_md2html.py       101      0   100%
 tests/test_index_normalization.py          83      0   100%
 tests/test_pdj_sitegen.py                 303      0   100%
 tests/test_setup.py                        81      0   100%
 ---------------------------------------------------------------------
-TOTAL                                    1891    101    95%
+TOTAL                                    1917    101    95%
