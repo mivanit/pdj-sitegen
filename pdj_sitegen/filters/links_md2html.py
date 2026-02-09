@@ -38,14 +38,14 @@ def links_md2html(key: str, value: Any, _format: str, _meta: Any) -> Any | None:
 	"""
 	if key == "Link":
 		try:
-			link_txt: Any = value[1][0]
+			link_txt: Any = value[1]
 			link_tgt: str = value[2][0]
 		except (IndexError, TypeError):
 			return None  # Malformed link structure, skip
 		if link_tgt.endswith(".md"):
 			return Link(
 				["", [], []],
-				[link_txt],
+				link_txt,
 				[link_tgt[:-3] + ".html", ""],
 			)
 	return None

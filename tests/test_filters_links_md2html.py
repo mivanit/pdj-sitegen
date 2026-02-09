@@ -74,6 +74,25 @@ class TestLinksMd2Html:
 		assert result is not None
 		assert result["c"][1] == link_text
 
+	def test_link_preserves_multi_word_text_with_spaces(self):
+		"""Test that link text with spaces is fully preserved"""
+		# Pandoc represents "hello world" as separate Str and Space elements
+		link_text = [
+			{"t": "Str", "c": "hello"},
+			{"t": "Space"},
+			{"t": "Str", "c": "world"},
+		]
+		value = [
+			["", [], []],
+			link_text,
+			["page.md", ""],
+		]
+		result = links_md2html("Link", value, "html", {})
+		assert result is not None
+		assert result["c"][2][0] == "page.html"
+		# All inline elements should be preserved
+		assert result["c"][1] == link_text
+
 	def test_link_with_title(self):
 		"""Test that link title is handled (though lost in current impl)"""
 		value = [
@@ -162,3 +181,55 @@ class TestLinksMd2Html:
 
 		result = links_md2html("Link", 123, "html", {})
 		assert result is None
+
+
+class TestLinksMd2HtmlE2E:
+	"""End-to-end tests for the links_md2html pandoc filter."""
+
+	def test_e2e_md_link_converted_to_html(self):
+		"""Test full pandoc pipeline converts .md links to .html"""
+		import pypandoc
+
+		markdown = "Check out [hello world](page.md) for more info."
+
+		html = pypandoc.convert_text(
+			source=markdown,
+			to="html",
+			format="markdown",
+			extra_args=["--filter", "pdj-links-md2html"],
+		)
+
+		assert 'href="page.html"' in html
+		assert ">hello world<" in html
+
+	def test_e2e_non_md_link_unchanged(self):
+		"""Test that non-.md links are not modified"""
+		import pypandoc
+
+		markdown = "Visit [example](https://example.com) for more."
+
+		html = pypandoc.convert_text(
+			source=markdown,
+			to="html",
+			format="markdown",
+			extra_args=["--filter", "pdj-links-md2html"],
+		)
+
+		assert 'href="https://example.com"' in html
+		assert ">example<" in html
+
+	def test_e2e_nested_path_md_link(self):
+		"""Test that nested path .md links are converted"""
+		import pypandoc
+
+		markdown = "See [the docs](docs/intro.md) for details."
+
+		html = pypandoc.convert_text(
+			source=markdown,
+			to="html",
+			format="markdown",
+			extra_args=["--filter", "pdj-links-md2html"],
+		)
+
+		assert 'href="docs/intro.html"' in html
+		assert ">the docs<" in html
