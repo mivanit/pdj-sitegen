@@ -188,7 +188,7 @@ class TestLinksMd2HtmlE2E:
 
 	def test_e2e_md_link_converted_to_html(self):
 		"""Test full pandoc pipeline converts .md links to .html"""
-		import pypandoc
+		import pypandoc  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 
 		markdown = "Check out [hello world](page.md) for more info."
 
@@ -204,7 +204,7 @@ class TestLinksMd2HtmlE2E:
 
 	def test_e2e_non_md_link_unchanged(self):
 		"""Test that non-.md links are not modified"""
-		import pypandoc
+		import pypandoc  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 
 		markdown = "Visit [example](https://example.com) for more."
 
@@ -220,7 +220,7 @@ class TestLinksMd2HtmlE2E:
 
 	def test_e2e_nested_path_md_link(self):
 		"""Test that nested path .md links are converted"""
-		import pypandoc
+		import pypandoc  # type: ignore[import-untyped]  # pyright: ignore[reportMissingTypeStubs]
 
 		markdown = "See [the docs](docs/intro.md) for details."
 
