@@ -4,7 +4,6 @@
 
 [![Checks](https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml/badge.svg)](https://github.com/mivanit/pdj-sitegen/actions/workflows/checks.yml)
 [![Checks - docs](https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml/badge.svg)](https://github.com/mivanit/pdj-sitegen/actions/workflows/make-docs.yml)
-[![Coverage](docs/coverage/coverage.svg)](docs/coverage/html/)
 
 ![GitHub commits](https://img.shields.io/github/commit-activity/t/mivanit/pdj-sitegen)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/mivanit/pdj-sitegen)

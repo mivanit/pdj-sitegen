@@ -1799,7 +1799,6 @@ docs-combined: docs-md
 # generate coverage reports from test results
 # WARNING: if .coverage file not found, will automatically run `make test` first
 # - generates text report: $(COVERAGE_REPORTS_DIR)/coverage.txt
-# - generates SVG badge: $(COVERAGE_REPORTS_DIR)/coverage.svg
 # - generates HTML report: $(COVERAGE_REPORTS_DIR)/html/
 # - removes .gitignore from html dir (we publish coverage with docs)
 # run tests with: make test COV=1 (COV=1 is default)
@@ -1812,7 +1811,6 @@ cov:
 	fi
 	mkdir $(COVERAGE_REPORTS_DIR) -p
 	$(PYTHON) -m coverage report -m > $(COVERAGE_REPORTS_DIR)/coverage.txt
-	$(PYTHON) -m coverage_badge -f -o $(COVERAGE_REPORTS_DIR)/coverage.svg
 	$(PYTHON) -m coverage html --directory=$(COVERAGE_REPORTS_DIR)/html/
 	rm -rf $(COVERAGE_REPORTS_DIR)/html/.gitignore
 
